@@ -1,0 +1,292 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   TOKEN TEMA — nilai RGB tanpa koma supaya bisa dipakai Tailwind
+   dengan opacity (bg-primary/20). Tambah tema baru = salin satu blok.
+   ============================================================ */
+
+:root,
+[data-theme='samudra'] {
+  --c-bg: 241 245 250;
+  --c-surface: 252 253 255;
+  --c-ink: 30 45 66;
+  --c-muted: 95 112 135;
+  --c-primary: 52 84 122;
+  --c-on-primary: 245 248 252;
+  --c-accent: 106 138 176;
+  --c-line: 204 216 232;
+  --font-heading: var(--font-cormorant);
+  --font-script: var(--font-greatvibes);
+  --radius: 1.5rem;
+  --shadow: 0 12px 32px -16px rgb(34 60 96 / 0.3);
+  --title-gradient: linear-gradient(100deg, #1f3a5c 0%, #4a6e98 30%, #8fb0d6 50%, #4a6e98 70%, #1f3a5c 100%);
+}
+
+[data-theme='jati'] {
+  --c-bg: 245 238 228;
+  --c-surface: 252 248 242;
+  --c-ink: 58 40 28;
+  --c-muted: 125 102 84;
+  --c-primary: 122 78 50;
+  --c-on-primary: 250 242 232;
+  --c-accent: 176 124 80;
+  --c-line: 222 205 185;
+  --font-heading: var(--font-fraunces);
+  --font-script: var(--font-instrument);
+  --radius: 1.75rem;
+  --shadow: 0 12px 30px -16px rgb(90 55 30 / 0.35);
+  --title-gradient: linear-gradient(100deg, #5c3820 0%, #9a6640 30%, #c99a6a 50%, #9a6640 70%, #5c3820 100%);
+}
+
+[data-theme='gading'] {
+  --c-bg: 250 246 238;
+  --c-surface: 255 253 248;
+  --c-ink: 52 48 42;
+  --c-muted: 120 112 100;
+  --c-primary: 110 94 70;
+  --c-on-primary: 252 249 242;
+  --c-accent: 166 142 100;
+  --c-line: 228 219 200;
+  --font-heading: var(--font-bodoni);
+  --font-script: var(--font-pinyon);
+  --radius: 0.75rem;
+  --shadow: 0 10px 30px -18px rgb(80 66 40 / 0.25);
+  --title-gradient: linear-gradient(100deg, #5a4a32 0%, #8c7650 35%, #b8a078 50%, #8c7650 65%, #5a4a32 100%);
+}
+
+[data-theme='priangan'] {
+  --c-bg: 250 245 236;
+  --c-surface: 255 252 246;
+  --c-ink: 59 36 32;
+  --c-muted: 122 98 88;
+  --c-primary: 110 28 40;
+  --c-on-primary: 250 240 220;
+  --c-accent: 184 137 59;
+  --c-line: 222 200 160;
+  --font-heading: var(--font-cormorant);
+  --font-script: var(--font-pinyon);
+  --radius: 1.25rem;
+  --shadow: 0 10px 30px -12px rgb(110 28 40 / 0.25);
+  --title-gradient: linear-gradient(100deg, #6e1c28 0%, #8a5a1c 25%, #c99a45 50%, #8a5a1c 75%, #6e1c28 100%);
+}
+
+[data-theme='taman'] {
+  --c-bg: 243 241 232;
+  --c-surface: 251 250 245;
+  --c-ink: 44 52 38;
+  --c-muted: 104 112 96;
+  --c-primary: 95 112 80;
+  --c-on-primary: 247 245 236;
+  --c-accent: 156 132 92;
+  --c-line: 210 210 192;
+  --font-heading: var(--font-playfair);
+  --font-script: var(--font-allura);
+  --radius: 2rem;
+  --shadow: 0 12px 32px -16px rgb(60 72 50 / 0.3);
+  --title-gradient: linear-gradient(100deg, #4b5a3f, #7d8f68, #4b5a3f);
+}
+
+[data-theme='langit'] {
+  --c-bg: 13 22 40;
+  --c-surface: 22 34 60;
+  --c-ink: 240 234 222;
+  --c-muted: 168 174 194;
+  --c-primary: 233 213 170;
+  --c-on-primary: 13 22 40;
+  --c-accent: 201 169 110;
+  --c-line: 56 72 106;
+  --font-heading: var(--font-instrument);
+  --font-script: var(--font-instrument);
+  --radius: 1.5rem;
+  --shadow: 0 16px 40px -18px rgb(0 0 0 / 0.6);
+  --title-gradient: linear-gradient(100deg, #c9a96e 0%, #f3e4c0 35%, #fff8e8 50%, #f3e4c0 65%, #c9a96e 100%);
+  color-scheme: dark;
+}
+/* Instrument Serif hanya punya 1 ketebalan: jangan biarkan browser membuat bold palsu */
+[data-theme='langit'] .font-heading,
+[data-theme='langit'] .font-script,
+[data-theme='jati'] .font-script {
+  font-synthesis: none;
+}
+[data-theme='langit'] .font-script,
+[data-theme='jati'] .font-script {
+  font-style: italic;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+    background: rgb(var(--c-bg));
+  }
+  html.locked,
+  html.locked body {
+    overflow: hidden;
+    height: 100%;
+  }
+  body {
+    @apply bg-bg font-body text-ink antialiased;
+    font-variant-numeric: lining-nums;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  ::selection {
+    background: rgb(var(--c-accent) / 0.35);
+  }
+}
+
+@layer components {
+  /* Tinggi layar yang benar di iOS/Android (address bar tidak ikut dihitung) */
+  .screen {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .title-accent {
+    background-image: var(--title-gradient);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 8s linear infinite;
+  }
+
+  .card {
+    @apply relative border border-line/70 bg-surface;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  [data-theme='langit'] .card {
+    background: linear-gradient(160deg, rgb(var(--c-surface) / 0.9), rgb(var(--c-surface) / 0.6));
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-on-primary shadow-lg shadow-primary/20;
+  }
+  .btn-ghost {
+    @apply btn border border-primary/40 text-primary hover:bg-primary/5;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
+
+  .eyebrow {
+    @apply font-script text-3xl leading-none text-accent;
+  }
+  [data-theme='langit'] .eyebrow,
+  [data-theme='jati'] .eyebrow {
+    @apply text-2xl italic;
+  }
+
+  .arch {
+    border-radius: 999px 999px var(--radius) var(--radius);
+  }
+
+  /* Film grain halus untuk tema Langit */
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: -50%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ===================== Partikel ===================== */
+@keyframes fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--o, 0.9);
+  }
+  90% {
+    opacity: var(--o, 0.9);
+  }
+  100% {
+    transform: translate3d(var(--drift, 40px), 110vh, 0) rotate(var(--spin, 360deg));
+    opacity: 0;
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(0.4);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes shooting {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-30deg) scaleX(0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(-30deg) scaleX(1);
+  }
+  12%,
+  100% {
+    transform: translate3d(-60vw, 35vw, 0) rotate(-30deg) scaleX(0.4);
+    opacity: 0;
+  }
+}
+.particle-fall {
+  position: absolute;
+  top: 0;
+  animation: fall var(--dur, 14s) linear var(--delay, 0s) infinite;
+  will-change: transform;
+}
+.particle-twinkle {
+  position: absolute;
+  animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+}
+.shooting-star {
+  position: absolute;
+  top: 12%;
+  right: -10%;
+  width: 140px;
+  height: 1px;
+  transform-origin: right center;
+  background: linear-gradient(90deg, transparent, rgb(var(--c-primary)));
+  animation: shooting 11s ease-out 3s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .particles {
+    display: none;
+  }
+}

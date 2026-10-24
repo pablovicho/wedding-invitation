@@ -1,108 +1,66 @@
+'use client';
+
 import { useState } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { weddingConfig } from '@/config/wedding-config';
-import { activeTheme } from '@/config/theme-config';
-import { useRouter } from 'next/router';
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
+import dynamic from 'next/dynamic';
+import { wedding } from '@/config/wedding.config';
+import Reveal from '@/components/ui/Reveal';
+import Section from '@/components/ui/Section';
+import SectionTitle from '@/components/ui/SectionTitle';
+import { asset } from '@/lib/asset';
 
-export default function Gallery() {
-  const { basePath } = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const [photoIndex, setPhotoIndex] = useState(0);
-  const [_imagesLoaded, setImagesLoaded] = useState(0);
+// Lightbox baru di-download saat foto pertama kali diketuk
+const Lightbox = dynamic(() => import('./GalleryLightbox'), { ssr: false });
 
-  const handleImageLoad = () => {
-    setImagesLoaded(prev => prev + 1);
-  };
-
-  const slides = weddingConfig.gallery.prewedding.map(photo => ({
-    src: `${basePath}${photo.url}`,
-    alt: photo.caption,
-  }));
-
-  return (
-    <section className="py-20" style={{ backgroundColor: activeTheme.background }}>
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl font-serif mb-4" style={{ color: activeTheme.text }}>
-            Pre-Wedding Photos
-          </h2>
-        </motion.div>
-
-        <motion.div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
-          {weddingConfig.gallery.prewedding.map((photo, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ margin: "0px 0px -50px 0px" }}
-              transition={{
-                duration: 0.8,
-                ease: "easeInOut",
-                delay: index * 0.1
-              }}
-              className="relative aspect-square overflow-hidden rounded-lg cursor-pointer group"
-              onClick={() => {
-                setPhotoIndex(index);
-                setIsOpen(true);
-              }}
-            >
-              <Image
-                src={`${basePath}${photo.url}`}
-                alt="Pre-wedding photo"
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover"
-                priority={index < 2}
-                loading={index < 2 ? "eager" : "lazy"}
-                quality={index < 2 ? 85 : 65}
-                onLoad={handleImageLoad}
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEwPENDPzE2O0FBNi5QREZXUFM4UjdqWGB2foVzfHJUQkhzkWNY2ff/2wBDARUXFx4aHR4eHUJBOEFCWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <Lightbox
-          open={isOpen}
-          close={() => setIsOpen(false)}
-          index={photoIndex}
-          slides={slides}
-          carousel={{
-            finite: true,
-            preload: 2,
-            imageFit: 'contain'
-          }}
-          controller={{
-            closeOnBackdropClick: true,
-            closeOnPullDown: true
-          }}
-          render={{
-            buttonPrev: () => null,
-            buttonNext: () => null,
-            iconClose: () => <div className="p-2">✕</div>
-          }}
-          animation={{ swipe: 150 }}
-          styles={{
-            container: {
-              backgroundColor: 'rgba(0,0,0,0.95)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            },
-            icon: { color: '#fff', filter: 'drop-shadow(0 0 2px rgba(0,0,0,0.5))' }
-          }}
-        />
-      </div>
-    </section>
-  );
+function youtubeId(url?: string): string | null {
+  if (!url) return null;
+  const m = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/);
+  return m ? m[1] : null;
 }
 
+export default function Gallery() {
+  const [index, setIndex] = useState(-1);
+  const { photos, youtube, enabled } = wedding.gallery;
+  if (!enabled || photos.length === 0) return null;
+  const yt = youtubeId(youtube);
+
+  return (
+    <Section id="gallery">
+      <SectionTitle eyebrow="Moments" title="Galeri" />
+
+      {yt && (
+        <Reveal className="card mb-4 aspect-video overflow-hidden">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${yt}`}
+            title="Video"
+            loading="lazy"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="h-full w-full"
+          />
+        </Reveal>
+      )}
+
+      <div className="columns-2 gap-2.5 [column-fill:_balance]">
+        {photos.map((p, i) => (
+          <Reveal key={p.src} delay={(i % 4) * 0.05} className="mb-2.5 break-inside-avoid">
+            <button
+              onClick={() => setIndex(i)}
+              className="group block w-full overflow-hidden rounded-2xl bg-line/40 shadow-sm"
+              aria-label={`Lihat ${p.alt}`}
+            >
+              <img
+                src={asset(p.src)}
+                alt={p.alt}
+                loading="lazy"
+                decoding="async"
+                className="w-full transition duration-700 group-hover:scale-105 group-active:scale-[1.02]"
+              />
+            </button>
+          </Reveal>
+        ))}
+      </div>
+
+      {index >= 0 && <Lightbox index={index} onClose={() => setIndex(-1)} slides={photos.map((p) => ({ src: asset(p.src), alt: p.alt }))} />}
+    </Section>
+  );
+}

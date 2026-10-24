@@ -1,43 +1,58 @@
-name: Deploy to GitHub Pages
+name: Deploy ke GitHub Pages
+
+# Settings -> Pages -> Source: "GitHub Actions"
+# Opsional (fitur Ucapan): Settings -> Secrets -> Actions: SUPABASE_URL & SUPABASE_KEY (anon key)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: 22
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
 
-      - name: Build project
-        run: |
-          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env.local
-          echo "NEXT_PUBLIC_SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> .env.local
-          npm run build
+      - run: npm ci
 
-      - name: Create .nojekyll file
-        run: touch out/.nojekyll
+      - name: Build
+        run: npm run build
+        env:
+          # Otomatis: "/nama-repo" untuk project site, kosong untuk user site / custom domain
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_KEY }}
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - uses: actions/upload-pages-artifact@v3
         with:
-          folder: out
-          branch: gh-pages
-          dotfiles: true
-          clean: true
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

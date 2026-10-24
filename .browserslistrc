@@ -1,0 +1,4 @@
+# Tamu undangan sering pakai HP lama / in-app browser WhatsApp & Instagram
+defaults
+iOS >= 13
+Android >= 7

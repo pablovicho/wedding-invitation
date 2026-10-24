@@ -1,31 +1,39 @@
 {
   "name": "wedding-invitation",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
+  "description": "Undangan pernikahan digital (static) — Next.js, mobile-first, 3 tema.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
+    "start": "npx serve@14 out",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
-    "@heroicons/react": "^2.2.0",
-    "@supabase/supabase-js": "^2.47.10",
-    "aos": "^2.3.4",
-    "framer-motion": "^11.11.17",
-    "next": "15.0.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-error-boundary": "^5.0.0",
-    "yet-another-react-lightbox": "^3.21.7"
+    "@supabase/supabase-js": "^2.118.0",
+    "jsqr": "^1.4.0",
+    "motion": "^14.6.0",
+    "next": "16.4.3",
+    "qrcode-generator": "^2.0.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "yet-another-react-lightbox": "^3.32.2"
   },
   "devDependencies": {
-    "@types/aos": "^3.0.7",
-    "@types/react": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "15.0.3",
-    "gh-pages": "^6.2.0",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "postcss": "^8.5.6",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
   }
 }

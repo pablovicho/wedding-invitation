@@ -1,0 +1,114 @@
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+import { wedding } from '@/config/wedding.config';
+import { copyText } from '@/lib/clipboard';
+import { coupleNames } from '@/lib/couple';
+import { longDate } from '@/lib/date';
+import { waLink } from '@/lib/whatsapp';
+
+const DEFAULT_TEMPLATE = `Assalamu'alaikum Warahmatullahi Wabarakatuh
+
+Kepada Yth.
+Bapak/Ibu/Saudara/i
+*{nama}*
+
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami pada ${longDate(wedding.events[0].date, wedding.timezone)}.
+
+Info lengkap acara bisa dilihat di link berikut:
+{link}
+
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh
+
+Kami yang berbahagia,
+*${coupleNames}*`;
+
+interface Guest {
+  name: string;
+  phone?: string;
+}
+
+function parse(text: string): Guest[] {
+  return text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      // Format: "Nama" atau "Nama, 0812xxxx"
+      const m = line.match(/^(.*?)[,;\t]\s*(\+?[\d\s-]{8,})$/);
+      return m ? { name: m[1].trim(), phone: m[2] } : { name: line };
+    });
+}
+
+export default function Generator() {
+  const [base, setBase] = useState('');
+  const [names, setNames] = useState('Bapak Ahmad & Keluarga\nTeman Kantor, 081234567890');
+  const [template, setTemplate] = useState(DEFAULT_TEMPLATE);
+  const [copied, setCopied] = useState<number | null>(null);
+
+  useEffect(() => {
+    const url = wedding.site.url || `${window.location.origin}${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}`;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- butuh window.location
+    setBase(url.replace(/\/$/, '') + '/');
+  }, []);
+
+  const guests = useMemo(() => parse(names), [names]);
+  const linkFor = (g: Guest) => `${base}?to=${encodeURIComponent(g.name)}`;
+  const messageFor = (g: Guest) => template.replaceAll('{nama}', g.name).replaceAll('{link}', linkFor(g));
+
+  const copy = async (i: number, text: string) => {
+    if (await copyText(text)) {
+      setCopied(i);
+      setTimeout(() => setCopied(null), 1500);
+    }
+  };
+
+  return (
+    <main className="mx-auto max-w-2xl px-4 py-10">
+      <h1 className="font-heading text-3xl font-semibold text-primary">Generator Link Undangan</h1>
+      <p className="mt-1 text-sm text-muted">
+        Halaman ini hanya untuk kamu (tidak diindeks Google). Satu nama per baris, tambahkan nomor WA setelah koma kalau mau kirim langsung.
+      </p>
+
+      <label className="mt-6 block text-sm font-medium">
+        URL undangan
+        <input className="field mt-1" value={base} onChange={(e) => setBase(e.target.value)} />
+      </label>
+
+      <label className="mt-4 block text-sm font-medium">
+        Daftar tamu
+        <textarea className="field mt-1 font-mono text-sm" rows={6} value={names} onChange={(e) => setNames(e.target.value)} />
+      </label>
+
+      <details className="mt-4">
+        <summary className="cursor-pointer text-sm font-medium">Template pesan ({'{nama}'} &amp; {'{link}'} akan diganti otomatis)</summary>
+        <textarea className="field mt-2 text-sm" rows={14} value={template} onChange={(e) => setTemplate(e.target.value)} />
+      </details>
+
+      <ul className="mt-8 space-y-3">
+        {guests.map((g, i) => (
+          <li key={`${g.name}-${i}`} className="card p-4">
+            <p className="font-semibold">{g.name}</p>
+            {g.phone && <p className="text-xs text-muted">{g.phone}</p>}
+            <a href={linkFor(g)} target="_blank" rel="noreferrer" className="mt-1 block break-all text-xs text-primary underline">
+              {linkFor(g)}
+            </a>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button onClick={() => copy(i, messageFor(g))} className="btn-ghost min-h-[36px] py-1.5 text-xs">
+                {copied === i ? 'Tersalin ✓' : 'Salin pesan'}
+              </button>
+              <button onClick={() => copy(i, linkFor(g))} className="btn-ghost min-h-[36px] py-1.5 text-xs">
+                Salin link
+              </button>
+              <a href={waLink(messageFor(g), g.phone)} target="_blank" rel="noreferrer" className="btn-primary min-h-[36px] py-1.5 text-xs">
+                Kirim WhatsApp
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
+}

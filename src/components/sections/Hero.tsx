@@ -1,212 +1,53 @@
-import { motion } from 'framer-motion';
-import { weddingConfig } from '../../config/wedding-config';
-import { scrollAnimation, viewportSettings } from '../animations/scrollAnimations';
+import { wedding } from '@/config/wedding.config';
+import { Corner, Crest } from '@/components/ornaments';
+import Parallax from '@/components/ui/Parallax';
+import Reveal from '@/components/ui/Reveal';
+import Tilt from '@/components/ui/Tilt';
+import { asset } from '@/lib/asset';
+import { couple } from '@/lib/couple';
+import { longDate } from '@/lib/date';
 
-interface HeroProps {
-  guestName?: string;
-}
-
-export default function Hero({ guestName }: HeroProps) {
+export default function Hero() {
   return (
-    <motion.section 
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pb-20"
-      variants={scrollAnimation}
-      initial="offscreen"
-      whileInView="onscreen"
-      viewport={viewportSettings}
-    >
-      {/* Background Image with Animated Overlay */}
-      <div
-        className="absolute inset-0 bg-[url('/wedding-invitation/images/background/hero-bg.webp')] bg-cover bg-center bg-no-repeat"
-        style={{
-          maskImage: 'url(/wedding-invitation/images/background/hero-bg.webp)',
-          maskPosition: 'center',
-          maskRepeat: 'repeat'
-        }}
-      >
-        <motion.div
-          className="absolute inset-0 bg-black/40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-        />
-        
-        {/* Floating Flower Patterns */}
-        <motion.img
-          src="wedding-invitation/images/pattern/flower-1.webp"
-          alt=""
-          className="absolute top-[10%] left-[5%] w-16 opacity-80 z-20"
-          initial={{ y: 0, rotate: 0 }}
-          animate={{ y: [0, -40, 0], rotate: [0, 15, 0] }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            repeatType: 'mirror',
-            ease: 'easeInOut'
-          }}
-        />
-        <motion.img
-          src="wedding-invitation/images/pattern/flower-2.webp"
-          alt=""
-          className="absolute top-[20%] right-[10%] w-20 opacity-80 z-20"
-          initial={{ y: 0, rotate: 0 }}
-          animate={{ y: [0, -30, 0], rotate: [0, -10, 0] }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            repeatType: 'mirror',
-            ease: 'easeInOut',
-            delay: 1
-          }}
-        />
-        <motion.img
-          src="wedding-invitation/images/pattern/flower-3.webp"
-          alt=""
-          className="absolute bottom-[15%] left-[15%] w-24 opacity-80 z-20"
-          initial={{ y: 0, rotate: 0 }}
-          animate={{ y: [0, -50, 0], rotate: [0, 20, 0] }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: 'mirror',
-            ease: 'easeInOut',
-            delay: 2
-          }}
-        />
-        <motion.img
-          src="wedding-invitation/images/pattern/flower-1.webp"
-          alt=""
-          className="absolute top-[5%] right-[20%] w-12 opacity-70 z-20"
-          initial={{ y: 0, rotate: 0 }}
-          animate={{ y: [0, -25, 0], rotate: [0, 10, 0] }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            repeatType: 'mirror',
-            ease: 'easeInOut',
-            delay: 0.5
-          }}
-        />
-        <motion.img
-          src="wedding-invitation/images/pattern/flower-2.webp"
-          alt=""
-          className="absolute bottom-[5%] right-[5%] w-16 opacity-70 z-20"
-          initial={{ y: 0, rotate: 0 }}
-          animate={{ y: [0, -35, 0], rotate: [0, -15, 0] }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            repeatType: 'mirror',
-            ease: 'easeInOut',
-            delay: 1.5
-          }}
-        />
-      </div>
+    <section id="home" className="screen relative flex flex-col items-center justify-center overflow-hidden px-6 pb-24 pt-16 text-center">
+      <Parallax speed={-50} className="pointer-events-none absolute inset-0">
+        <Corner pos="tl" />
+        <Corner pos="tr" />
+      </Parallax>
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-2xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="bg-white/10 backdrop-blur-md p-6 rounded-2xl relative overflow-hidden"
-        >
-          {/* Creative Decorative Elements */}
-          <div className="absolute -bottom-8 -right-8 w-20 opacity-70 animate-float-slow">
-            <img
-              src="wedding-invitation/images/pattern/flower-2.webp"
-              alt=""
-              className="w-full h-full"
-            />
+      <Reveal>
+        <p className="eyebrow">The Wedding of</p>
+      </Reveal>
+
+      <Reveal delay={0.15} className="relative mx-auto mt-16 w-[68%] max-w-[17rem]">
+        <div className="arch absolute -inset-3 border border-accent/60" />
+        <div className="arch absolute -inset-1.5 border border-accent/30" />
+        <Tilt>
+          <div className="arch relative aspect-[3/4] overflow-hidden bg-line/40 shadow-xl">
+            <img src={asset(wedding.heroImage)} alt="" className="h-full w-full object-cover" />
           </div>
-          
-          {/* Subtle Glow Effect */}
-          <div className="absolute inset-0 rounded-2xl animate-glow" />
-          
-          {/* Floating Petals Background */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute w-4 h-4 bg-white/10 rounded-full top-[10%] left-[5%] animate-petal-float-1" />
-            <div className="absolute w-3 h-3 bg-white/10 rounded-full top-[20%] left-[20%] animate-petal-float-2" />
-            <div className="absolute w-4 h-4 bg-white/10 rounded-full top-[15%] right-[10%] animate-petal-float-3" />
-            <div className="absolute w-3 h-3 bg-white/10 rounded-full bottom-[10%] left-[15%] animate-petal-float-4" />
-          </div>
-          {guestName && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="text-white/90 text-xl mb-6"
-            >
-              Dear {guestName},
-            </motion.p>
-          )}
-          
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-white/80 text-xl mb-4"
-          >
-              You are invited to our wedding.
-          </motion.p>
+        </Tilt>
+        <Crest className="absolute -top-14 left-1/2 w-32 -translate-x-1/2 drop-shadow" />
+      </Reveal>
 
-          <motion.div className="space-y-4">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 1 }}
-              className="text-4xl md:text-6xl font-serif text-white"
-            >
-              {weddingConfig.couple.bride.name}
-            </motion.h1>
-            
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 1.2, type: 'spring', stiffness: 100 }}
-              className="text-2xl md:text-3xl text-white/80"
-            >
-              &
-            </motion.div>
-            
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.4, duration: 1 }}
-              className="text-4xl md:text-6xl font-serif text-white"
-            >
-              {weddingConfig.couple.groom.name}
-            </motion.h1>
-          </motion.div>
+      <Reveal delay={0.3} className="mt-8">
+        <h2 className="font-heading text-5xl font-medium leading-tight">
+          <span className="title-accent">{couple[0].nickname}</span>
+          <span className="mx-3 font-heading text-4xl italic text-accent">&amp;</span>
+          <span className="title-accent">{couple[1].nickname}</span>
+        </h2>
+        <p className="mt-3 text-sm uppercase tracking-[0.25em] text-muted">{longDate(wedding.events[0].date, wedding.timezone)}</p>
+        {wedding.couple.hashtag && (
+          <p className="mt-4 inline-block rounded-full border border-primary/30 px-4 py-1 text-xs font-medium text-primary">{wedding.couple.hashtag}</p>
+        )}
+      </Reveal>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-            className="text-white/90 text-lg mt-4"
-          >
-            {new Date(weddingConfig.event.akad.date).toLocaleDateString('id-ID', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric'
-            })}
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
-      >
-        <div className="animate-bounce">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </motion.div>
-    </motion.section>
+      <a href="#opening" className="absolute bottom-[max(6rem,calc(env(safe-area-inset-bottom)+5.5rem))] left-1/2 -translate-x-1/2 text-muted" aria-label="Gulir ke bawah">
+        <svg viewBox="0 0 24 36" className="h-9 w-6 animate-float-y" fill="none" stroke="currentColor" strokeWidth={1.4}>
+          <rect x={1} y={1} width={22} height={34} rx={11} />
+          <circle cx={12} cy={11} r={2.2} fill="currentColor" />
+        </svg>
+      </a>
+    </section>
   );
 }

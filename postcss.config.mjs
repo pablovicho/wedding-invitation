@@ -2,6 +2,8 @@
 const config = {
   plugins: {
     tailwindcss: {},
+    // -webkit- prefix untuk Safari iOS (backdrop-filter, mask, dll)
+    autoprefixer: {},
   },
 };
 
