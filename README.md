@@ -399,7 +399,7 @@ The `out/` folder can be hosted anywhere (Netlify, Vercel, your own server). For
 BASE_PATH=/undangan SITE_URL=https://example.com/undangan npm run build
 ```
 
-`.github/workflows/deploy.yml` only builds a **demo with the example data** to GitHub Pages and is triggered manually from the Actions tab.
+GitHub Pages is not used: the repo only contains example data, so there is nothing useful to publish from it.
 
 ---
 
