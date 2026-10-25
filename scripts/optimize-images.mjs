@@ -3,15 +3,19 @@
  * Kompres semua foto di public/images supaya undangan ringan dibuka pakai data seluler.
  *
  *   npm run images                       -> resize (maks 1600px) + convert ke .webp
- *   npm run images -- --og <path-foto>   -> sekalian buat public/images/og.jpg (preview link WhatsApp)
+ *                                           (folder public/images dan public/private)
+ *   npm run images -- --og <path-foto>   -> sekalian buat gambar preview link WhatsApp (1200x630):
+ *                                           public/private/og.jpg kalau folder private ada, selain itu public/images/og.jpg
  *
  * File .jpg/.png asli TIDAK dihapus; hapus sendiri setelah config menunjuk ke .webp.
  */
+import { existsSync } from 'node:fs';
 import { readdir, stat, rename } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 
-const ROOT = path.resolve('public/images');
+const ROOTS = ['public/images', 'public/private'].map((d) => path.resolve(d)).filter((d) => existsSync(d));
+const OG_DIR = existsSync(path.resolve('public/private')) ? path.resolve('public/private') : path.resolve('public/images');
 const MAX = 1600;
 const QUALITY = 80;
 const EXT = new Set(['.jpg', '.jpeg', '.png', '.webp']);
@@ -43,16 +47,16 @@ async function optimize(file) {
     .toFile(tmp);
   const after = (await stat(tmp)).size;
   await rename(tmp, out);
-  console.log(`✓ ${path.relative(ROOT, out)}  ${kb(before)} -> ${kb(after)}`);
+  console.log(`✓ ${path.relative(process.cwd(), out)}  ${kb(before)} -> ${kb(after)}`);
 }
 
 async function makeOg(src) {
-  const out = path.join(ROOT, 'og.jpg');
+  const out = path.join(OG_DIR, 'og.jpg');
   await sharp(src).rotate().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 78, mozjpeg: true }).toFile(out);
-  console.log(`✓ og.jpg dibuat dari ${src}`);
+  console.log(`✓ ${path.relative(process.cwd(), out)} dibuat dari ${src}`);
 }
 
 const ogIndex = process.argv.indexOf('--og');
-for await (const file of walk(ROOT)) await optimize(file);
+for (const root of ROOTS) for await (const file of walk(root)) await optimize(file);
 if (ogIndex > -1 && process.argv[ogIndex + 1]) await makeOg(process.argv[ogIndex + 1]);
 console.log('Selesai.');

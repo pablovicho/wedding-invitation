@@ -4,13 +4,18 @@
   "private": true,
   "description": "Undangan pernikahan digital (static) — Next.js, mobile-first, 3 tema.",
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22"
   },
   "scripts": {
+    "predev": "node scripts/ensure-config.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/ensure-config.mjs",
     "build": "next build",
     "start": "npx serve@14 out",
+    "deploy": "node scripts/deploy.mjs",
+    "build:upload": "node scripts/deploy.mjs --build-only",
     "lint": "eslint .",
+    "pretypecheck": "node scripts/ensure-config.mjs",
     "typecheck": "tsc --noEmit",
     "images": "node scripts/optimize-images.mjs"
   },

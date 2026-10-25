@@ -1,11 +1,11 @@
-name: Deploy ke GitHub Pages
+name: Demo (data contoh) ke GitHub Pages
 
-# Settings -> Pages -> Source: "GitHub Actions"
-# Opsional (fitur Ucapan): Settings -> Secrets -> Actions: SUPABASE_URL & SUPABASE_KEY (anon key)
+# OPSIONAL. Undangan asli di-deploy ke Cloudflare dari laptop (`npm run deploy`),
+# karena data asli tidak ada di repo. Workflow ini hanya membangun DEMO dengan
+# data contoh (src/config/wedding.config.example.ts), dijalankan manual dari tab Actions.
+# Syarat: Settings -> Pages -> Source: "GitHub Actions".
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -40,8 +40,6 @@ jobs:
           # Otomatis: "/nama-repo" untuk project site, kosong untuk user site / custom domain
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
           SITE_URL: ${{ steps.pages.outputs.base_url }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_KEY }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -9,7 +9,7 @@ import { longDate } from '@/lib/date';
 
 export default function Hero() {
   return (
-    <section id="home" className="screen relative flex flex-col items-center justify-center overflow-hidden px-6 pb-24 pt-16 text-center">
+    <section id="home" className="screen relative flex flex-col items-center justify-center overflow-hidden px-6 pb-[calc(env(safe-area-inset-bottom)+5.5rem)] pt-16 text-center [@media(max-height:720px)]:pt-12">
       <Parallax speed={-50} className="pointer-events-none absolute inset-0">
         <Corner pos="tl" />
         <Corner pos="tr" />
@@ -19,7 +19,7 @@ export default function Hero() {
         <p className="eyebrow">The Wedding of</p>
       </Reveal>
 
-      <Reveal delay={0.15} className="relative mx-auto mt-16 w-[68%] max-w-[17rem]">
+      <Reveal delay={0.15} className="hero-photo relative mx-auto mt-16 [@media(max-height:720px)]:mt-14">
         <div className="arch absolute -inset-3 border border-accent/60" />
         <div className="arch absolute -inset-1.5 border border-accent/30" />
         <Tilt>
@@ -31,9 +31,8 @@ export default function Hero() {
       </Reveal>
 
       <Reveal delay={0.3} className="mt-8">
-        <h2 className="font-heading text-5xl font-medium leading-tight">
-          <span className="title-accent">{couple[0].nickname}</span>
-          <span className="mx-3 font-heading text-4xl italic text-accent">&amp;</span>
+        <h2 className="font-heading text-[clamp(2rem,10.5vw,3rem)] font-medium leading-tight [text-wrap:balance]">
+          <span className="title-accent">{couple[0].nickname}</span> <span className="font-heading text-[0.8em] italic text-accent">&amp;</span>{' '}
           <span className="title-accent">{couple[1].nickname}</span>
         </h2>
         <p className="mt-3 text-sm uppercase tracking-[0.25em] text-muted">{longDate(wedding.events[0].date, wedding.timezone)}</p>
@@ -42,7 +41,8 @@ export default function Hero() {
         )}
       </Reveal>
 
-      <a href="#opening" className="absolute bottom-[max(6rem,calc(env(safe-area-inset-bottom)+5.5rem))] left-1/2 -translate-x-1/2 text-muted" aria-label="Gulir ke bawah">
+      {/* Ikut alur (bukan absolute) supaya tidak pernah menimpa hashtag di layar HP yang pendek */}
+      <a href="#opening" className="mt-6 text-muted [@media(max-height:720px)]:mt-4" aria-label="Gulir ke bawah">
         <svg viewBox="0 0 24 36" className="h-9 w-6 animate-float-y" fill="none" stroke="currentColor" strokeWidth={1.4}>
           <rect x={1} y={1} width={22} height={34} rx={11} />
           <circle cx={12} cy={11} r={2.2} fill="currentColor" />

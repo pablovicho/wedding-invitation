@@ -2,9 +2,13 @@ import type { WeddingConfig } from './types';
 
 /**
  * ============================================================
- *  SEMUA DATA UNDANGAN ADA DI FILE INI.
- *  Ganti isinya, simpan, lalu `npm run dev` untuk melihat hasil.
- *  Foto taruh di folder public/images, lalu `npm run images`.
+ *  CONTOH CONFIG (data palsu) — file ini yang masuk ke git.
+ *
+ *  Data asli kamu ada di `wedding.config.ts` (di folder yang sama),
+ *  yang dibuat otomatis dari file ini saat `npm run dev` / `npm run build`
+ *  dan TIDAK ikut ter-commit (lihat .gitignore). Edit file itu, bukan ini.
+ *
+ *  Foto pribadi taruh di public/private/ (juga tidak ter-commit).
  * ============================================================
  */
 export const wedding: WeddingConfig = {

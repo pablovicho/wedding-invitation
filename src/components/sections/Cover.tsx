@@ -61,14 +61,13 @@ export default function Cover() {
       <CloudBand className="opacity-80" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-phone flex-1 flex-col items-center justify-center px-8 pb-[max(2rem,env(safe-area-inset-bottom))] pt-16 text-center">
-        <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }}>
+        <m.div className="w-full" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }}>
           {copy.localGreeting && <p className="mb-2 text-xs font-medium uppercase tracking-[0.35em] text-muted">{copy.localGreeting}</p>}
           <p className="text-xs uppercase tracking-[0.3em] text-ink/80">{copy.coverLabel}</p>
           <Crest className="mx-auto mt-4 w-32" />
-          <h1 className="mt-2 font-script text-[3.6rem] leading-[1.05] text-primary [text-wrap:balance]">
-            {couple[0].nickname}
-            <span className="mx-2 font-heading text-4xl text-accent">&amp;</span>
-            {couple[1].nickname}
+          <h1 className="mt-2 font-script text-[clamp(2.6rem,14vw,3.6rem)] leading-[1.05] text-primary [overflow-wrap:anywhere] [text-wrap:balance]">
+            {/* {' '} = titik patah baris; tanpa ini nama panjang tidak bisa turun baris */}
+            {couple[0].nickname} <span className="font-heading text-[0.62em] text-accent">&amp;</span> {couple[1].nickname}
           </h1>
           <p className="mt-3 font-heading text-lg tracking-[0.2em] text-ink/80">{dottedDate(wedding.events[0].date)}</p>
         </m.div>

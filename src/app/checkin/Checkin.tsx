@@ -9,8 +9,12 @@ import { sheetsConfigured, sheetsPost } from '@/lib/sheets';
 interface Entry {
   name: string;
   at: string;
+  /** false = belum masuk Google Sheets, akan dikirim ulang otomatis */
   synced: boolean;
+  staff?: string;
 }
+
+/** Disimpan di localStorage browser HP petugas (per perangkat & per domain). */
 
 const STORE = 'checkin-log';
 
@@ -54,6 +58,32 @@ export default function Checkin() {
   const [staff, setStaff] = useState('');
   const [error, setError] = useState('');
 
+  // Kirim ulang check-in yang belum masuk Sheets (mis. sinyal di gedung putus)
+  const syncPending = useCallback(async () => {
+    if (!sheetsConfigured || !navigator.onLine) return;
+    for (const e of load().filter((x) => !x.synced)) {
+      try {
+        await sheetsPost('checkin', { name: e.name, staff: e.staff ?? '' });
+        const updated = load().map((x) => (x.at === e.at ? { ...x, synced: true } : x));
+        localStorage.setItem(STORE, JSON.stringify(updated));
+        setLog(updated);
+      } catch {
+        return; // masih offline, coba lagi nanti
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- setState terjadi setelah request async selesai
+    syncPending();
+    window.addEventListener('online', syncPending);
+    const id = setInterval(syncPending, 30_000);
+    return () => {
+      window.removeEventListener('online', syncPending);
+      clearInterval(id);
+    };
+  }, [syncPending]);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage hanya ada di client
     setLog(load());
@@ -71,7 +101,7 @@ export default function Checkin() {
       beep();
       setTimeout(() => setFlash(null), 2500);
       if (dup) return;
-      const entry: Entry = { name, at: new Date().toISOString(), synced: !sheetsConfigured };
+      const entry: Entry = { name, at: new Date().toISOString(), synced: !sheetsConfigured, staff };
       const next = [entry, ...current];
       localStorage.setItem(STORE, JSON.stringify(next));
       setLog(next);
@@ -82,7 +112,7 @@ export default function Checkin() {
             localStorage.setItem(STORE, JSON.stringify(updated));
             setLog(updated);
           })
-          .catch(console.error);
+          .catch(console.error); // dikirim ulang oleh syncPending
       }
     },
     [staff],
@@ -234,6 +264,9 @@ export default function Checkin() {
           </button>
         )}
       </div>
+      {log.some((e) => !e.synced) && (
+        <p className="mt-2 text-xs text-amber-700">{log.filter((e) => !e.synced).length} data belum terkirim ke Sheets — akan dikirim otomatis saat sinyal kembali.</p>
+      )}
       <ul className="mt-3 divide-y divide-line/60">
         {log.map((e) => (
           <li key={e.at} className="flex items-center justify-between py-2.5 text-sm">
@@ -245,6 +278,19 @@ export default function Checkin() {
           </li>
         ))}
       </ul>
+
+      {log.length > 0 && (
+        <button
+          onClick={() => {
+            if (!confirm('Hapus semua data check-in di HP ini? Data di Google Sheets tidak ikut terhapus.')) return;
+            localStorage.removeItem(STORE);
+            setLog([]);
+          }}
+          className="mt-8 w-full text-center text-xs text-muted underline underline-offset-4"
+        >
+          Hapus data check-in di HP ini (mis. setelah uji coba)
+        </button>
+      )}
     </main>
   );
 }
