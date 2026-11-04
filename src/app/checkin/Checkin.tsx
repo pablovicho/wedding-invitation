@@ -131,7 +131,7 @@ export default function Checkin() {
       stream.current = s;
       setScanning(true);
     } catch {
-      setError('Kamera tidak bisa dibuka. Pastikan situs dibuka lewat https dan izin kamera diberikan.');
+      setError('No se puede abrir la cámara. Asegúrate de que el sitio esté abierto a través de https y que se le dé permiso a la cámara.');
     }
   };
 
@@ -170,7 +170,7 @@ export default function Checkin() {
           const name = parseCheckin(text);
           if (name) record(name);
           else {
-            setError('QR bukan dari undangan ini');
+            setError('El código QR no es de esta invitación');
             setTimeout(() => setError(''), 2000);
           }
         }
@@ -187,7 +187,7 @@ export default function Checkin() {
   useEffect(() => stop, [stop]);
 
   const exportCsv = () => {
-    const rows = [['Waktu', 'Nama'], ...log.map((e) => [new Date(e.at).toLocaleString('id-ID'), e.name])];
+    const rows = [['Hora', 'Nombre'], ...log.map((e) => [new Date(e.at).toLocaleString('es-ES'), e.name])];
     const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(',')).join('\n');
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' }));
@@ -197,14 +197,14 @@ export default function Checkin() {
 
   return (
     <main className="mx-auto min-h-screen max-w-md px-4 pb-16 pt-8">
-      <p className="text-xs uppercase tracking-[0.3em] text-muted">Check-in Tamu</p>
+      <p className="text-xs uppercase tracking-[0.3em] text-muted">Check-in de Visitantes</p>
       <h1 className="font-heading text-3xl font-semibold text-primary">{coupleNames}</h1>
       <p className="mt-1 text-sm text-muted">
-        {sheetsConfigured ? 'Tersimpan di HP ini dan Google Sheets.' : 'Tersimpan di HP ini (aktifkan Google Sheets untuk sinkron antar HP).'}
+        {sheetsConfigured ? 'Guardado en este teléfono y Google Sheets.' : 'Guardado en este teléfono (activa Google Sheets para sincronizar entre teléfonos).'}
       </p>
 
       <label className="mt-5 block text-sm font-medium">
-        Nama petugas (opsional)
+        Nombre del personal (opcional)
         <input
           className="field mt-1"
           value={staff}
@@ -226,19 +226,19 @@ export default function Checkin() {
         ) : (
           <button onClick={start} className="flex h-full w-full flex-col items-center justify-center gap-3 text-white">
             <Icon name="camera" className="h-12 w-12" />
-            <span className="font-semibold">Mulai Scan QR</span>
+            <span className="font-semibold">Iniciar Escaneo de Código QR</span>
           </button>
         )}
         {flash && (
           <div className={`absolute inset-x-3 bottom-3 rounded-2xl p-4 text-center text-white shadow-xl ${flash.dup ? 'bg-amber-600' : 'bg-emerald-600'}`}>
-            <p className="text-xs uppercase tracking-widest opacity-90">{flash.dup ? 'Sudah check-in sebelumnya' : 'Selamat datang'}</p>
+            <p className="text-xs uppercase tracking-widest opacity-90">{flash.dup ? 'Ya se ha registrado anteriormente' : 'Bienvenido/a'}</p>
             <p className="text-xl font-bold">{flash.name}</p>
           </div>
         )}
       </div>
       {scanning && (
         <button onClick={stop} className="btn-ghost mt-3 w-full">
-          Hentikan kamera
+          Detener Cámara
         </button>
       )}
       {error && <p className="mt-3 text-center text-sm text-red-600">{error}</p>}
@@ -251,12 +251,12 @@ export default function Checkin() {
           setManual('');
         }}
       >
-        <input className="field" placeholder="Tamu tanpa QR? Ketik nama" value={manual} onChange={(e) => setManual(e.target.value)} />
-        <button className="btn-primary shrink-0">Catat</button>
+        <input className="field" placeholder="Visitante sin Código QR? Escribe el nombre" value={manual} onChange={(e) => setManual(e.target.value)} />
+        <button className="btn-primary shrink-0">Registrar</button>
       </form>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="font-heading text-xl font-semibold">{log.length} tamu hadir</h2>
+        <h2 className="font-heading text-xl font-semibold">{log.length} visitantes presentes</h2>
         {log.length > 0 && (
           <button onClick={exportCsv} className="btn-ghost min-h-[36px] py-1.5 text-xs">
             <Icon name="download" className="h-4 w-4" />
@@ -265,15 +265,15 @@ export default function Checkin() {
         )}
       </div>
       {log.some((e) => !e.synced) && (
-        <p className="mt-2 text-xs text-amber-700">{log.filter((e) => !e.synced).length} data belum terkirim ke Sheets — akan dikirim otomatis saat sinyal kembali.</p>
+        <p className="mt-2 text-xs text-amber-700">{log.filter((e) => !e.synced).length} datos aún no enviados a Sheets — se enviarán automáticamente cuando la señal regrese.</p>
       )}
       <ul className="mt-3 divide-y divide-line/60">
         {log.map((e) => (
           <li key={e.at} className="flex items-center justify-between py-2.5 text-sm">
             <span className="font-medium">{e.name}</span>
             <span className="text-xs text-muted">
-              {new Date(e.at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
-              {!e.synced && ' · belum sinkron'}
+              {new Date(e.at).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
+              {!e.synced && ' · no sincronizado'}
             </span>
           </li>
         ))}
@@ -282,13 +282,13 @@ export default function Checkin() {
       {log.length > 0 && (
         <button
           onClick={() => {
-            if (!confirm('Hapus semua data check-in di HP ini? Data di Google Sheets tidak ikut terhapus.')) return;
+            if (!confirm('¿Deseas eliminar todos los datos de check-in en este teléfono? Los datos en Google Sheets no se eliminarán.')) return;
             localStorage.removeItem(STORE);
             setLog([]);
           }}
           className="mt-8 w-full text-center text-xs text-muted underline underline-offset-4"
         >
-          Hapus data check-in di HP ini (mis. setelah uji coba)
+          Eliminar datos de check-in en este teléfono (por ejemplo, después de la prueba)
         </button>
       )}
     </main>
