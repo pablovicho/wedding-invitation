@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 /* ============================================================
-   TOKEN TEMA — nilai RGB tanpa koma supaya bisa dipakai Tailwind
-   dengan opacity (bg-primary/20). Tambah tema baru = salin satu blok.
+   TOKENS DE TEMA — valores RGB sin comas para poder usarlos en Tailwind
+   con opacidad (bg-primary/20). Agregar un tema nuevo = copiar un bloque.
    ============================================================ */
 
 :root,
@@ -104,7 +104,7 @@
   --title-gradient: linear-gradient(100deg, #c9a96e 0%, #f3e4c0 35%, #fff8e8 50%, #f3e4c0 65%, #c9a96e 100%);
   color-scheme: dark;
 }
-/* Instrument Serif hanya punya 1 ketebalan: jangan biarkan browser membuat bold palsu */
+/* Instrument Serif solo tiene 1 grosor: no dejes que el navegador cree negrita falsa */
 [data-theme='langit'] .font-heading,
 [data-theme='langit'] .font-script,
 [data-theme='jati'] .font-script {
@@ -138,7 +138,7 @@
 }
 
 @layer components {
-  /* Tinggi layar yang benar di iOS/Android (address bar tidak ikut dihitung) */
+  /* Altura de pantalla correcta en iOS/Android (la barra de direcciones no se cuenta) */
   .screen {
     min-height: 100vh;
     min-height: 100svh;
@@ -186,8 +186,8 @@
     @apply text-2xl italic;
   }
 
-  /* Foto hero menyesuaikan tinggi layar supaya nama, tanggal & hashtag selalu muat di layar pertama
-     (HP Android sering pendek karena address bar + tombol navigasi). Baris pertama = fallback tanpa svh. */
+  /* La foto hero se ajusta a la altura de la pantalla para que el nombre, la fecha y el hashtag siempre quepan en la primera pantalla
+     (los Android suelen ser bajos por la barra de direcciones + los botones de navegación). La primera línea = fallback sin svh. */
   .hero-photo {
     width: min(68%, 17rem);
     width: min(68%, 17rem, max(9rem, calc((100svh - 26rem) * 0.75)));
@@ -197,7 +197,7 @@
     border-radius: 999px 999px var(--radius) var(--radius);
   }
 
-  /* Film grain halus untuk tema Langit */
+  /* Grano de película sutil para el tema Langit */
   .grain::after {
     content: '';
     position: fixed;
@@ -218,7 +218,7 @@
   }
 }
 
-/* ===================== Partikel ===================== */
+/* ===================== Partículas ===================== */
 @keyframes fall {
   0% {
     transform: translate3d(0, -10vh, 0) rotate(0deg);

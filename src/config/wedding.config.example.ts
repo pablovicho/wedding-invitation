@@ -17,7 +17,7 @@ export const wedding: WeddingConfig = {
 
   site: {
     url: '',
-    description: 'Con la gracia de Dios, te invito a asistir al día feliz de nuestros hijos.',
+    description: '¡Te invito a asistir a nuestra boda!',
     ogImage: '/images/og.jpg',
     indexable: false,
   },
@@ -27,24 +27,18 @@ export const wedding: WeddingConfig = {
   couple: {
     order: 'groom-first',
     groom: {
-      nickname: 'Ryan',
-      fullName: 'Febryan Ramadhan',
+      nickname: 'Pablo',
+      fullName: 'Pablo Valdés',
       photo: '/images/couple/groom.webp',
-      childOrder: 'Primer hijo de',
-      father: 'Padre Maman',
-      mother: 'Madre Tines Indrawati',
       instagram: 'username',
     },
     bride: {
-      nickname: 'Nadia',
-      fullName: 'Nadia Putri, S.Ds.',
+      nickname: 'Marce',
+      fullName: 'Marcela Martínez',
       photo: '/images/couple/bride.webp',
-      childOrder: 'Segunda hija de',
-      father: 'Padre Ahmad Fauzi',
-      mother: 'Madre Siti Aminah',
       instagram: 'username',
     },
-    hashtag: '#RakaNadiaHalalJourney',
+    hashtag: '#MarceyPabloQuique',
   },
 
   coverImage: '/images/gallery/prewedding-5.webp',
@@ -89,7 +83,7 @@ export const wedding: WeddingConfig = {
   },
 
   story: {
-    enabled: true,
+    enabled: false,
     items: [
       {
         date: 'Enero de 2024',
@@ -190,12 +184,10 @@ export const wedding: WeddingConfig = {
     coverTo: 'Estimado/a',
     coverButton: 'Abrir Invitación',
     coverNote: 'Por favor disculpe si hay algún error en la escritura del nombre o el título',
-    salam: "Asalamu'alaikum Warahmatullahi Wabarakatuh",
     opening:
       'Muy Sagrado Dios, que ha creado a sus criaturas en pares. Con la gracia y voluntad de Dios, queremos organizar la boda de nuestros hijos:',
     closing:
       'Es un honor y felicidad para nosotros si Estimado/a se presentan y brindan su bendición.',
-    closingSalam: "Wassalamu'alaikum Warahmatullahi Wabarakatuh",
     localThanks: 'Gracias',
     familiesTitle: 'Nuestra familia que está feliz',
     families: ['Familia Bapak Asep Sunandar & Madre Euis Rohaeti', 'Familia Bapak Ahmad Fauzi & Madre Siti Aminah'],

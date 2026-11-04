@@ -9,16 +9,16 @@ import { sheetsConfigured, sheetsPost } from '@/lib/sheets';
 interface Entry {
   name: string;
   at: string;
-  /** false = belum masuk Google Sheets, akan dikirim ulang otomatis */
+  /** false = aún no ingresado en Google Sheets, se reenviará automáticamente */
   synced: boolean;
   staff?: string;
 }
 
-/** Disimpan di localStorage browser HP petugas (per perangkat & per domain). */
+/** Se guarda en el localStorage del navegador del teléfono del personal (por dispositivo y por dominio). */
 
 const STORE = 'checkin-log';
 
-// BarcodeDetector belum ada di semua tipe TS / browser (iOS Safari belum mendukung)
+// BarcodeDetector aún no existe en todos los tipos de TS / navegadores (iOS Safari todavía no lo soporta)
 interface Detector {
   detect(source: CanvasImageSource): Promise<{ rawValue: string }[]>;
 }
@@ -58,7 +58,7 @@ export default function Checkin() {
   const [staff, setStaff] = useState('');
   const [error, setError] = useState('');
 
-  // Kirim ulang check-in yang belum masuk Sheets (mis. sinyal di gedung putus)
+  // Reenviar los check-in que aún no llegaron a Sheets (p. ej. señal cortada en el edificio)
   const syncPending = useCallback(async () => {
     if (!sheetsConfigured || !navigator.onLine) return;
     for (const e of load().filter((x) => !x.synced)) {
@@ -68,13 +68,13 @@ export default function Checkin() {
         localStorage.setItem(STORE, JSON.stringify(updated));
         setLog(updated);
       } catch {
-        return; // masih offline, coba lagi nanti
+        return; // todavía sin conexión, reintentar más tarde
       }
     }
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- setState terjadi setelah request async selesai
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- setState ocurre después de que finaliza la solicitud asíncrona
     syncPending();
     window.addEventListener('online', syncPending);
     const id = setInterval(syncPending, 30_000);
@@ -85,7 +85,7 @@ export default function Checkin() {
   }, [syncPending]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage hanya ada di client
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage solo existe en el cliente
     setLog(load());
     try {
       setStaff(localStorage.getItem('checkin-staff') ?? '');
@@ -112,7 +112,7 @@ export default function Checkin() {
             localStorage.setItem(STORE, JSON.stringify(updated));
             setLog(updated);
           })
-          .catch(console.error); // dikirim ulang oleh syncPending
+          .catch(console.error); // reenviado por syncPending
       }
     },
     [staff],
@@ -135,7 +135,7 @@ export default function Checkin() {
     }
   };
 
-  // Loop pemindaian: BarcodeDetector (Android/Chrome) atau jsQR (iPhone & lainnya)
+  // Bucle de escaneo: BarcodeDetector (Android/Chrome) o jsQR (iPhone y otros)
   useEffect(() => {
     if (!scanning || !video.current || !stream.current) return;
     const v = video.current;

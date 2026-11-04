@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Kompres semua foto di public/images supaya undangan ringan dibuka pakai data seluler.
+ * Comprime todas las fotos de public/images para que la invitación sea ligera al abrirla con datos móviles.
  *
- *   npm run images                       -> resize (maks 1600px) + convert ke .webp
- *                                           (folder public/images dan public/private)
- *   npm run images -- --og <path-foto>   -> sekalian buat gambar preview link WhatsApp (1200x630):
- *                                           public/private/og.jpg kalau folder private ada, selain itu public/images/og.jpg
+ *   npm run images                       -> redimensionar (máx. 1600px) + convertir a .webp
+ *                                           (carpetas public/images y public/private)
+ *   npm run images -- --og <ruta-foto>   -> además crear la imagen de vista previa del enlace de WhatsApp (1200x630):
+ *                                           public/private/og.jpg si existe la carpeta private; si no, public/images/og.jpg
  *
- * File .jpg/.png asli TIDAK dihapus; hapus sendiri setelah config menunjuk ke .webp.
+ * Los archivos .jpg/.png originales NO se eliminan; elimínalos tú mismo después de que la config apunte a .webp.
  */
 import { existsSync } from 'node:fs';
 import { readdir, stat, rename } from 'node:fs/promises';

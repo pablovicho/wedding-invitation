@@ -10,10 +10,10 @@ export default function MusicPlayer() {
   const { opened } = useInvitation();
   const audio = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
-  // Diputar otomatis saat cover dibuka (klik tombol = izin autoplay dari browser)
+  // Se reproduce automáticamente al abrir la portada (clic en el botón = permiso de autoplay del navegador)
   const wanted = useRef(true);
 
-  // Mulai tepat saat tamu mengetuk "buka" (izin autoplay dari browser)
+  // Iniciar justo cuando el invitado toca "abrir" (permiso de autoplay del navegador)
   useEffect(() => {
     const onGesture = () => {
       if (wanted.current) audio.current?.play().catch(() => setPlaying(false));
@@ -22,7 +22,7 @@ export default function MusicPlayer() {
     return () => window.removeEventListener(GESTURE_EVENT, onGesture);
   }, []);
 
-  // Jeda saat tamu pindah aplikasi / layar dikunci, lanjut lagi saat kembali
+  // Pausar cuando el invitado cambia de aplicación / se bloquea la pantalla, continuar al volver
   useEffect(() => {
     const onVisibility = () => {
       const el = audio.current;

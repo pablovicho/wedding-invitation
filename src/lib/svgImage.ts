@@ -1,7 +1,7 @@
 /**
- * Ubah <svg> yang sedang tampil menjadi Image untuk digambar ke canvas.
- * Warna ornamen berasal dari class Tailwind + CSS variable, yang hilang saat SVG
- * diserialisasi — jadi warna hasil komputasi disalin ke atribut tiap elemen.
+ * Convierte el <svg> que se está mostrando en un Image para dibujarlo en el canvas.
+ * Los colores de los adornos provienen de clases de Tailwind + variables CSS, que se pierden al
+ * serializar el SVG — así que los colores calculados se copian a los atributos de cada elemento.
  */
 const PROPS = ['fill', 'stroke', 'opacity', 'fill-opacity', 'stroke-opacity', 'stroke-width'] as const;
 
@@ -18,7 +18,7 @@ export async function svgToImage(svg: SVGSVGElement, width: number): Promise<HTM
     }
     out.removeAttribute('class');
     out.removeAttribute('style');
-    // Animasi CSS (mis. ayunan) tidak ikut; transform atribut SVG tetap dipertahankan
+    // Las animaciones CSS (ej. balanceo) no se incluyen; los atributos transform del SVG se conservan
   });
   const vb = svg.viewBox.baseVal;
   clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');

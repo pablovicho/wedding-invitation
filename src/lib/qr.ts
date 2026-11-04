@@ -2,7 +2,7 @@ import qrcode from 'qrcode-generator';
 
 const PREFIX = 'TAMU:';
 
-/** Isi QR dibuat ASCII saja (nama di-encode) supaya terbaca semua scanner. */
+/** El contenido del QR se hace solo ASCII (el nombre se codifica) para que lo lean todos los escáneres. */
 export const checkinPayload = (name: string) => PREFIX + encodeURIComponent(name.trim());
 
 export function parseCheckin(text: string): string | null {
@@ -14,7 +14,7 @@ export function parseCheckin(text: string): string | null {
   }
 }
 
-/** Path SVG untuk modul QR (1 unit = 1 modul), plus ukuran sisi */
+/** Ruta SVG para los módulos del QR (1 unidad = 1 módulo), más el tamaño del lado */
 export function qrPath(text: string): { d: string; size: number } {
   const qr = qrcode(0, 'M');
   qr.addData(text);

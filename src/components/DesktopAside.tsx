@@ -3,7 +3,7 @@ import { asset } from '@/lib/asset';
 import { couple } from '@/lib/couple';
 import { longDate } from '@/lib/date';
 
-/** Panel foto besar di kiri, hanya untuk layar laptop/desktop. HP tetap satu kolom. */
+/** Panel de foto grande a la izquierda, solo para pantallas de portátil/escritorio. En el teléfono sigue siendo una sola columna. */
 export default function DesktopAside() {
   return (
     <aside className="fixed inset-y-0 left-0 right-[30rem] hidden overflow-hidden lg:block" aria-hidden>

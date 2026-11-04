@@ -54,7 +54,7 @@ public/sw.js.map
 public/workbox-*.js.map
 public/worker-*.js.map
 
-# ===== Data pribadi undangan: JANGAN di-commit (repo public) =====
+# ===== Datos personales de la invitación: NO hacer commit (repositorio público) =====
 /src/config/wedding.config.ts
 /public/private/
 .wrangler/

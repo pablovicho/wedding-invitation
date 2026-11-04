@@ -1,9 +1,9 @@
-/* Tema Samudra — dusty blue: bunga bertumpuk, daun, garis ombak. */
+/* Tema Samudra — azul empolvado: flores superpuestas, hojas, líneas de olas. */
 import { Branch } from './taman';
 
 type SvgProps = React.SVGProps<SVGSVGElement>;
 
-/** Bunga berlapis (mirip mawar/peony dilihat dari atas) */
+/** Flor en capas (similar a una rosa/peonía vista desde arriba) */
 export function Bloom({ x = 0, y = 0, scale = 1, rotate = 0 }: { x?: number; y?: number; scale?: number; rotate?: number }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${rotate}) scale(${scale})`}>
@@ -65,7 +65,7 @@ export function SamudraCrest(props: SvgProps) {
   );
 }
 
-/** Pola sisik/ombak untuk latar */
+/** Patrón de escamas/olas para el fondo */
 export function WavePattern({ id }: { id: string }) {
   return (
     <pattern id={id} width={40} height={20} patternUnits="userSpaceOnUse">

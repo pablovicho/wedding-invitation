@@ -45,7 +45,7 @@ async function compose(photo: HTMLImageElement, layout: Layout, ornaments: HTMLE
   canvas.height = L.h;
   const ctx = canvas.getContext('2d')!;
 
-  // Latar + vignette lembut
+  // Fondo + viñeta suave
   ctx.fillStyle = color('--c-bg');
   ctx.fillRect(0, 0, L.w, L.h);
   const g = ctx.createRadialGradient(L.w / 2, L.h * 0.4, 100, L.w / 2, L.h * 0.4, L.h * 0.8);
@@ -54,7 +54,7 @@ async function compose(photo: HTMLImageElement, layout: Layout, ornaments: HTMLE
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, L.w, L.h);
 
-  // Foto dalam bingkai lengkung (object-fit: cover)
+  // Foto dentro de marco en arco (object-fit: cover)
   const { x, y, w, h } = L.arch;
   ctx.save();
   archPath(ctx, x, y, w, h);
@@ -73,7 +73,7 @@ async function compose(photo: HTMLImageElement, layout: Layout, ornaments: HTMLE
   archPath(ctx, x - 32, y - 32, w + 64, h + 64);
   ctx.stroke();
 
-  // Ornamen sudut (dicerminkan untuk sisi kanan); yang bawah lebih kecil supaya tidak menimpa teks
+  // Ornamento de esquina (reflejado para el lado derecho); el inferior es más pequeño para no superponerse al texto
   const svgs = ornaments.querySelectorAll('svg');
   const [top, bottom, crest] = await Promise.all([svgToImage(svgs[0], L.corner), svgToImage(svgs[1], L.cornerBottom), svgToImage(svgs[2], 320)]);
   const drawMirrored = (img: HTMLImageElement, yPos: number) => {
@@ -88,7 +88,7 @@ async function compose(photo: HTMLImageElement, layout: Layout, ornaments: HTMLE
   drawMirrored(bottom, L.h - bottom.height);
   if (L.crest) ctx.drawImage(crest, (L.w - crest.width) / 2, L.crest, crest.width, crest.height);
 
-  // Teks
+  // Texto
   ctx.textAlign = 'center';
   ctx.fillStyle = color('--c-accent');
   ctx.font = `64px ${script}`;
@@ -173,7 +173,7 @@ export default function Photobooth() {
         Pilih atau ambil foto, nanti otomatis dibingkai sesuai undangan. Siap dibagikan ke Story!
       </SectionTitle>
 
-      {/* Ornamen sumber untuk canvas — tidak terlihat */}
+      {/* Ornamento fuente para el canvas — no visible */}
       <div ref={ornaments} aria-hidden className="pointer-events-none fixed -left-[9999px] top-0 h-[400px] w-[400px]">
         <div className="relative h-[200px] w-[200px]">
           <Corner pos="tl" className="w-[200px]" />

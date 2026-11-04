@@ -1,4 +1,4 @@
-/* Tema Taman — ranting eucalyptus & daun line-art, digenerate dari kurva supaya rapi. */
+/* Tema Taman — ramas de eucalipto y hojas line-art, generadas a partir de curvas para que queden ordenadas. */
 import { LEAF_PATH, ROUND_LEAF_PATH } from './shapes';
 
 type SvgProps = React.SVGProps<SVGSVGElement>;
@@ -6,7 +6,7 @@ type Pt = [number, number];
 
 const LEAF_TONES = ['fill-primary/80', 'fill-primary/55', 'fill-accent/60', 'fill-primary/70'];
 
-/** Ranting dengan daun berselang-seling sepanjang kurva quadratic from -> ctrl -> to */
+/** Rama con hojas alternas a lo largo de la curva cuadrática from -> ctrl -> to */
 export function Branch({
   from,
   ctrl,
@@ -95,7 +95,7 @@ export function TamanDivider(props: SvgProps) {
   );
 }
 
-/** Lingkar setengah (laurel) di atas nama */
+/** Semicírculo (laurel) sobre el nombre */
 export function TamanCrest(props: SvgProps) {
   return (
     <svg viewBox="0 0 200 90" aria-hidden {...props}>
@@ -106,7 +106,7 @@ export function TamanCrest(props: SvgProps) {
   );
 }
 
-/** Titik-titik halus untuk latar */
+/** Puntos finos para el fondo */
 export function DotPattern({ id }: { id: string }) {
   return (
     <pattern id={id} width={28} height={28} patternUnits="userSpaceOnUse">

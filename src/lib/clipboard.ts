@@ -1,6 +1,6 @@
 /**
- * navigator.clipboard hanya ada di HTTPS dan sering gagal di in-app browser
- * (WhatsApp/Instagram), jadi sediakan fallback execCommand.
+ * navigator.clipboard solo existe en HTTPS y suele fallar en navegadores integrados
+ * (WhatsApp/Instagram), así que se ofrece un fallback con execCommand.
  */
 export async function copyText(text: string): Promise<boolean> {
   try {
@@ -9,7 +9,7 @@ export async function copyText(text: string): Promise<boolean> {
       return true;
     }
   } catch {
-    // lanjut ke fallback
+    // continuar con el fallback
   }
   const el = document.createElement('textarea');
   el.value = text;

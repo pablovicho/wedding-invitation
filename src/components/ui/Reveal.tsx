@@ -6,7 +6,7 @@ import type { ThemeName } from '@/config/types';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Gaya muncul berbeda per tema: Priangan anggun naik, Taman blur-in lembut, Langit zoom + blur
+// El estilo de aparición varía por tema: Priangan sube con elegancia, Taman entra con desenfoque suave, Langit zoom + desenfoque
 const VARIANTS: Record<ThemeName, Variants> = {
   samudra: {
     hidden: { opacity: 0, y: 24, filter: 'blur(4px)' },
@@ -34,8 +34,8 @@ const VARIANTS: Record<ThemeName, Variants> = {
   },
 };
 
-// Pastikan setiap varian mengatur semua properti yang sama; kalau tema berganti setelah
-// halaman dimuat, properti yang tidak disebut (mis. blur) akan tertinggal di elemen.
+// Asegurarse de que cada variante defina todas las mismas propiedades; si el tema cambia después de
+// cargar la página, las propiedades no mencionadas (p. ej. blur) quedarán en el elemento.
 const RESET = { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0, filter: 'blur(0px)' };
 for (const v of Object.values(VARIANTS)) {
   v.hidden = { ...RESET, ...(v.hidden as object) };

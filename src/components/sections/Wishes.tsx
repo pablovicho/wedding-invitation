@@ -51,7 +51,7 @@ export default function Wishes() {
     [pageSize],
   );
 
-  // Baru ambil data saat section mendekati layar (hemat kuota tamu)
+  // Cargar datos solo cuando la sección se acerque a la pantalla (ahorra cuota del invitado)
   useEffect(() => {
     const el = sectionRef.current;
     if (!el || !wishesBackend) return;
@@ -70,7 +70,7 @@ export default function Wishes() {
   }, [load]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- sinkron sekali dari query string
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sincronizar una vez desde la cadena de consulta
     if (guest) setName((n) => n || guest);
   }, [guest]);
 
@@ -81,7 +81,7 @@ export default function Wishes() {
     const n = name.trim();
     const msg = message.trim();
     if (!n || !msg) return;
-    // Rem sederhana anti-spam: 1 ucapan per 30 detik per perangkat
+    // Freno simple anti-spam: 1 mensaje cada 30 segundos por dispositivo
     try {
       const last = Number(localStorage.getItem(SENT_KEY) ?? 0);
       if (Date.now() - last < 30_000) {
@@ -89,7 +89,7 @@ export default function Wishes() {
         return;
       }
     } catch {
-      // localStorage bisa diblokir (mode privat) — abaikan
+      // localStorage puede estar bloqueado (modo privado) — ignorar
     }
     setSending(true);
     try {

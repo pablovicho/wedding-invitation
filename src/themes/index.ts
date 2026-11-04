@@ -3,11 +3,11 @@ import type { ThemeName } from '@/config/types';
 export interface ThemeMeta {
   label: string;
   vibe: string;
-  /** Warna address bar browser HP */
+  /** Color de la barra de direcciones del navegador del móvil */
   themeColor: string;
   particle: 'melati' | 'leaf' | 'sparkle' | 'petal';
   particleCount: number;
-  /** Dress code bawaan saat config dressCode.colors = 'theme' */
+  /** Dress code predeterminado cuando config dressCode.colors = 'theme' */
   dressCode: { note: string; colors: { hex: string; name: string }[] };
 }
 

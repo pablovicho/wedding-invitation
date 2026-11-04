@@ -25,7 +25,7 @@ function split(ms: number): number[] {
 
 export default function Countdown() {
   const target = eventStart(mainEvent, wedding.timezone).getTime();
-  // null sampai mount supaya HTML statis tidak berisi angka yang sudah basi
+  // null hasta el montaje para que el HTML estático no contenga números obsoletos
   const [left, setLeft] = useState<number | null>(null);
 
   useEffect(() => {

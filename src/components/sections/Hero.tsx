@@ -41,7 +41,7 @@ export default function Hero() {
         )}
       </Reveal>
 
-      {/* Ikut alur (bukan absolute) supaya tidak pernah menimpa hashtag di layar HP yang pendek */}
+      {/* Sigue el flujo (no absolute) para que nunca se superponga al hashtag en pantallas de móvil cortas */}
       <a href="#opening" className="mt-6 text-muted [@media(max-height:720px)]:mt-4" aria-label="Gulir ke bawah">
         <svg viewBox="0 0 24 36" className="h-9 w-6 animate-float-y" fill="none" stroke="currentColor" strokeWidth={1.4}>
           <rect x={1} y={1} width={22} height={34} rx={11} />

@@ -8,7 +8,7 @@ export interface Wish {
   created_at: string;
 }
 
-/** Google Sheets diutamakan kalau url-nya diisi, selain itu Supabase (kalau env ada). */
+/** Se prioriza Google Sheets si su url está completada; de lo contrario, Supabase (si existe el env). */
 export const wishesBackend: 'sheets' | 'supabase' | null = sheetsConfigured ? 'sheets' : supabaseConfigured ? 'supabase' : null;
 
 const TABLE = 'guest_book';

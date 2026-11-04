@@ -1,4 +1,4 @@
-/* Tema Gading — krem minimalis editorial: garis art-deco tipis, monogram, kilau halus. */
+/* Tema Gading — crema minimalista editorial: líneas art-deco finas, monograma, brillo sutil. */
 import { couple } from '@/lib/couple';
 import { SPARKLE_PATH } from './shapes';
 
@@ -39,7 +39,7 @@ export function GadingDivider(props: SvgProps) {
   );
 }
 
-/** Monogram inisial mempelai */
+/** Monograma con las iniciales de los novios */
 export function GadingCrest(props: SvgProps) {
   const a = couple[0].nickname.charAt(0).toUpperCase();
   const b = couple[1].nickname.charAt(0).toUpperCase();

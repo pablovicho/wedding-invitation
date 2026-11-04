@@ -8,10 +8,10 @@ import { GESTURE_EVENT } from '@/components/InvitationProvider';
 const MAX = 9;
 const clamp = (v: number) => Math.max(-MAX, Math.min(MAX, v));
 
-// iOS 13+ butuh izin untuk sensor gerak, dan hanya boleh diminta di dalam ketukan
+// iOS 13+ necesita permiso para el sensor de movimiento, y solo se puede solicitar dentro de un toque
 type IOSOrientation = typeof DeviceOrientationEvent & { requestPermission?: () => Promise<'granted' | 'denied'> };
 
-/** Miring 3D mengikuti kemiringan HP (gyroscope) atau mouse, plus kilau cahaya. */
+/** Inclinación 3D siguiendo la inclinación del teléfono (giroscopio) o del ratón, más un brillo de luz. */
 export default function Tilt({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const rx = useSpring(0, { stiffness: 90, damping: 14 });
@@ -24,7 +24,7 @@ export default function Tilt({ children, className = '' }: { children: React.Rea
 
     const onOrient = (e: DeviceOrientationEvent) => {
       if (e.beta == null || e.gamma == null) return;
-      base ??= e.beta; // posisi awal HP dianggap "datar"
+      base ??= e.beta; // la posición inicial del teléfono se considera "plana"
       rx.set(clamp(-(e.beta - base) / 3));
       ry.set(clamp(e.gamma / 3));
     };

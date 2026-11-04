@@ -25,8 +25,8 @@ const FAN = [
 ];
 
 /**
- * Tampilan tertutup: tumpukan kartu yang "mengintip" dari dompet dan bergoyang pelan,
- * supaya tamu tahu bagian ini bisa dibuka tanpa nomor rekening langsung terpampang.
+ * Vista cerrada: pila de tarjetas que "asoman" desde la cartera y se balancean suavemente,
+ * para que el invitado sepa que esta sección se puede abrir sin que los números de cuenta queden a la vista.
  */
 function GiftPeek({ onOpen }: { onOpen: () => void }) {
   const { accounts } = wedding.gift;
@@ -52,7 +52,7 @@ function GiftPeek({ onOpen }: { onOpen: () => void }) {
         );
       })}
 
-      {/* Kantong/dompet */}
+      {/* Bolsillo/cartera */}
       <div className="card absolute inset-x-0 bottom-0 z-10 flex h-28 flex-col items-center justify-center gap-1 transition group-active:scale-[0.98]">
         <span className="flex items-center gap-2 text-sm font-semibold text-primary">
           <Icon name="gift" className="h-4 w-4" />
@@ -73,7 +73,7 @@ const item = {
   show: { opacity: 1, y: 0, rotate: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
-/** Kartu ala kartu ATM/e-wallet */
+/** Tarjeta estilo tarjeta ATM/e-wallet */
 function AccountCard({ acc }: { acc: GiftAccount }) {
   const number = acc.number.replace(/\s/g, '');
   return (

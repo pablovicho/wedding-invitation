@@ -4,7 +4,7 @@ import { m } from 'motion/react';
 import { couple } from '@/lib/couple';
 import { Crest } from '@/components/ornaments';
 
-/** Segel lilin dengan tepi tidak rata */
+/** Sello de cera con borde irregular */
 function waxPath(r: number, bumps = 14): string {
   const pts = Array.from({ length: 72 }, (_, i) => {
     const a = (i / 72) * Math.PI * 2;
@@ -39,17 +39,17 @@ function Seal() {
 const EASE = [0.65, 0, 0.35, 1] as const;
 
 /**
- * Amplop 3D: tamu mengetuk segel -> segel retak, tutup amplop berputar terbuka,
- * kartu undangan naik keluar.
+ * Sobre 3D: el invitado toca el sello -> el sello se agrieta, la solapa del sobre gira y se abre,
+ * la tarjeta de invitación sube y sale.
  */
 export default function Envelope({ opening, onOpen, to, guest }: { opening: boolean; onOpen: () => void; to: string; guest: string }) {
   return (
     <div className="mx-auto w-[min(19rem,84vw)]">
       <div className="relative aspect-[3/2] [perspective:900px]">
-        {/* Badan belakang */}
+        {/* Cuerpo trasero */}
         <div className="absolute inset-0 rounded-xl bg-primary shadow-2xl" />
 
-        {/* Kartu undangan di dalam */}
+        {/* Tarjeta de invitación dentro */}
         <m.div
           className="absolute inset-x-[7%] bottom-[6%] top-[6%] z-[1] flex flex-col items-center justify-start rounded-lg bg-surface pt-3 shadow"
           animate={opening ? { y: '-58%' } : { y: 0 }}
@@ -61,7 +61,7 @@ export default function Envelope({ opening, onOpen, to, guest }: { opening: bool
           </p>
         </m.div>
 
-        {/* Kantong depan (bentuk V) */}
+        {/* Bolsillo frontal (forma de V) */}
         <svg viewBox="0 0 300 200" preserveAspectRatio="none" className="absolute inset-0 z-[2] h-full w-full drop-shadow-[0_-2px_3px_rgb(0_0_0/0.18)]" aria-hidden>
           <path d="M0 6Q0 0 6 0L150 80 294 0Q300 0 300 6V194Q300 200 294 200H6Q0 200 0 194Z" className="fill-primary" />
           <path d="M0 200L136 74M300 200L164 74" className="stroke-on-primary/20" strokeWidth={1} />
@@ -71,7 +71,7 @@ export default function Envelope({ opening, onOpen, to, guest }: { opening: bool
           <p className="mt-0.5 line-clamp-2 font-heading text-xl font-semibold leading-tight [overflow-wrap:anywhere]">{guest}</p>
         </div>
 
-        {/* Tutup amplop */}
+        {/* Solapa del sobre */}
         <m.svg
           viewBox="0 0 300 88"
           preserveAspectRatio="none"
@@ -86,14 +86,14 @@ export default function Envelope({ opening, onOpen, to, guest }: { opening: bool
           <path d="M16 6L150 79 284 6" fill="none" className="stroke-accent/70" strokeWidth={1.2} />
         </m.svg>
 
-        {/* Segel = tombol */}
+        {/* Sello = botón */}
         <m.button
           type="button"
           onClick={onOpen}
           disabled={opening}
           aria-label="Buka undangan"
           className="absolute left-1/2 top-[44%] z-[5] h-14 w-14 rounded-full"
-          // transform diatur motion; translate Tailwind akan tertimpa, jadi posisikan lewat x/y
+          // transform lo gestiona motion; el translate de Tailwind será sobrescrito, así que posiciona mediante x/y
           style={{ x: '-50%', y: '-50%' }}
           animate={opening ? { scale: [1, 1.25, 0], opacity: [1, 1, 0], rotate: 25 } : { scale: [1, 1.06, 1] }}
           transition={opening ? { duration: 0.45 } : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}

@@ -7,8 +7,8 @@ import { useInvitation } from './InvitationProvider';
 import Icon from './ui/Icon';
 
 /**
- * Tombol coba-tema. Tersembunyi untuk tamu: hanya muncul saat `npm run dev`,
- * atau di situs online kalau allowThemePreview: true DAN link berisi ?preview.
+ * Botón de probar-tema. Oculto para los invitados: solo aparece con `npm run dev`,
+ * o en el sitio online si allowThemePreview: true Y el enlace contiene ?preview.
  */
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useInvitation();
@@ -18,7 +18,7 @@ export default function ThemeSwitcher() {
   useEffect(() => {
     const isDev = process.env.NODE_ENV === 'development';
     const isPreview = wedding.allowThemePreview && new URLSearchParams(window.location.search).has('preview');
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- butuh window, hanya di client
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- se necesita window, solo en el cliente
     setVisible(isDev || isPreview);
   }, []);
 

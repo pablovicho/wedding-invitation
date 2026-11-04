@@ -8,7 +8,7 @@ import Section from '@/components/ui/Section';
 import SectionTitle from '@/components/ui/SectionTitle';
 import { asset } from '@/lib/asset';
 
-// Lightbox baru di-download saat foto pertama kali diketuk
+// El lightbox solo se descarga cuando se toca la foto por primera vez
 const Lightbox = dynamic(() => import('./GalleryLightbox'), { ssr: false });
 
 function youtubeId(url?: string): string | null {

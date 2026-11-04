@@ -1,9 +1,9 @@
-/* Tema Priangan — elemen pengantin Sunda: siger, ronce melati, motif kawung, filigri emas. */
+/* Tema Priangan — elementos de novios sundaneses: siger, guirnalda de jazmín, motivo kawung, filigrana dorada. */
 import { MelatiBud, MelatiGlyph } from './shapes';
 
 type SvgProps = React.SVGProps<SVGSVGElement>;
 
-/** Siger (mahkota pengantin Sunda) yang disederhanakan */
+/** Siger (corona de novios sundaneses) simplificado */
 export function Siger(props: SvgProps) {
   const curveY = (x: number) => {
     const t = (x - 14) / 172;
@@ -45,7 +45,7 @@ export function Siger(props: SvgProps) {
   );
 }
 
-/** Ronce melati yang menjuntai (vertikal) */
+/** Guirnalda de jazmín colgante (vertical) */
 export function MelatiStrand({ buds = 12, ...props }: SvgProps & { buds?: number }) {
   const h = buds * 13 + 22;
   return (
@@ -112,7 +112,7 @@ export function PrianganDivider(props: SvgProps) {
   );
 }
 
-/** Pola kawung untuk latar (ditile) */
+/** Patrón kawung para el fondo (repetido) */
 export function KawungPattern({ id }: { id: string }) {
   return (
     <pattern id={id} width={48} height={48} patternUnits="userSpaceOnUse">

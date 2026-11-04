@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Data undangan asli disimpan di src/config/wedding.config.ts yang di-.gitignore
- * (repo ini public). Kalau file itu belum ada (mis. baru clone), buat dari contoh.
+ * Los datos reales de la invitación se guardan en src/config/wedding.config.ts, que está en .gitignore
+ * (este repositorio es público). Si ese archivo aún no existe (p. ej. recién clonado), créalo a partir del ejemplo.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
@@ -10,10 +10,10 @@ const example = 'src/config/wedding.config.example.ts';
 
 const HEADER = `/**
  * ============================================================
- *  DATA UNDANGAN ASLI KAMU — file ini TIDAK ikut ter-commit (.gitignore).
- *  Edit isinya, lalu \`npm run dev\` untuk melihat hasil.
- *  Foto pribadi taruh di public/private/, lalu \`npm run images\`.
- *  Backup file ini (mis. ke Google Drive) — tidak ada salinannya di GitHub.
+ *  TUS DATOS REALES DE LA INVITACIÓN — este archivo NO se sube al repo (.gitignore).
+ *  Edita su contenido y luego ejecuta \`npm run dev\` para ver el resultado.
+ *  Pon las fotos personales en public/private/ y luego ejecuta \`npm run images\`.
+ *  Haz una copia de seguridad de este archivo (p. ej. en Google Drive) — no hay copia en GitHub.
  * ============================================================
  */`;
 

@@ -30,7 +30,7 @@ const PLACE: Record<Pos, string> = {
 
 type Ornament = (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
 
-// Ornamen per tema. Tema baru cukup didaftarkan di sini.
+// Ornamentos por tema. Los temas nuevos solo necesitan registrarse aquí.
 const SETS: Record<ThemeName, { corner: Ornament; divider: Ornament; crest: Ornament; pattern: (p: { id: string }) => React.ReactElement }> = {
   samudra: { corner: SamudraCorner, divider: SamudraDivider, crest: SamudraCrest, pattern: WavePattern },
   priangan: { corner: PrianganCorner, divider: PrianganDivider, crest: Siger, pattern: KawungPattern },
@@ -40,12 +40,12 @@ const SETS: Record<ThemeName, { corner: Ornament; divider: Ornament; crest: Orna
   gading: { corner: GadingCorner, divider: GadingDivider, crest: GadingCrest, pattern: DotPattern },
 };
 
-/** Ornamen sudut; posisikan di dalam elemen `relative` */
+/** Ornamento de esquina; colócalo dentro de un elemento `relative` */
 export function Corner({ pos, className = 'w-28' }: { pos: Pos; className?: string }) {
   const { theme } = useInvitation();
   const base = `pointer-events-none absolute ${PLACE[pos]} ${className}`;
   if (theme === 'langit') {
-    // Ornamen gantung hanya masuk akal di atas; bawah pakai kluster bintang
+    // El ornamento colgante solo tiene sentido arriba; abajo se usa el grupo de estrellas
     const isTop = pos[0] === 't';
     const Comp = isTop ? LangitHanging : LangitCluster;
     const flip = pos[1] === 'r' ? '-scale-x-100' : '';
@@ -67,20 +67,20 @@ export function Crest({ className = 'mx-auto w-36' }: { className?: string }) {
   return <Comp className={className} />;
 }
 
-/** Gunungan wayang di atas Bismillah (khusus Priangan) */
+/** Gunungan de wayang sobre el Bismillah (solo Priangan) */
 export function Flourish({ className = 'mx-auto mb-4 w-16' }: { className?: string }) {
   const { theme } = useInvitation();
   return theme === 'priangan' ? <Gunungan className={className} /> : null;
 }
 
-/** Pita awan mega mendung di dasar section (khusus Priangan) */
+/** Franja de nubes mega mendung en la base de la sección (solo Priangan) */
 export function CloudBand({ className = '' }: { className?: string }) {
   const { theme } = useInvitation();
   if (theme !== 'priangan') return null;
   return <MegaMendungBand className={`pointer-events-none absolute inset-x-0 bottom-0 w-full ${className}`} />;
 }
 
-/** Ronce melati di kiri-kanan (khusus Priangan) */
+/** Guirnalda de jazmín a izquierda y derecha (solo Priangan) */
 export function SideStrands({ className = '' }: { className?: string }) {
   const { theme } = useInvitation();
   if (theme !== 'priangan') return null;
@@ -96,7 +96,7 @@ export function SideStrands({ className = '' }: { className?: string }) {
   );
 }
 
-/** Pola latar halus seluruh halaman */
+/** Patrón de fondo sutil de toda la página */
 export function Backdrop() {
   const { theme } = useInvitation();
   const id = `bg-${theme}`;
@@ -130,7 +130,7 @@ interface Particle {
   opacity: number;
 }
 
-/** Animasi partikel sesuai tema. Dibuat di client saja (acak) supaya tidak bentrok saat hydration. */
+/** Animación de partículas según el tema. Se genera solo en el cliente (aleatoria) para que no entre en conflicto durante la hidratación. */
 export function Particles() {
   const { theme } = useInvitation();
   const kind = themes[theme].particle;
@@ -139,7 +139,7 @@ export function Particles() {
   useEffect(() => {
     const count = themes[theme].particleCount;
     const rnd = (min: number, max: number) => min + Math.random() * (max - min);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- posisi acak sengaja hanya di client
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- posiciones aleatorias intencionalmente solo en el cliente
     setItems(
       Array.from({ length: count }, () => ({
         left: rnd(0, 100),

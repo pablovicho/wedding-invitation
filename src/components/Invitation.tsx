@@ -10,7 +10,7 @@ import ThemeSwitcher from './ThemeSwitcher';
 import Cover from './sections/Cover';
 import { Toaster } from './ui/Toast';
 
-/** Cover + elemen melayang. Isi undangan (children) tetap dirender statis di belakang cover. */
+/** Portada + elementos flotantes. El contenido de la invitación (children) se sigue renderizando estático detrás de la portada. */
 export default function Invitation({ children }: { children: React.ReactNode }) {
   const { opened } = useInvitation();
   return (

@@ -12,12 +12,12 @@ const DEFAULT_TEMPLATE = `Hola
 Estimado/a,
 *{nombre}*
 
-Sin disminuir el respeto, nos complace invitarte a asistir a nuestro matrimonio el ${longDate(wedding.events[0].date, wedding.timezone)}.
+Nos complace invitarte a asistir a nuestro matrimonio el ${longDate(wedding.events[0].date, wedding.timezone)}.
 
 Para más información sobre el evento, consulta el siguiente enlace:
 {link}
 
-Sería un placer si pudieras asistir y compartir tu bendición.
+¡Nos encantaría contar con tu presencia!
 
 Gracias,
 *${coupleNames}*`;
@@ -41,7 +41,7 @@ function parse(text: string): Guest[] {
 
 export default function Generator() {
   const [base, setBase] = useState('');
-  const [names, setNames] = useState('Bapak Ahmad & Familia\nTeman Trabajo, 081234567890');
+  const [names, setNames] = useState('Marce y Pablo\n, 081234567890');
   const [template, setTemplate] = useState(DEFAULT_TEMPLATE);
   const [copied, setCopied] = useState<number | null>(null);
 

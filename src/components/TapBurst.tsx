@@ -10,7 +10,7 @@ const MELATI = [0, 60, 120, 180, 240, 300]
   .map((r) => `<path d="M0-1.2C3-3 3.4-8.6 0-10.6-3.4-8.6-3-3 0-1.2Z" transform="rotate(${r})"/>`)
   .join('');
 
-// SVG mentah (di-inject langsung ke DOM supaya ringan); warna lewat CSS variable tema
+// SVG en bruto (inyectado directamente en el DOM para que sea ligero); los colores van por variables CSS del tema
 const SHAPES: Record<ThemeName, string[]> = {
   samudra: [
     `<svg viewBox="-6 -9 12 18"><path d="${PETAL_PATH}" style="fill:rgb(var(--c-primary)/.55)"/></svg>`,
@@ -28,7 +28,7 @@ const SHAPES: Record<ThemeName, string[]> = {
   ],
 };
 
-/** Semburan kecil ornamen di titik ketukan. Dilewati untuk kolom isian & mode kurangi-gerakan. */
+/** Pequeña explosión de adornos en el punto del toque. Se omite en los campos de entrada y en el modo de movimiento reducido. */
 export default function TapBurst() {
   const { theme, opened } = useInvitation();
 

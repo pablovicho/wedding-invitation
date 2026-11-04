@@ -19,11 +19,6 @@ function Profile({ person }: { person: Person }) {
       </div>
       <h3 className="mt-7 font-script text-5xl leading-none text-primary">{person.nickname}</h3>
       <p className="mt-2 font-heading text-xl font-semibold">{person.fullName}</p>
-      <p className="mt-3 text-sm text-muted">{person.childOrder}</p>
-      <p className="text-sm font-medium leading-relaxed">
-        {person.father}
-        <br />& {person.mother}
-      </p>
       {person.instagram && (
         <a
           href={`https://instagram.com/${person.instagram.replace(/^@/, '')}`}
@@ -43,7 +38,6 @@ export default function Couple() {
   return (
     <Section id="couple" className="text-center">
       <Reveal>
-        <p className="font-heading text-xl font-semibold text-primary">{copy.salam}</p>
         <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-muted">{copy.opening}</p>
       </Reveal>
 

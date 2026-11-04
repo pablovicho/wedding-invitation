@@ -15,7 +15,7 @@ import { checkinPayload, qrPath } from '@/lib/qr';
 
 const MARGIN = 2;
 
-/** Simpan kartu QR sebagai PNG (berguna kalau sinyal di lokasi jelek) */
+/** Guardar la tarjeta QR como PNG (útil si la señal en el lugar es mala) */
 async function downloadCard(svg: SVGSVGElement, guest: string) {
   const css = getComputedStyle(document.documentElement);
   const rgb = (v: string) => `rgb(${css.getPropertyValue(v).trim().split(/\s+/).join(',')})`;

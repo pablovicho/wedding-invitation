@@ -1,7 +1,7 @@
 /**
- * Static export. BASE_PATH dipakai kalau situs di-host di sub-folder,
- * mis. GitHub Pages "https://user.github.io/wedding-invitation" -> BASE_PATH=/wedding-invitation.
- * Untuk Netlify / Vercel / Cloudflare Pages / domain sendiri biarkan kosong.
+ * Exportación estática. BASE_PATH se usa si el sitio se aloja en un subdirectorio,
+ * p. ej. GitHub Pages "https://user.github.io/wedding-invitation" -> BASE_PATH=/wedding-invitation.
+ * Para Netlify / Vercel / Cloudflare Pages / dominio propio déjalo vacío.
  */
 const basePath = (process.env.BASE_PATH ?? '').replace(/\/$/, '');
 

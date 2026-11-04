@@ -8,20 +8,20 @@ import { isThemeName, themes } from '@/themes';
 interface InvitationState {
   theme: ThemeName;
   setTheme: (t: ThemeName) => void;
-  /** Nama tamu dari link ?to=Nama */
+  /** Nombre del invitado desde el enlace ?to=Nombre */
   guest: string;
   opened: boolean;
   open: () => void;
 }
 
 /**
- * Dikirim SINKRON saat tamu mengetuk "buka". iOS hanya mengizinkan musik & sensor gerak
- * dimulai di dalam ketukan, bukan setelah animasi selesai.
+ * Se emite de forma SÍNCRONA cuando el invitado toca "abrir". iOS solo permite iniciar la música y el sensor de movimiento
+ * dentro del toque, no después de que termina la animación.
  */
 export const GESTURE_EVENT = 'invitation:gesture';
 export const emitGesture = () => window.dispatchEvent(new Event(GESTURE_EVENT));
 
-/** Ganti tema lewat URL hanya untuk dev / mode preview. Tamu selalu melihat tema dari config. */
+/** Cambiar el tema mediante la URL solo para dev / modo preview. El invitado siempre ve el tema de la config. */
 export const themePreviewAllowed = () => process.env.NODE_ENV === 'development' || wedding.allowThemePreview;
 
 const Ctx = createContext<InvitationState | null>(null);
@@ -31,11 +31,11 @@ export function InvitationProvider({ children }: { children: React.ReactNode }) 
   const [guest, setGuest] = useState('');
   const [opened, setOpened] = useState(false);
 
-  // Baca query string di client (static export tidak punya server untuk itu)
+  // Leer el query string en el cliente (el export estático no tiene servidor para eso)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const to = params.get('to')?.trim();
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- query string hanya ada di client
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- el query string solo existe en el cliente
     if (to) setGuest(to.slice(0, 80));
     const t = params.get('theme');
     if (themePreviewAllowed() && isThemeName(t)) setThemeState(t);
@@ -46,7 +46,7 @@ export function InvitationProvider({ children }: { children: React.ReactNode }) 
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themes[theme].themeColor);
   }, [theme]);
 
-  // Kunci scroll selama cover masih tampil
+  // Bloquear el scroll mientras la portada siga visible
   useEffect(() => {
     document.documentElement.classList.toggle('locked', !opened);
   }, [opened]);

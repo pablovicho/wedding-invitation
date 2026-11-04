@@ -18,7 +18,7 @@ import { coupleNames } from '@/lib/couple';
 import { longDate } from '@/lib/date';
 import './globals.css';
 
-// Font body di-preload; font tema hanya diunduh browser kalau dipakai tema aktif.
+// La fuente del cuerpo se precarga; las fuentes de tema solo las descarga el navegador si se usa el tema activo.
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
 const cormorant = Cormorant_Garamond({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-cormorant', display: 'swap', preload: false });
 const pinyon = Pinyon_Script({ subsets: ['latin'], weight: '400', variable: '--font-pinyon', display: 'swap', preload: false });
@@ -32,13 +32,13 @@ const amiri = Amiri({ subsets: ['arabic'], weight: ['400', '700'], variable: '--
 
 const fonts = [jakarta, cormorant, pinyon, playfair, allura, instrument, greatVibes, fraunces, bodoni, amiri].map((f) => f.variable).join(' ');
 
-// SITE_URL diisi otomatis oleh workflow GitHub Pages; selain itu pakai wedding.site.url
+// SITE_URL lo rellena automáticamente el workflow de GitHub Pages; si no, se usa wedding.site.url
 const siteUrl = process.env.SITE_URL || wedding.site.url;
 const title = `The Wedding of ${coupleNames}`;
 const description = `${longDate(wedding.events[0].date, wedding.timezone)} — ${wedding.site.description}`;
 
 export const metadata: Metadata = {
-  // Hanya origin: path gambar OG sudah membawa basePath lewat asset()
+  // Solo el origin: la ruta de la imagen OG ya incluye basePath mediante asset()
   metadataBase: siteUrl ? new URL(new URL(siteUrl).origin) : undefined,
   title,
   description,
@@ -61,10 +61,10 @@ export const viewport: Viewport = {
   themeColor: themes[wedding.theme].themeColor,
 };
 
-// Tema hanya bisa diganti lewat URL saat dev atau kalau allowThemePreview: true
+// El tema solo se puede cambiar mediante la URL en dev o si allowThemePreview: true
 const themePreview = process.env.NODE_ENV === 'development' || wedding.allowThemePreview;
 
-// Terapkan ?theme= sebelum halaman tampil supaya tidak berkedip saat preview tema
+// Aplicar ?theme= antes de que se muestre la página para evitar parpadeos al previsualizar el tema
 const themeScript = `try{var t=new URLSearchParams(location.search).get('theme');if(${JSON.stringify(Object.keys(themes))}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

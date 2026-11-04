@@ -4,7 +4,7 @@ const URL_ = wedding.googleSheets.url.trim();
 
 export const sheetsConfigured = Boolean(URL_);
 
-/** GET ke Google Apps Script (lihat scripts/google-apps-script.gs) */
+/** GET a Google Apps Script (ver scripts/google-apps-script.gs) */
 export async function sheetsGet<T>(params: Record<string, string | number>): Promise<T> {
   const qs = new URLSearchParams(Object.entries(params).map(([k, v]) => [k, String(v)]));
   const res = await fetch(`${URL_}?${qs}`);
@@ -13,7 +13,7 @@ export async function sheetsGet<T>(params: Record<string, string | number>): Pro
 }
 
 /**
- * POST pakai text/plain supaya tidak ada CORS preflight (Apps Script tidak mendukung OPTIONS).
+ * POST con text/plain para que no haya CORS preflight (Apps Script no admite OPTIONS).
  */
 export async function sheetsPost<T = { ok: boolean }>(action: string, data: Record<string, unknown>): Promise<T> {
   const res = await fetch(URL_, {

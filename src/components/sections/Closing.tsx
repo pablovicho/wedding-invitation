@@ -30,7 +30,6 @@ export default function Closing() {
         <p className="mx-auto mt-1 max-w-xs text-xs italic text-muted">
           &ldquo;Semoga Allah memberkahi kalian berdua dan mengumpulkan kalian dalam kebaikan.&rdquo;
         </p>
-        <p className="mt-6 font-heading text-lg font-semibold text-primary">{copy.closingSalam}</p>
         {copy.localThanks && <p className="mt-1 font-script text-3xl text-accent">{copy.localThanks}</p>}
       </Reveal>
 

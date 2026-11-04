@@ -12,7 +12,7 @@ import { asset } from '@/lib/asset';
 import { couple } from '@/lib/couple';
 import { dottedDate } from '@/lib/date';
 
-// Cara cover "dibuka" berbeda per tema: samudra tersingkap ke atas, jati digeser seperti halaman buku
+// La forma en que la portada "se abre" varía según el tema: samudra se levanta hacia arriba, jati se desliza como una página de libro
 const EXIT: Record<ThemeName, TargetAndTransition> = {
   samudra: { clipPath: 'inset(0% 0% 100% 0%)', transition: { duration: 1, ease: [0.76, 0, 0.24, 1] } },
   jati: { x: '-100%', rotate: -4, transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] } },
@@ -22,7 +22,7 @@ const EXIT: Record<ThemeName, TargetAndTransition> = {
   langit: { clipPath: 'circle(0% at 50% 82%)', transition: { duration: 0.9, ease: [0.65, 0, 0.35, 1] } },
 };
 
-// Nilai awal clip-path harus sejenis dengan nilai akhirnya supaya bisa dianimasikan
+// El valor inicial de clip-path debe ser del mismo tipo que el final para poder animarse
 const CLIP_START: Partial<Record<ThemeName, string>> = {
   langit: 'circle(150% at 50% 82%)',
   samudra: 'inset(0% 0% 0% 0%)',
@@ -35,7 +35,7 @@ export default function Cover() {
 
   const start = () => {
     if (opening) return;
-    emitGesture(); // harus sinkron di dalam ketukan (musik & sensor gerak iOS)
+    emitGesture(); // debe ser sincrónico dentro del toque (música y sensor de movimiento de iOS)
     if (!wedding.effects.envelope) return open();
     setOpening(true);
     const quick = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -66,7 +66,7 @@ export default function Cover() {
           <p className="text-xs uppercase tracking-[0.3em] text-ink/80">{copy.coverLabel}</p>
           <Crest className="mx-auto mt-4 w-32" />
           <h1 className="mt-2 font-script text-[clamp(2.6rem,14vw,3.6rem)] leading-[1.05] text-primary [overflow-wrap:anywhere] [text-wrap:balance]">
-            {/* {' '} = titik patah baris; tanpa ini nama panjang tidak bisa turun baris */}
+            {/* {' '} = punto de salto de línea; sin esto, los nombres largos no pueden bajar de línea */}
             {couple[0].nickname} <span className="font-heading text-[0.62em] text-accent">&amp;</span> {couple[1].nickname}
           </h1>
           <p className="mt-3 font-heading text-lg tracking-[0.2em] text-ink/80">{dottedDate(wedding.events[0].date)}</p>

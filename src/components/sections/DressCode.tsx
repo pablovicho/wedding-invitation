@@ -4,7 +4,7 @@ import type { DressCode as DressCodeConfig } from '@/config/types';
 import { useInvitation } from '@/components/InvitationProvider';
 import { themes } from '@/themes';
 
-/** Palet dress code: mengikuti tema aktif ('theme') atau warna custom dari config. */
+/** Paleta de dress code: sigue el tema activo ('theme') o colores personalizados de la config. */
 export default function DressCode({ value, compact = false }: { value: DressCodeConfig; compact?: boolean }) {
   const { theme } = useInvitation();
   const preset = themes[theme].dressCode;

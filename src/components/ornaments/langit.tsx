@@ -1,4 +1,4 @@
-/* Tema Langit — bintang segi-8, bulan sabit, sparkle; ornamen gantung yang berayun. */
+/* Tema Langit — estrellas de 8 puntas, medialuna, destellos; ornamentos colgantes que se balancean. */
 import { CRESCENT_PATH, SPARKLE_PATH, octagramPoints } from './shapes';
 
 type SvgProps = React.SVGProps<SVGSVGElement>;
@@ -12,7 +12,7 @@ function Hanging({ x, length, dur, children }: { x: number; length: number; dur:
   );
 }
 
-/** Ornamen bintang & bulan menggantung — dipakai di sudut atas */
+/** Ornamento de estrella y luna colgante — usado en la esquina superior */
 export function LangitHanging(props: SvgProps) {
   return (
     <svg viewBox="0 0 140 170" aria-hidden {...props}>
@@ -36,7 +36,7 @@ export function LangitHanging(props: SvgProps) {
   );
 }
 
-/** Kluster bintang untuk sudut bawah */
+/** Grupo de estrellas para la esquina inferior */
 export function LangitCluster(props: SvgProps) {
   return (
     <svg viewBox="0 0 120 120" aria-hidden {...props}>
@@ -76,7 +76,7 @@ export function LangitDivider(props: SvgProps) {
   );
 }
 
-/** Bulan sabit + bintang di atas nama */
+/** Medialuna + estrella sobre el nombre */
 export function LangitCrest(props: SvgProps) {
   return (
     <svg viewBox="0 0 200 90" aria-hidden {...props}>

@@ -1,10 +1,10 @@
-/* Tema Jati — coklat earthy/boho: rumput pampas, pelangi lengkung, daun kering. */
+/* Tema Jati — marrón terroso/boho: hierba pampa, arcoíris curvo, hojas secas. */
 import { Branch } from './taman';
 
 type SvgProps = React.SVGProps<SVGSVGElement>;
 type Pt = [number, number];
 
-/** Rumput pampas: batang melengkung dengan bulu halus di ujungnya */
+/** Hierba pampa: tallo curvo con pelusa fina en la punta */
 export function Pampas({ from, ctrl, to }: { from: Pt; ctrl: Pt; to: Pt }) {
   const at = (t: number): Pt => [
     (1 - t) ** 2 * from[0] + 2 * (1 - t) * t * ctrl[0] + t ** 2 * to[0],
@@ -48,7 +48,7 @@ export function JatiCorner(props: SvgProps) {
   );
 }
 
-/** Pelangi lengkung ala boho */
+/** Arcoíris curvo estilo boho */
 function Rainbow({ cx, cy, r, w }: { cx: number; cy: number; r: number[]; w: number }) {
   const tones = ['stroke-primary', 'stroke-accent', 'stroke-accent/50', 'stroke-primary/40'];
   return (

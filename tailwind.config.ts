@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 
-// Semua warna diambil dari CSS variable tema (lihat src/themes/*.css),
-// jadi ganti tema = ganti satu atribut data-theme di <html>.
+// Todos los colores se toman de variables CSS del tema (ver src/themes/*.css),
+// así que cambiar de tema = cambiar un solo atributo data-theme en <html>.
 const token = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;
 
 export default {

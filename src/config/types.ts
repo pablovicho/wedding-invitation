@@ -2,44 +2,41 @@ export type ThemeName = 'samudra' | 'jati' | 'gading' | 'priangan' | 'taman' | '
 export type TimeZone = 'WIB' | 'WITA' | 'WIT';
 
 export interface Person {
-  /** Nama panggilan, tampil besar di cover */
+  /** Apodo, se muestra en grande en la portada */
   nickname: string;
-  /** Nama lengkap + gelar */
+  /** Nombre completo + títulos */
   fullName: string;
-  /** Path foto di folder public, mis. '/images/couple/groom.webp' */
+  /** Ruta de la foto en la carpeta public, ej. '/images/couple/groom.webp' */
   photo: string;
-  /** Mis. 'Putra pertama dari' / 'Putri kedua dari' */
-  childOrder: string;
-  father: string;
-  mother: string;
-  /** Username Instagram tanpa @ (opsional) */
+  /** Ej. 'Primer hijo de' / 'Segunda hija de' */
+  /** Usuario de Instagram sin @ (opcional) */
   instagram?: string;
 }
 
-/** Warna dress code: '#7F9DC2' atau { hex: '#7F9DC2', name: 'Dusty Blue' } */
+/** Color del dress code: '#7F9DC2' o { hex: '#7F9DC2', name: 'Dusty Blue' } */
 export type DressColor = string | { hex: string; name: string };
 
 export interface DressCode {
-  /** Kosongkan untuk memakai catatan bawaan tema */
+  /** Déjalo vacío para usar la nota predeterminada del tema */
   note?: string;
-  /** 'theme' = otomatis mengikuti tema aktif, atau isi daftar warna sendiri */
+  /** 'theme' = sigue automáticamente el tema activo, o completa tu propia lista de colores */
   colors: 'theme' | DressColor[];
 }
 
 export interface WeddingEvent {
   title: string;
-  /** Format YYYY-MM-DD */
+  /** Formato YYYY-MM-DD */
   date: string;
-  /** Format HH:mm (24 jam) */
+  /** Formato HH:mm (24 horas) */
   start: string;
-  /** Format HH:mm, atau kosongkan untuk "Selesai" */
+  /** Formato HH:mm, o déjalo vacío para "Selesai" */
   end?: string;
   venue: string;
   address: string;
   /** Link Google Maps (Share -> Copy link) */
   mapsUrl?: string;
   note?: string;
-  /** Dress code khusus acara ini (opsional), menimpa dress code umum */
+  /** Dress code específico de este evento (opcional), reemplaza el dress code general */
   dressCode?: DressCode;
 }
 
@@ -48,51 +45,51 @@ export interface GiftAccount {
   provider: string;
   number: string;
   holder: string;
-  /** Path logo (opsional) */
+  /** Ruta del logo (opcional) */
   logo?: string;
 }
 
 export interface WeddingConfig {
   /**
-   * Tema undangan (tetap, sama untuk semua tamu):
-   * 'samudra' biru · 'jati' coklat · 'gading' krem · 'priangan' marun-emas Sunda · 'taman' sage · 'langit' navy malam
+   * Tema de la invitación (fijo, igual para todos los invitados):
+   * 'samudra' azul · 'jati' marrón · 'gading' crema · 'priangan' granate-dorado sundanés · 'taman' salvia · 'langit' azul marino nocturno
    */
   theme: ThemeName;
   /**
-   * false (disarankan): tamu selalu melihat tema di atas, link ?theme= diabaikan.
-   * true: tema bisa dicoba di situs online lewat ?theme=jati&preview (untuk diskusi dengan pasangan).
-   * Saat `npm run dev` pemilih tema selalu tersedia.
+   * false (recomendado): los invitados siempre ven el tema de arriba, se ignoran los enlaces ?theme=.
+   * true: el tema se puede probar en el sitio en línea mediante ?theme=jati&preview (para conversar con la pareja).
+   * Al ejecutar `npm run dev` el selector de temas siempre está disponible.
    */
   allowThemePreview: boolean;
 
   site: {
-    /** URL final setelah deploy, tanpa slash di akhir. Wajib untuk preview gambar di WhatsApp. */
+    /** URL final después del despliegue, sin barra al final. Obligatorio para la vista previa de la imagen en WhatsApp. */
     url: string;
     description: string;
-    /** Gambar preview saat link dibagikan (1200x630) */
+    /** Imagen de vista previa cuando se comparte el enlace (1200x630) */
     ogImage: string;
-    /** false = minta Google tidak mengindeks undangan (privasi) */
+    /** false = pedir a Google que no indexe la invitación (privacidad) */
     indexable: boolean;
   };
 
   timezone: TimeZone;
 
   couple: {
-    /** Urutan tampil nama */
+    /** Orden de aparición de los nombres */
     order: 'bride-first' | 'groom-first';
     bride: Person;
     groom: Person;
     hashtag?: string;
   };
 
-  /** Foto latar cover & panel kiri di desktop */
+  /** Foto de fondo de la portada y del panel izquierdo en escritorio */
   coverImage: string;
-  /** Foto utama di bagian hero (bingkai lengkung) */
+  /** Foto principal en la sección hero (marco arqueado) */
   heroImage: string;
 
   events: WeddingEvent[];
 
-  /** Dress code umum; hapus untuk menyembunyikan */
+  /** Dress code general; eliminar para ocultar */
   dressCode?: DressCode;
 
   quote: {
@@ -109,7 +106,7 @@ export interface WeddingConfig {
   gallery: {
     enabled: boolean;
     photos: { src: string; alt: string }[];
-    /** Link YouTube video prewedding (opsional) */
+    /** Enlace de video preboda de YouTube (opcional) */
     youtube?: string;
   };
 
@@ -121,14 +118,14 @@ export interface WeddingConfig {
 
   rsvp: {
     enabled: boolean;
-    /** Nomor WhatsApp penerima konfirmasi, boleh format 08xx / +628xx */
+    /** Número de WhatsApp del destinatario de la confirmación, puede usar el formato 08xx / +628xx */
     whatsapp: string;
     maxGuests: number;
-    /** Batas konfirmasi, format YYYY-MM-DD (opsional) */
+    /** Fecha límite de confirmación, formato YYYY-MM-DD (opcional) */
     deadline?: string;
   };
 
-  /** Ucapan & doa — butuh env Supabase, otomatis tersembunyi kalau belum diset */
+  /** Mensajes y oraciones — requiere env de Supabase, se oculta automáticamente si no está configurado */
   wishes: {
     enabled: boolean;
     pageSize: number;
@@ -136,7 +133,7 @@ export interface WeddingConfig {
 
   gift: {
     enabled: boolean;
-    /** true (disarankan): rekening disembunyikan dulu, tamu mengetuk tumpukan kartu untuk membuka. false: langsung tampil. */
+    /** true (recomendado): las cuentas se ocultan primero, el invitado toca la pila de tarjetas para abrirlas. false: se muestran directamente. */
     collapsed: boolean;
     accounts: GiftAccount[];
     address?: { recipient: string; phone?: string; address: string };
@@ -148,43 +145,41 @@ export interface WeddingConfig {
     title?: string;
   };
 
-  /** Simpan RSVP, ucapan & check-in ke Google Sheets (lihat README). Kosongkan url untuk mematikan. */
+  /** Guarda RSVP, mensajes y check-in en Google Sheets (ver README). Deja la url vacía para desactivarlo. */
   googleSheets: {
     url: string;
   };
 
-  /** QR pribadi untuk tamu (butuh link ?to=Nama) + halaman /checkin/ untuk penerima tamu */
+  /** QR personal para el invitado (requiere el enlace ?to=Nombre) + página /checkin/ para el recepcionista */
   checkin: {
     enabled: boolean;
   };
 
-  /** Tamu bisa membuat foto berbingkai undangan untuk IG Story */
+  /** El invitado puede crear fotos con el marco de la invitación para IG Story */
   photobooth: {
     enabled: boolean;
     hashtag?: string;
   };
 
   effects: {
-    /** Cover berupa amplop 3D dengan segel lilin */
+    /** Portada en forma de sobre 3D con sello de cera */
     envelope: boolean;
-    /** Semburan ornamen saat layar diketuk */
+    /** Estallido de adornos al tocar la pantalla */
     tapBurst: boolean;
-    /** Ornamen bergerak saat scroll + foto miring mengikuti kemiringan HP */
+    /** Adornos en movimiento al hacer scroll + foto inclinada según la inclinación del móvil */
     parallax: boolean;
   };
 
   copy: {
     coverLabel: string;
-    /** Sapaan bahasa daerah di cover, mis. 'Wilujeng Sumping' (opsional) */
+    /** Saludo en lengua regional en la portada, ej. 'Wilujeng Sumping' (opcional) */
     localGreeting?: string;
     coverTo: string;
     coverButton: string;
     coverNote: string;
-    salam: string;
     opening: string;
     closing: string;
-    closingSalam: string;
-    /** Ucapan terima kasih bahasa daerah, mis. 'Hatur nuhun' (opsional) */
+    /** Agradecimiento en lengua regional, ej. 'Hatur nuhun' (opcional) */
     localThanks?: string;
     familiesTitle: string;
     families: string[];

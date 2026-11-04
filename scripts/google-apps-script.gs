@@ -1,17 +1,17 @@
 /**
- * Backend Google Sheets untuk undangan (RSVP, Ucapan & Doa, Check-in tamu).
+ * Backend de Google Sheets para la invitación (RSVP, Ucapan & Doa, Check-in de invitados).
  *
- * CARA PASANG (sekali saja, gratis):
- * 1. Buat Google Sheets baru -> menu Extensions -> Apps Script.
- * 2. Hapus isi Code.gs, tempel seluruh file ini, lalu Save.
+ * CÓMO INSTALAR (una sola vez, gratis):
+ * 1. Crea una Google Sheets nueva -> menú Extensions -> Apps Script.
+ * 2. Borra el contenido de Code.gs, pega todo este archivo y luego Save.
  * 3. Deploy -> New deployment -> type "Web app"
  *      Execute as: Me
  *      Who has access: Anyone
- *    -> Deploy -> izinkan akses -> salin "Web app URL" (berakhiran /exec).
- * 4. Tempel URL itu di src/config/wedding.config.ts -> googleSheets.url
+ *    -> Deploy -> autoriza el acceso -> copia "Web app URL" (termina en /exec).
+ * 4. Pega esa URL en src/config/wedding.config.ts -> googleSheets.url
  *
- * Tab "Ucapan", "RSVP" dan "CheckIn" dibuat otomatis saat data pertama masuk.
- * Kalau script ini diubah, lakukan Deploy -> Manage deployments -> Edit -> Version: New version.
+ * Las pestañas "Ucapan", "RSVP" y "CheckIn" se crean automáticamente cuando llegan los primeros datos.
+ * Si se modifica este script, haz Deploy -> Manage deployments -> Edit -> Version: New version.
  */
 
 var SHEETS = {
@@ -38,12 +38,12 @@ function json_(obj) {
 }
 
 function clean_(v, max) {
-  // Cegah formula injection (=, +, -, @) dan batasi panjang
+  // Evitar la inyección de fórmulas (=, +, -, @) y limitar la longitud
   var s = String(v == null ? '' : v).trim().slice(0, max);
   return /^[=+\-@]/.test(s) ? "'" + s : s;
 }
 
-/** GET ?action=wishes&offset=0&limit=8  -> ucapan terbaru dulu */
+/** GET ?action=wishes&offset=0&limit=8  -> los mensajes más recientes primero */
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.action === 'wishes') {
@@ -52,8 +52,8 @@ function doGet(e) {
     var offset = Math.max(0, parseInt(p.offset || '0', 10));
     var limit = Math.min(50, Math.max(1, parseInt(p.limit || '8', 10)));
     var items = [];
-    // Baris terbaru ada di bawah: ambil dari bawah ke atas
-    var end = total - offset; // jumlah baris data yang tersisa
+    // La fila más reciente está abajo: tomar de abajo hacia arriba
+    var end = total - offset; // número de filas de datos restantes
     var start = Math.max(1, end - limit + 1);
     if (end >= 1) {
       var rows = sh.getRange(start + 1, 1, end - start + 1, 3).getValues();

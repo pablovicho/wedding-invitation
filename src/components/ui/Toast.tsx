@@ -5,7 +5,7 @@ import { AnimatePresence, m } from 'motion/react';
 
 const EVENT = 'invitation:toast';
 
-/** Tampilkan notifikasi singkat dari mana saja: toast('Tersalin!') */
+/** Muestra una notificación breve desde cualquier lugar: toast('¡Copiado!') */
 export function toast(message: string) {
   window.dispatchEvent(new CustomEvent(EVENT, { detail: message }));
 }

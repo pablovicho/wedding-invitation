@@ -2,7 +2,7 @@
 const config = {
   plugins: {
     tailwindcss: {},
-    // -webkit- prefix untuk Safari iOS (backdrop-filter, mask, dll)
+    // prefijo -webkit- para Safari iOS (backdrop-filter, mask, etc.)
     autoprefixer: {},
   },
 };

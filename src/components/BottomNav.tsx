@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import Icon, { type IconName } from './ui/Icon';
 
-// Label & ikon per section. Urutan & visibilitas TIDAK diatur di sini:
-// nav mengikuti section yang benar-benar ada di halaman, sesuai urutannya.
+// Etiqueta e icono por sección. El orden y la visibilidad NO se definen aquí:
+// la nav sigue las secciones que realmente existen en la página, según su orden.
 const ITEMS: { id: string; label: string; icon: IconName }[] = [
   { id: 'home', label: 'Beranda', icon: 'home' },
   { id: 'couple', label: 'Mempelai', icon: 'heart' },
@@ -25,7 +25,7 @@ export default function BottomNav() {
     const present = ITEMS.map((it) => ({ it, el: document.getElementById(it.id) }))
       .filter((x): x is { it: Item; el: HTMLElement } => x.el !== null)
       .sort((a, b) => (a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- butuh DOM untuk tahu section yang aktif
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- se necesita el DOM para saber qué sección está activa
     setItems(present.map((x) => x.it));
 
     const io = new IntersectionObserver(
@@ -38,7 +38,7 @@ export default function BottomNav() {
     return () => io.disconnect();
   }, []);
 
-  // 7 tombol harus tetap muat di HP 360px
+  // Los 7 botones deben caber igualmente en un teléfono de 360px
   const pad = items.length > 6 ? 'px-2' : 'px-2.5';
 
   return (
