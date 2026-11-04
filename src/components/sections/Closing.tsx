@@ -34,12 +34,6 @@ export default function Closing() {
       </Reveal>
 
       <Reveal className="mt-10">
-        <p className="text-xs uppercase tracking-[0.25em] text-muted">{copy.familiesTitle}</p>
-        <ul className="mt-2 space-y-0.5 text-sm font-medium">
-          {copy.families.map((f) => (
-            <li key={f}>{f}</li>
-          ))}
-        </ul>
         <Crest className="mx-auto mt-8 w-28" />
         <p className="mt-2 font-script text-5xl text-primary">
           {couple[0].nickname} <span className="font-heading text-4xl italic text-accent">&amp;</span> {couple[1].nickname}
