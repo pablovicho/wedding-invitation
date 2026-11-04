@@ -8,10 +8,10 @@ import { coupleNames, mainEvent } from '@/lib/couple';
 import { eventStart } from '@/lib/date';
 
 const UNITS = [
-  ['Hari', 86_400_000],
-  ['Jam', 3_600_000],
-  ['Menit', 60_000],
-  ['Detik', 1000],
+  ['Día', 86_400_000],
+  ['Hora', 3_600_000],
+  ['Minuto', 60_000],
+  ['Segundo', 1000],
 ] as const;
 
 function split(ms: number): number[] {
@@ -42,7 +42,7 @@ export default function Countdown() {
     <div className="text-center">
       {done ? (
         <p className="card px-6 py-5 text-sm leading-relaxed">
-          Alhamdulillah, acara telah berlangsung. Terima kasih atas doa dan kehadirannya 🤍
+          ¡Gracias por tu paciencia! El evento ha terminado. Esperamos que hayas disfrutado de la celebración 🎉
         </p>
       ) : (
         <div className="grid grid-cols-4 gap-2.5">
@@ -63,7 +63,7 @@ export default function Countdown() {
           </a>
           <button onClick={() => downloadIcs(mainEvent, wedding.timezone, title)} className="btn-ghost">
             <Icon name="calendar" className="h-4 w-4" />
-            iPhone / Lainnya
+            iPhone / Otro
           </button>
         </div>
       )}
