@@ -18,14 +18,14 @@ const body = (f) => readFileSync(f, 'utf8').replace(/\/\*\*[\s\S]*?\*\//, '');
 const config = readFileSync('src/config/wedding.config.ts', 'utf8');
 
 if (body('src/config/wedding.config.ts') === body('src/config/wedding.config.example.ts')) {
-  console.error('✖ src/config/wedding.config.ts masih berisi data contoh. Isi data asli dulu sebelum deploy.');
+  console.error('✖ src/config/wedding.config.ts aún contiene datos de ejemplo. Ingresa los datos reales antes de la publicación.');
   process.exit(1);
 }
 if (!/url:\s*'https:\/\//.test(config)) {
-  console.warn('⚠  site.url belum diisi — preview gambar di WhatsApp tidak akan muncul.');
+  console.warn('⚠  site.url no está completo — la previsualización de imágenes en WhatsApp no funcionará correctamente.');
 }
 if (/allowThemePreview:\s*true/.test(config)) {
-  console.warn('⚠  allowThemePreview masih true — tamu bisa mengganti tema lewat ?theme=&preview');
+  console.warn('⚠  allowThemePreview aún es true — los invitados pueden cambiar el tema a través de ?theme=&preview');
 }
 
 const run = (cmd, env = {}) => execSync(cmd, { stdio: 'inherit', env: { ...process.env, ...env } });
@@ -35,9 +35,9 @@ run('npm run build', { BASE_PATH: '' });
 
 if (process.argv.includes('--build-only')) {
   console.log(`
-✓ Build selesai. Upload folder ini lewat dashboard Cloudflare:
+✓ Compilación completada. Sube la carpeta "out" manualmente a través del panel de Cloudflare:
     ${path.resolve('out')}
-  Workers & Pages -> project undangan -> Create deployment -> drag & drop folder "out" -> Save and Deploy`);
+  Workers & Pages -> proyecto undangan -> Crear despliegue -> arrastra y suelta la carpeta "out" -> Guardar y Desplegar`);
   process.exit(0);
 }
 
