@@ -6,13 +6,13 @@ import Icon, { type IconName } from './ui/Icon';
 // Etiqueta e icono por sección. El orden y la visibilidad NO se definen aquí:
 // la nav sigue las secciones que realmente existen en la página, según su orden.
 const ITEMS: { id: string; label: string; icon: IconName }[] = [
-  { id: 'home', label: 'Beranda', icon: 'home' },
+  { id: 'home', label: 'Inicio', icon: 'home' },
   { id: 'couple', label: 'Mempelai', icon: 'heart' },
-  { id: 'event', label: 'Acara', icon: 'calendar' },
-  { id: 'gallery', label: 'Galeri', icon: 'image' },
+  { id: 'event', label: 'Evento', icon: 'calendar' },
+  { id: 'gallery', label: 'Galería', icon: 'image' },
   { id: 'rsvp', label: 'RSVP', icon: 'rsvp' },
   { id: 'wishes', label: 'Ucapan', icon: 'chat' },
-  { id: 'gift', label: 'Hadiah', icon: 'gift' },
+  { id: 'gift', label: 'Regalo', icon: 'gift' },
 ];
 
 type Item = (typeof ITEMS)[number];
@@ -42,7 +42,7 @@ export default function BottomNav() {
   const pad = items.length > 6 ? 'px-2' : 'px-2.5';
 
   return (
-    <nav aria-label="Navigasi undangan" className="rounded-full border border-line/80 bg-surface/85 p-1.5 shadow-xl backdrop-blur-md">
+    <nav aria-label="Navegación de la invitación" className="rounded-full border border-line/80 bg-surface/85 p-1.5 shadow-xl backdrop-blur-md">
       <ul className="flex items-center">
         {items.map((it) => {
           const on = active === it.id;
