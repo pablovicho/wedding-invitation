@@ -14,7 +14,7 @@ import { copyText } from '@/lib/clipboard';
 
 async function copy(text: string, label: string) {
   const ok = await copyText(text);
-  toast(ok ? `${label} disalin ✓` : 'Gagal menyalin, salin manual ya');
+  toast(ok ? `${label} copiado ✓` : 'Fallo al copiar, copia manualmente');
 }
 
 const CARD_BG = 'bg-gradient-to-br from-primary via-primary/90 to-accent text-on-primary';
@@ -56,9 +56,9 @@ function GiftPeek({ onOpen }: { onOpen: () => void }) {
       <div className="card absolute inset-x-0 bottom-0 z-10 flex h-28 flex-col items-center justify-center gap-1 transition group-active:scale-[0.98]">
         <span className="flex items-center gap-2 text-sm font-semibold text-primary">
           <Icon name="gift" className="h-4 w-4" />
-          Kirim Hadiah
+          Envía un regalo
         </span>
-        <span className="text-xs text-muted">Ketuk untuk melihat rekening{wedding.gift.address ? ' & alamat' : ''}</span>
+        <span className="text-xs text-muted">Haz clic para ver los detalles{wedding.gift.address ? ' y la dirección' : ''}</span>
         <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 animate-bounce text-accent" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -98,9 +98,9 @@ function AccountCard({ acc }: { acc: GiftAccount }) {
           <p className="text-[10px] uppercase tracking-widest opacity-70">a.n.</p>
           <p className="truncate text-sm font-semibold">{acc.holder}</p>
         </div>
-        <button onClick={() => copy(number, 'Nomor')} className="btn min-h-[40px] shrink-0 bg-white/20 px-4 py-2 text-xs text-on-primary backdrop-blur">
+        <button onClick={() => copy(number, 'Número')} className="btn min-h-[40px] shrink-0 bg-white/20 px-4 py-2 text-xs text-on-primary backdrop-blur">
           <Icon name="copy" className="h-4 w-4" />
-          Salin
+          Copiar
         </button>
       </div>
     </div>
@@ -114,8 +114,8 @@ export default function Gift() {
 
   return (
     <Section id="gift">
-      <SectionTitle eyebrow="Wedding Gift" title="Tanda Kasih">
-        Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika ingin memberikan tanda kasih, dapat melalui:
+      <SectionTitle eyebrow="Regalo" title="Gracias por tu regalo">
+        Tu agradecimiento es muy importante para nosotros. Pero si deseas hacer un regalo, puedes hacerlo a través de:
       </SectionTitle>
 
       <AnimatePresence initial={false} mode="wait">
@@ -136,16 +136,16 @@ export default function Gift() {
             {gift.address && (
               <m.div variants={item} className="card p-5 text-center">
                 <Icon name="gift" className="mx-auto h-7 w-7 text-accent" />
-                <p className="mt-2 font-heading text-lg font-semibold">Kirim Kado</p>
+                <p className="mt-2 font-heading text-lg font-semibold">Envía un regalo</p>
                 <p className="mt-1 text-sm font-medium">{gift.address.recipient}</p>
                 {gift.address.phone && <p className="text-sm text-muted">{gift.address.phone}</p>}
                 <p className="mt-1 text-sm leading-relaxed text-muted">{gift.address.address}</p>
                 <button
-                  onClick={() => copy([gift.address!.recipient, gift.address!.phone, gift.address!.address].filter(Boolean).join('\n'), 'Alamat')}
+                  onClick={() => copy([gift.address!.recipient, gift.address!.phone, gift.address!.address].filter(Boolean).join('\n'), 'Dirección')}
                   className="btn-ghost mt-4"
                 >
                   <Icon name="copy" className="h-4 w-4" />
-                  Salin Alamat
+                  Copiar Dirección
                 </button>
               </m.div>
             )}
@@ -153,7 +153,7 @@ export default function Gift() {
             {gift.collapsed && (
               <m.div variants={item} className="text-center">
                 <button onClick={() => setOpen(false)} className="text-sm font-medium text-muted underline underline-offset-4">
-                  Sembunyikan
+                  Ocultar
                 </button>
               </m.div>
             )}
