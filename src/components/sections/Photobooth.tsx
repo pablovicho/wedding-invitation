@@ -92,7 +92,7 @@ async function compose(photo: HTMLImageElement, layout: Layout, ornaments: HTMLE
   ctx.textAlign = 'center';
   ctx.fillStyle = color('--c-accent');
   ctx.font = `64px ${script}`;
-  ctx.fillText('The Wedding of', L.w / 2, L.script);
+  ctx.fillText('La Boda de', L.w / 2, L.script);
   ctx.fillStyle = color('--c-primary');
   ctx.font = `600 ${L.nameSize}px ${heading}`;
   ctx.fillText(coupleNames, L.w / 2, L.names, L.w - 120);
@@ -169,8 +169,8 @@ export default function Photobooth() {
 
   return (
     <Section id="photobooth">
-      <SectionTitle eyebrow="Photobooth" title="Foto Bareng Kami">
-        Pilih atau ambil foto, nanti otomatis dibingkai sesuai undangan. Siap dibagikan ke Story!
+      <SectionTitle eyebrow="Fotografía" title="Fotografía Juntos">
+        Elige o toma una foto, luego se ajustará automáticamente al diseño de la invitación. Listo para compartir en Story!
       </SectionTitle>
 
       {/* Ornamento fuente para el canvas — no visible */}
@@ -187,25 +187,13 @@ export default function Photobooth() {
       </div>
 
       <Reveal className="text-center">
-        <div className="mb-4 inline-flex rounded-full border border-line bg-surface p-1 text-xs font-semibold">
-          {(['story', 'feed'] as const).map((l) => (
-            <button
-              key={l}
-              onClick={() => setLayout(l)}
-              className={`rounded-full px-4 py-2 transition ${layout === l ? 'bg-primary text-on-primary' : 'text-muted'}`}
-            >
-              {l === 'story' ? 'Story 9:16' : 'Feed 4:5'}
-            </button>
-          ))}
-        </div>
-
         <div className={`card mx-auto grid w-56 place-items-center overflow-hidden ${layout === 'story' ? 'aspect-[9/16]' : 'aspect-[4/5]'}`}>
           {result ? (
-            <img src={result.url} alt="Hasil photobooth" className={`h-full w-full object-cover transition ${busy ? 'opacity-50' : ''}`} />
+            <img src={result.url} alt="Resultado de la Fotografía" className={`h-full w-full object-cover transition ${busy ? 'opacity-50' : ''}`} />
           ) : (
             <button onClick={() => input.current?.click()} className="flex flex-col items-center gap-2 p-6 text-muted">
               <Icon name="camera" className="h-10 w-10 text-accent" />
-              <span className="text-sm">{busy ? 'Memproses…' : 'Ketuk untuk pilih foto'}</span>
+              <span className="text-sm">{busy ? 'Procesando...' : 'Haz clic para elegir o tomar una foto'}</span>
             </button>
           )}
         </div>
@@ -215,15 +203,15 @@ export default function Photobooth() {
         <div className="mt-5 flex flex-wrap justify-center gap-2">
           <button onClick={() => input.current?.click()} className={result ? 'btn-ghost' : 'btn-primary'}>
             <Icon name="camera" className="h-4 w-4" />
-            {result ? 'Ganti Foto' : 'Pilih / Ambil Foto'}
+            {result ? 'Cambiar Foto' : 'Elegir / Tomar una Foto'}
           </button>
           {result && (
             <>
               <button onClick={share} className="btn-primary">
                 <Icon name="send" className="h-4 w-4" />
-                Bagikan
+                Compartir
               </button>
-              <button onClick={download} className="btn-ghost" aria-label="Unduh">
+              <button onClick={download} className="btn-ghost" aria-label="Descargar">
                 <Icon name="download" className="h-4 w-4" />
               </button>
             </>
