@@ -12,65 +12,65 @@ import { longDate } from '@/lib/date';
 import { sheetsConfigured, sheetsPost } from '@/lib/sheets';
 import { waLink } from '@/lib/whatsapp';
 
-const OPTIONS = ['Hadir', 'Tidak Hadir', 'Masih Ragu'] as const;
+const OPCIONES = ['Asistir', 'No Asistir', 'Aún Duda'] as const;
 
 export default function Rsvp() {
   const { guest } = useInvitation();
   const { rsvp, timezone } = wedding;
-  const [name, setName] = useState('');
-  const [attendance, setAttendance] = useState<(typeof OPTIONS)[number]>('Hadir');
-  const [count, setCount] = useState(1);
-  const [note, setNote] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [asistencia, setAsistencia] = useState<(typeof OPCIONES)[number]>('Asistir');
+  const [cantidad, setCantidad] = useState(1);
+  const [notas, setNotas] = useState('');
 
-  // Isi otomatis dari link ?to=, tapi jangan timpa yang sudah diketik tamu
+  // Llenar automáticamente desde el enlace ?to=, pero no sobrescribir lo que ya se ha escrito por el invitado
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- sinkron sekali dari query string
-    if (guest) setName((n) => n || guest);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sincronizar solo una vez desde la cadena de consulta
+    if (guest) setNombre((n) => n || guest);
   }, [guest]);
 
   if (!rsvp.enabled) return null;
 
-  const submit = (e: React.FormEvent) => {
+  const enviar = (e: React.FormEvent) => {
     e.preventDefault();
-    const lines = [
-      `Assalamu'alaikum, saya *${name.trim()}* ingin konfirmasi kehadiran di pernikahan ${coupleNames}.`,
+    const lineas = [
+      `Asalamu'alaikum, yo *${nombre.trim()}* quiero confirmar mi asistencia a la boda de ${coupleNames}.`,
       '',
-      `Kehadiran: *${attendance}*`,
-      attendance !== 'Tidak Hadir' ? `Jumlah tamu: ${count} orang` : '',
-      note.trim() ? `Pesan: ${note.trim()}` : '',
+      `Asistencia: *${asistencia}*`,
+      asistencia !== 'No Asistir' ? `Cantidad de invitados: ${cantidad} personas` : '',
+      notas.trim() ? `Notas: ${notas.trim()}` : '',
     ].filter((l, i) => l !== '' || i === 1);
-    // Catat juga ke Google Sheets (kalau diaktifkan) tanpa menunggu, supaya WhatsApp tetap langsung terbuka
+    // Registrar también en Google Sheets (si está configurado) sin esperar, para que WhatsApp se abra de inmediato
     if (sheetsConfigured) {
-      sheetsPost('rsvp', { name: name.trim(), attendance, count: attendance === 'Tidak Hadir' ? 0 : count, note: note.trim() }).catch(console.error);
+      sheetsPost('rsvp', { nombre: nombre.trim(), asistencia, cantidad: asistencia === 'No Asistir' ? 0 : cantidad, notas: notas.trim() }).catch(console.error);
     }
-    window.open(waLink(lines.join('\n'), rsvp.whatsapp), '_blank', 'noopener');
+    window.open(waLink(lineas.join('\n'), rsvp.whatsapp), '_blank', 'noopener');
   };
 
   return (
     <Section id="rsvp">
-      <SectionTitle eyebrow="RSVP" title="Konfirmasi Kehadiran">
-        Bantu kami menyiapkan yang terbaik dengan konfirmasi kehadiran
-        {rsvp.deadline ? ` sebelum ${longDate(rsvp.deadline, timezone)}` : ''}.
+      <SectionTitle eyebrow="RSVP" title="Confirmación de Asistencia">
+        Ayúdanos a preparar lo mejor con la confirmación de asistencia
+        {rsvp.deadline ? ` antes del ${longDate(rsvp.deadline, timezone)}` : ''}.
       </SectionTitle>
 
       <Reveal>
-        <form onSubmit={submit} className="card space-y-5 p-6">
+        <form onSubmit={enviar} className="card space-y-5 p-6">
           <label className="block">
-            <span className="mb-1.5 block text-sm font-medium">Nama</span>
-            <input className="field" value={name} onChange={(e) => setName(e.target.value)} required maxLength={60} autoComplete="name" placeholder="Nama kamu" />
+            <span className="mb-1.5 block text-sm font-medium">Nombre</span>
+            <input className="field" value={nombre} onChange={(e) => setNombre(e.target.value)} required maxLength={60} autoComplete="name" placeholder="Tu nombre" />
           </label>
 
           <fieldset>
-            <legend className="mb-1.5 text-sm font-medium">Kehadiran</legend>
+            <legend className="mb-1.5 text-sm font-medium">Asistencia</legend>
             <div className="grid grid-cols-3 gap-2">
-              {OPTIONS.map((o) => (
+              {OPCIONES.map((o) => (
                 <button
                   type="button"
                   key={o}
-                  onClick={() => setAttendance(o)}
-                  aria-pressed={attendance === o}
+                  onClick={() => setAsistencia(o)}
+                  aria-pressed={asistencia === o}
                   className={`min-h-[44px] rounded-2xl border px-2 text-sm font-medium transition ${
-                    attendance === o ? 'border-primary bg-primary text-on-primary' : 'border-line bg-surface text-ink'
+                    asistencia === o ? 'border-primary bg-primary text-on-primary' : 'border-line bg-surface text-ink'
                   }`}
                 >
                   {o}
@@ -79,19 +79,19 @@ export default function Rsvp() {
             </div>
           </fieldset>
 
-          {attendance !== 'Tidak Hadir' && (
+          {asistencia !== 'No Asistir' && (
             <div>
-              <span className="mb-1.5 block text-sm font-medium">Jumlah tamu</span>
+              <span className="mb-1.5 block text-sm font-medium">Cantidad de invitados</span>
               <div className="flex items-center justify-between rounded-2xl border border-line bg-surface p-1.5">
-                <button type="button" onClick={() => setCount((c) => Math.max(1, c - 1))} className="h-11 w-11 rounded-xl bg-primary/10 text-xl text-primary" aria-label="Kurangi">
+                <button type="button" onClick={() => setCantidad((c) => Math.max(1, c - 1))} className="h-11 w-11 rounded-xl bg-primary/10 text-xl text-primary" aria-label="Disminuir">
                   −
                 </button>
-                <span className="text-lg font-semibold tabular-nums">{count} orang</span>
+                <span className="text-lg font-semibold tabular-nums">{cantidad} personas</span>
                 <button
                   type="button"
-                  onClick={() => setCount((c) => Math.min(rsvp.maxGuests, c + 1))}
+                  onClick={() => setCantidad((c) => Math.min(rsvp.maxGuests, c + 1))}
                   className="h-11 w-11 rounded-xl bg-primary/10 text-xl text-primary"
-                  aria-label="Tambah"
+                  aria-label="Aumentar"
                 >
                   +
                 </button>
@@ -100,13 +100,13 @@ export default function Rsvp() {
           )}
 
           <label className="block">
-            <span className="mb-1.5 block text-sm font-medium">Pesan (opsional)</span>
-            <textarea className="field resize-none" rows={3} maxLength={300} value={note} onChange={(e) => setNote(e.target.value)} />
+            <span className="mb-1.5 block text-sm font-medium">Notas (opcional)</span>
+            <textarea className="field resize-none" rows={3} maxLength={300} value={notas} onChange={(e) => setNotas(e.target.value)} />
           </label>
 
           <button type="submit" className="btn-primary w-full">
             <Icon name="whatsapp" />
-            Kirim via WhatsApp
+            Enviar por WhatsApp
           </button>
         </form>
       </Reveal>
