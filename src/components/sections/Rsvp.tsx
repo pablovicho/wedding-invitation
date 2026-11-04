@@ -33,7 +33,7 @@ export default function Rsvp() {
   const enviar = (e: React.FormEvent) => {
     e.preventDefault();
     const lineas = [
-      `Asalamu'alaikum, yo *${nombre.trim()}* quiero confirmar mi asistencia a la boda de ${coupleNames}.`,
+      `Hola, yo *${nombre.trim()}* quiero confirmar mi asistencia a la boda de ${coupleNames}.`,
       '',
       `Asistencia: *${asistencia}*`,
       asistencia !== 'No Asistir' ? `Cantidad de invitados: ${cantidad} personas` : '',
