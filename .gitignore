@@ -58,3 +58,4 @@ public/worker-*.js.map
 /src/config/wedding.config.ts
 /public/private/
 .wrangler/
+.aider*
