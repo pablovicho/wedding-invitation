@@ -7,22 +7,19 @@ import { coupleNames } from '@/lib/couple';
 import { longDate } from '@/lib/date';
 import { waLink } from '@/lib/whatsapp';
 
-const DEFAULT_TEMPLATE = `Assalamu'alaikum Warahmatullahi Wabarakatuh
+const DEFAULT_TEMPLATE = `Hola
 
-Kepada Yth.
-Bapak/Ibu/Saudara/i
-*{nama}*
+Estimado/a,
+*{nombre}*
 
-Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami pada ${longDate(wedding.events[0].date, wedding.timezone)}.
+Sin disminuir el respeto, nos complace invitarte a asistir a nuestro matrimonio el ${longDate(wedding.events[0].date, wedding.timezone)}.
 
-Info lengkap acara bisa dilihat di link berikut:
+Para más información sobre el evento, consulta el siguiente enlace:
 {link}
 
-Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.
+Sería un placer si pudieras asistir y compartir tu bendición.
 
-Wassalamu'alaikum Warahmatullahi Wabarakatuh
-
-Kami yang berbahagia,
+Gracias,
 *${coupleNames}*`;
 
 interface Guest {
@@ -36,7 +33,7 @@ function parse(text: string): Guest[] {
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
-      // Format: "Nama" atau "Nama, 0812xxxx"
+      // Formato: "Nombre" o "Nombre, 0812xxxx"
       const m = line.match(/^(.*?)[,;\t]\s*(\+?[\d\s-]{8,})$/);
       return m ? { name: m[1].trim(), phone: m[2] } : { name: line };
     });
@@ -44,19 +41,19 @@ function parse(text: string): Guest[] {
 
 export default function Generator() {
   const [base, setBase] = useState('');
-  const [names, setNames] = useState('Bapak Ahmad & Keluarga\nTeman Kantor, 081234567890');
+  const [names, setNames] = useState('Bapak Ahmad & Familia\nTeman Trabajo, 081234567890');
   const [template, setTemplate] = useState(DEFAULT_TEMPLATE);
   const [copied, setCopied] = useState<number | null>(null);
 
   useEffect(() => {
     const url = wedding.site.url || `${window.location.origin}${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}`;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- butuh window.location
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- pero necesitamos window.location
     setBase(url.replace(/\/$/, '') + '/');
   }, []);
 
   const guests = useMemo(() => parse(names), [names]);
   const linkFor = (g: Guest) => `${base}?to=${encodeURIComponent(g.name)}`;
-  const messageFor = (g: Guest) => template.replaceAll('{nama}', g.name).replaceAll('{link}', linkFor(g));
+  const messageFor = (g: Guest) => template.replaceAll('{nombre}', g.name).replaceAll('{link}', linkFor(g));
 
   const copy = async (i: number, text: string) => {
     if (await copyText(text)) {
@@ -67,23 +64,23 @@ export default function Generator() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <h1 className="font-heading text-3xl font-semibold text-primary">Generator Link Undangan</h1>
+      <h1 className="font-heading text-3xl font-semibold text-primary">Generador de Enlaces para Invitaciones</h1>
       <p className="mt-1 text-sm text-muted">
-        Halaman ini hanya untuk kamu (tidak diindeks Google). Satu nama per baris, tambahkan nomor WA setelah koma kalau mau kirim langsung.
+        Esta página solo es para ti (no se indexa en Google). Un nombre por línea, agrega el número de WhatsApp después de la coma si deseas enviar directamente.
       </p>
 
       <label className="mt-6 block text-sm font-medium">
-        URL undangan
+        URL de la invitación
         <input className="field mt-1" value={base} onChange={(e) => setBase(e.target.value)} />
       </label>
 
       <label className="mt-4 block text-sm font-medium">
-        Daftar tamu
+        Lista de invitados
         <textarea className="field mt-1 font-mono text-sm" rows={6} value={names} onChange={(e) => setNames(e.target.value)} />
       </label>
 
       <details className="mt-4">
-        <summary className="cursor-pointer text-sm font-medium">Template pesan ({'{nama}'} &amp; {'{link}'} akan diganti otomatis)</summary>
+        <summary className="cursor-pointer text-sm font-medium">Plantilla de mensaje ({'{nombre}'} &amp; {'{link}'} serán reemplazados automáticamente)</summary>
         <textarea className="field mt-2 text-sm" rows={14} value={template} onChange={(e) => setTemplate(e.target.value)} />
       </details>
 
@@ -97,13 +94,13 @@ export default function Generator() {
             </a>
             <div className="mt-3 flex flex-wrap gap-2">
               <button onClick={() => copy(i, messageFor(g))} className="btn-ghost min-h-[36px] py-1.5 text-xs">
-                {copied === i ? 'Tersalin ✓' : 'Salin pesan'}
+                {copied === i ? 'Copiado ✓' : 'Copiar mensaje'}
               </button>
               <button onClick={() => copy(i, linkFor(g))} className="btn-ghost min-h-[36px] py-1.5 text-xs">
-                Salin link
+                Copiar enlace
               </button>
               <a href={waLink(messageFor(g), g.phone)} target="_blank" rel="noreferrer" className="btn-primary min-h-[36px] py-1.5 text-xs">
-                Kirim WhatsApp
+                Enviar WhatsApp
               </a>
             </div>
           </li>
