@@ -42,7 +42,7 @@ async function downloadCard(svg: SVGSVGElement, guest: string) {
   ctx.textAlign = 'center';
   ctx.fillStyle = rgb('--c-muted');
   ctx.font = `500 26px ${getComputedStyle(document.body).fontFamily}`;
-  ctx.fillText('KARTU TAMU', W / 2, 110);
+  ctx.fillText('Tarjeta de Visitante', W / 2, 110);
   ctx.fillStyle = rgb('--c-primary');
   ctx.font = `600 44px ${heading}`;
   ctx.fillText(coupleNames, W / 2, 165);
@@ -52,13 +52,13 @@ async function downloadCard(svg: SVGSVGElement, guest: string) {
   ctx.fillStyle = rgb('--c-muted');
   ctx.font = `400 24px ${getComputedStyle(document.body).fontFamily}`;
   ctx.fillText(dottedDate(wedding.events[0].date), W / 2, 770);
-  ctx.fillText('Tunjukkan QR ini kepada penerima tamu', W / 2, 860);
+  ctx.fillText('Muestra este QR al encargado de check-in', W / 2, 860);
 
   const a = document.createElement('a');
   a.href = canvas.toDataURL('image/png');
   a.download = `QR-${guest.replace(/[^\w]+/g, '-')}.png`;
   a.click();
-  toast('Kartu QR disimpan');
+  toast('Tarjeta QR guardada');
 }
 
 export default function GuestQR() {
@@ -69,14 +69,14 @@ export default function GuestQR() {
 
   return (
     <Section id="qr">
-      <SectionTitle eyebrow="Check-in" title="Kartu Tamu">
-        Tunjukkan QR ini kepada penerima tamu saat tiba di lokasi untuk check-in lebih cepat.
+      <SectionTitle eyebrow="Check-in" title="Tarjeta de Visitante">
+        Muestra este QR al encargado de check-in cuando llegues para hacer el check-in más rápido.
       </SectionTitle>
       <Reveal className="card mx-auto max-w-xs overflow-hidden px-6 py-8 text-center">
         <Corner pos="tl" className="w-14 opacity-80" />
         <Corner pos="br" className="w-14 opacity-80" />
         <div className="mx-auto w-52 rounded-2xl bg-white p-3 shadow-inner">
-          <svg id="guest-qr" viewBox={`0 0 ${box} ${box}`} shapeRendering="crispEdges" className="h-auto w-full" role="img" aria-label={`QR untuk ${guest}`}>
+          <svg id="guest-qr" viewBox={`0 0 ${box} ${box}`} shapeRendering="crispEdges" className="h-auto w-full" role="img" aria-label={`QR para ${guest}`}>
             <rect width={box} height={box} fill="#fff" />
             <path d={qr.d} transform={`translate(${MARGIN} ${MARGIN})`} fill="#111" />
           </svg>
@@ -85,12 +85,12 @@ export default function GuestQR() {
         <button
           onClick={(e) => {
             const svg = (e.currentTarget.parentElement as HTMLElement).querySelector('svg#guest-qr') as SVGSVGElement;
-            downloadCard(svg, guest).catch(() => toast('Gagal menyimpan, coba screenshot saja ya'));
+            downloadCard(svg, guest).catch(() => toast('Fallo al guardar, intenta hacer una captura de pantalla'));
           }}
           className="btn-ghost mt-4"
         >
           <Icon name="download" className="h-4 w-4" />
-          Simpan Kartu QR
+          Guardar Tarjeta QR
         </button>
       </Reveal>
     </Section>
