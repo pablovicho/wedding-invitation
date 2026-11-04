@@ -9,15 +9,16 @@ import Section from '@/components/ui/Section';
 import SectionTitle from '@/components/ui/SectionTitle';
 import { toast } from '@/components/ui/Toast';
 import { addWish, listWishes, wishesBackend, type Wish } from '@/lib/wishes';
+
 const SENT_KEY = 'wish-sent-at';
 
 function timeAgo(iso: string): string {
   const s = (Date.now() - new Date(iso).getTime()) / 1000;
-  if (s < 60) return 'baru saja';
-  if (s < 3600) return `${Math.floor(s / 60)} menit lalu`;
-  if (s < 86400) return `${Math.floor(s / 3600)} jam lalu`;
-  if (s < 86400 * 30) return `${Math.floor(s / 86400)} hari lalu`;
-  return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+  if (s < 60) return 'recién';
+  if (s < 3600) return `${Math.floor(s / 60)} minutos atrás`;
+  if (s < 86400) return `${Math.floor(s / 3600)} horas atrás`;
+  if (s < 86400 * 30) return `${Math.floor(s / 86400)} días atrás`;
+  return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 export default function Wishes() {
@@ -43,7 +44,7 @@ export default function Wishes() {
         setTotal(total);
       } catch (err) {
         console.error(err);
-        setError('Ucapan belum bisa dimuat. Coba muat ulang halaman.');
+        setError('No se pueden cargar los deseos. Intenta recargar la página.');
       } finally {
         setLoading(false);
       }
@@ -85,7 +86,7 @@ export default function Wishes() {
     try {
       const last = Number(localStorage.getItem(SENT_KEY) ?? 0);
       if (Date.now() - last < 30_000) {
-        toast('Tunggu sebentar sebelum mengirim lagi ya');
+        toast('Espera un poco antes de enviar otro');
         return;
       }
     } catch {
@@ -97,13 +98,13 @@ export default function Wishes() {
       setWishes((prev) => [wish, ...prev]);
       setTotal((t) => t + 1);
       setMessage('');
-      toast('Terima kasih atas doanya 🤍');
+      toast('Gracias por tu aporte 🤍');
       try {
         localStorage.setItem(SENT_KEY, String(Date.now()));
       } catch {}
     } catch (err) {
       console.error(err);
-      toast('Gagal mengirim, coba lagi');
+      toast('Fallo al enviar, intenta de nuevo');
     } finally {
       setSending(false);
     }
@@ -112,18 +113,18 @@ export default function Wishes() {
   return (
     <Section id="wishes">
       <div ref={sectionRef}>
-        <SectionTitle eyebrow="Wishes" title="Ucapan & Doa">
-          Kirimkan doa dan ucapan terbaik untuk kami.
+        <SectionTitle eyebrow="Deseos" title="Deseos y Mensajes">
+          Envía tus mejores deseos y mensajes para nosotros.
         </SectionTitle>
 
         <Reveal>
           <form onSubmit={submit} className="card space-y-3 p-5">
-            <input className="field" placeholder="Nama" value={name} onChange={(e) => setName(e.target.value)} maxLength={60} required autoComplete="name" />
+            <input className="field" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} maxLength={60} required autoComplete="name" />
             <div className="relative">
               <textarea
                 className="field resize-none pb-6"
                 rows={4}
-                placeholder="Tulis ucapan & doa…"
+                placeholder="Escribe tus deseos y mensajes…"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 maxLength={500}
@@ -133,13 +134,13 @@ export default function Wishes() {
             </div>
             <button type="submit" disabled={sending} className="btn-primary w-full">
               <Icon name="send" className="h-4 w-4" />
-              {sending ? 'Mengirim…' : 'Kirim Ucapan'}
+              {sending ? 'Enviando…' : 'Enviar Mensaje'}
             </button>
           </form>
         </Reveal>
 
         <div className="mt-6">
-          {total > 0 && <p className="mb-3 text-center text-xs uppercase tracking-widest text-muted">{total} ucapan</p>}
+          {total > 0 && <p className="mb-3 text-center text-xs uppercase tracking-widest text-muted">{total} deseos</p>}
           {error && <p className="text-center text-sm text-red-500">{error}</p>}
           <ul className="max-h-[32rem] space-y-3 overflow-y-auto overscroll-contain pr-1">
             {wishes.map((w) => (
@@ -161,7 +162,7 @@ export default function Wishes() {
           {!loading && wishes.length < total && (
             <div className="mt-4 text-center">
               <button onClick={() => load(wishes.length)} className="btn-ghost">
-                Lihat ucapan lainnya
+                Ver más deseos
               </button>
             </div>
           )}
