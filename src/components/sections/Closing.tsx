@@ -24,12 +24,6 @@ export default function Closing() {
 
       <Reveal className="mt-8">
         <p className="mx-auto max-w-sm text-sm leading-relaxed text-muted">{copy.closing}</p>
-        <p lang="ar" dir="rtl" className="mt-6 font-arabic text-xl leading-loose text-primary">
-          بَارَكَ اللّٰهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِيْ خَيْرٍ
-        </p>
-        <p className="mx-auto mt-1 max-w-xs text-xs italic text-muted">
-          &ldquo;Semoga Allah memberkahi kalian berdua dan mengumpulkan kalian dalam kebaikan.&rdquo;
-        </p>
         {copy.localThanks && <p className="mt-1 font-script text-3xl text-accent">{copy.localThanks}</p>}
       </Reveal>
 
