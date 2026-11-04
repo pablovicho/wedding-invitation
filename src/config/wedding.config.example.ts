@@ -2,13 +2,13 @@ import type { WeddingConfig } from './types';
 
 /**
  * ============================================================
- *  CONTOH CONFIG (data palsu) — file ini yang masuk ke git.
+ *  EJEMPLO DE CONFIGURACIÓN (datos falsos) — este archivo se incluye en git.
  *
- *  Data asli kamu ada di `wedding.config.ts` (di folder yang sama),
- *  yang dibuat otomatis dari file ini saat `npm run dev` / `npm run build`
- *  dan TIDAK ikut ter-commit (lihat .gitignore). Edit file itu, bukan ini.
+ *  Los datos reales están en `wedding.config.ts` (en la misma carpeta),
+ *  que se genera automáticamente desde este archivo cuando se ejecuta `npm run dev` / `npm run build`
+ *  y NO se incluyen en el control de versiones (ver .gitignore). Edita ese archivo, no este.
  *
- *  Foto pribadi taruh di public/private/ (juga tidak ter-commit).
+ *  Las fotos personales deben colocarse en public/private/ (también no se incluyen en el control de versiones).
  * ============================================================
  */
 export const wedding: WeddingConfig = {
@@ -17,7 +17,7 @@ export const wedding: WeddingConfig = {
 
   site: {
     url: '',
-    description: 'Dengan memohon rahmat Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di hari bahagia kami.',
+    description: 'Con la gracia de Dios, te invito a asistir al día feliz de nuestros hijos.',
     ogImage: '/images/og.jpg',
     indexable: false,
   },
@@ -30,18 +30,18 @@ export const wedding: WeddingConfig = {
       nickname: 'Ryan',
       fullName: 'Febryan Ramadhan',
       photo: '/images/couple/groom.webp',
-      childOrder: 'Putra pertama dari',
-      father: 'Bapak Maman',
-      mother: 'Ibu Tines Indrawati',
+      childOrder: 'Primer hijo de',
+      father: 'Padre Maman',
+      mother: 'Madre Tines Indrawati',
       instagram: 'username',
     },
     bride: {
       nickname: 'Nadia',
       fullName: 'Nadia Putri, S.Ds.',
       photo: '/images/couple/bride.webp',
-      childOrder: 'Putri kedua dari',
-      father: 'Bapak Ahmad Fauzi',
-      mother: 'Ibu Siti Aminah',
+      childOrder: 'Segunda hija de',
+      father: 'Padre Ahmad Fauzi',
+      mother: 'Madre Siti Aminah',
       instagram: 'username',
     },
     hashtag: '#RakaNadiaHalalJourney',
@@ -52,19 +52,19 @@ export const wedding: WeddingConfig = {
 
   events: [
     {
-      title: 'Akad Nikah',
+      title: 'Boda Civil',
       date: '2027-05-15',
       start: '08:00',
       end: '10:00',
       venue: 'Masjid Pusdai Jawa Barat',
       address: 'Jl. Diponegoro No.63, Cihaur Geulis, Kota Bandung',
       mapsUrl: 'https://maps.app.goo.gl/',
-      note: 'Khusus keluarga & kerabat dekat',
-      // Contoh dress code khusus acara ini:
-      dressCode: { note: 'Putih & broken white', colors: [{ hex: '#FFFFFF', name: 'Putih' }, { hex: '#F3EEE4', name: 'Broken White' }] },
+      note: 'Solo para familia y amigos cercanos',
+      // Ejemplo de código de vestimenta específico para este evento:
+      dressCode: { note: 'Blanco & blanco roto', colors: [{ hex: '#FFFFFF', name: 'Blanco' }, { hex: '#F3EEE4', name: 'Blanco Roto' }] },
     },
     {
-      title: 'Resepsi',
+      title: 'Recepción',
       date: '2027-05-15',
       start: '11:00',
       end: '14:00',
@@ -74,8 +74,8 @@ export const wedding: WeddingConfig = {
     },
   ],
 
-  // colors: 'theme' = otomatis mengikuti tema. Atau custom, contoh:
-  // colors: ['#F4F7FB', { hex: '#7F9DC2', name: 'Dusty Blue' }]
+  // colors: 'theme' = automáticamente sigue el tema. O personalizado, ejemplo:
+  // colors: ['#F4F7FB', { hex: '#7F9DC2', name: 'Azul Desgastado' }]
   dressCode: {
     colors: 'theme',
   },
@@ -84,7 +84,7 @@ export const wedding: WeddingConfig = {
     arabic:
       'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ',
     translation:
-      'Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.',
+      'Y entre sus signos de poder, es que ha creado para ustedes esposas de su propio sexo, para que puedan vivir con ellas y ha puesto amor y bondad entre ustedes. Verdad, en eso está el testimonio para los que reflexionan.',
     source: 'QS. Ar-Rum : 21',
   },
 
@@ -92,20 +92,20 @@ export const wedding: WeddingConfig = {
     enabled: true,
     items: [
       {
-        date: 'Januari 2024',
-        title: 'Pertama Bertemu',
-        description: 'Atas izin Allah, kami dipertemukan di sebuah kajian di Bandung. Sederhana, tapi ternyata jadi awal segalanya.',
+        date: 'Enero de 2024',
+        title: 'Primera Reunión',
+        description: 'Por la gracia de Dios, nos encontramos en una sesión de estudio en Bandung. Simple, pero eso fue el comienzo todo.',
         image: '/images/story/first-meet.webp',
       },
       {
-        date: 'Agustus 2025',
-        title: "Ta'aruf",
-        description: 'Dengan niat baik dan didampingi keluarga, kami memulai proses saling mengenal.',
+        date: 'Agosto de 2025',
+        title: "Conocimiento",
+        description: 'Con buena intención y acompañado por la familia, comenzamos el proceso de conocerse.',
       },
       {
-        date: 'Desember 2026',
-        title: 'Lamaran',
-        description: 'Dua keluarga bertemu dan bersepakat. Bismillah, kami melangkah ke jenjang berikutnya.',
+        date: 'Diciembre de 2026',
+        title: 'Propuesta',
+        description: 'Las dos familias se encontraron y acordaron. Bismillah, avanzamos al siguiente nivel.',
         image: '/images/gallery/moment-3.webp',
       },
     ],
@@ -114,14 +114,14 @@ export const wedding: WeddingConfig = {
   gallery: {
     enabled: true,
     photos: [
-      { src: '/images/gallery/prewedding-1.webp', alt: 'Foto prewedding 1' },
-      { src: '/images/gallery/moment-1.webp', alt: 'Foto prewedding 2' },
-      { src: '/images/gallery/prewedding-2.webp', alt: 'Foto prewedding 3' },
-      { src: '/images/gallery/prewedding-3.webp', alt: 'Foto prewedding 4' },
-      { src: '/images/gallery/prewedding-5.webp', alt: 'Foto prewedding 5' },
-      { src: '/images/gallery/moment-2.webp', alt: 'Foto prewedding 6' },
-      { src: '/images/gallery/prewedding-4.webp', alt: 'Foto prewedding 7' },
-      { src: '/images/gallery/moment-3.webp', alt: 'Foto prewedding 8' },
+      { src: '/images/gallery/prewedding-1.webp', alt: 'Fotografía preboda 1' },
+      { src: '/images/gallery/moment-1.webp', alt: 'Fotografía preboda 2' },
+      { src: '/images/gallery/prewedding-2.webp', alt: 'Fotografía preboda 3' },
+      { src: '/images/gallery/prewedding-3.webp', alt: 'Fotografía preboda 4' },
+      { src: '/images/gallery/prewedding-5.webp', alt: 'Fotografía preboda 5' },
+      { src: '/images/gallery/moment-2.webp', alt: 'Fotografía preboda 6' },
+      { src: '/images/gallery/prewedding-4.webp', alt: 'Fotografía preboda 7' },
+      { src: '/images/gallery/moment-3.webp', alt: 'Fotografía preboda 8' },
     ],
     youtube: '',
   },
@@ -155,14 +155,14 @@ export const wedding: WeddingConfig = {
     address: {
       recipient: 'Raka Pratama',
       phone: '081234567890',
-      address: 'Jl. Contoh No. 1, RT 01/RW 02, Kel. Contoh, Kec. Contoh, Kota Bandung 40111',
+      address: 'Jl. Contoh No. 1, RT 01/RW 02, Colonia Contoh, Distrito Contoh, Ciudad de México 40111',
     },
   },
 
   music: {
     enabled: true,
     src: '/music/song1.mp3',
-    title: 'Backsound',
+    title: 'Fondo Sonoro',
   },
 
   googleSheets: {
@@ -185,19 +185,19 @@ export const wedding: WeddingConfig = {
   },
 
   copy: {
-    coverLabel: 'The Wedding of',
-    localGreeting: 'Wilujeng Sumping',
-    coverTo: 'Kepada Yth. Bapak/Ibu/Saudara/i',
-    coverButton: 'Buka Undangan',
-    coverNote: 'Mohon maaf apabila ada kesalahan penulisan nama/gelar',
-    salam: "Assalamu'alaikum Warahmatullahi Wabarakatuh",
+    coverLabel: 'La Boda de',
+    localGreeting: 'Bienvenido/a',
+    coverTo: 'Estimado/a',
+    coverButton: 'Abrir Invitación',
+    coverNote: 'Por favor disculpe si hay algún error en la escritura del nombre o el título',
+    salam: "Asalamu'alaikum Warahmatullahi Wabarakatuh",
     opening:
-      'Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami:',
+      'Muy Sagrado Dios, que ha creado a sus criaturas en pares. Con la gracia y voluntad de Dios, queremos organizar la boda de nuestros hijos:',
     closing:
-      'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.',
+      'Es un honor y felicidad para nosotros si Estimado/a se presentan y brindan su bendición.',
     closingSalam: "Wassalamu'alaikum Warahmatullahi Wabarakatuh",
-    localThanks: 'Hatur nuhun',
-    familiesTitle: 'Kami yang berbahagia',
-    families: ['Kel. Bapak Asep Sunandar & Ibu Euis Rohaeti', 'Kel. Bapak Ahmad Fauzi & Ibu Siti Aminah'],
+    localThanks: 'Gracias',
+    familiesTitle: 'Nuestra familia que está feliz',
+    families: ['Familia Bapak Asep Sunandar & Madre Euis Rohaeti', 'Familia Bapak Ahmad Fauzi & Madre Siti Aminah'],
   },
 };
