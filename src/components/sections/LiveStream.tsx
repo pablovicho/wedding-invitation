@@ -10,12 +10,12 @@ export default function LiveStream() {
   return (
     <Section id="live">
       <SectionTitle eyebrow="Live Streaming" title="Saksikan Secara Virtual">
-        Bagi yang berhalangan hadir, acara dapat disaksikan secara langsung melalui {liveStream.platform}.
+        Para quienes no puedan asistir, el evento se puede ver en directo a través de {liveStream.platform}.
       </SectionTitle>
       <Reveal className="text-center">
         <a href={liveStream.url} target="_blank" rel="noopener noreferrer" className="btn-primary">
           <Icon name="video" className="h-4 w-4" />
-          Tonton di {liveStream.platform}
+          Ver en {liveStream.platform}
         </a>
       </Reveal>
     </Section>

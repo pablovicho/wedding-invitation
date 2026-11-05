@@ -80,16 +80,16 @@ export default function Cover() {
         >
           {wedding.effects.envelope ? (
             <>
-              <Envelope opening={opening} onOpen={start} to={copy.coverTo} guest={guest || 'Tamu Undangan'} />
+              <Envelope opening={opening} onOpen={start} to={copy.coverTo} guest={guest || 'Invitado/a'} />
               <button onClick={start} disabled={opening} className="mt-5 text-sm font-semibold text-primary underline-offset-4 hover:underline">
-                {opening ? 'Membuka…' : `Ketuk segel untuk ${copy.coverButton.toLowerCase()}`}
+                {opening ? 'Abrir...' : `Haz click en el sello para ${copy.coverButton.toLowerCase()}`}
               </button>
             </>
           ) : (
             <>
               <p className="text-sm text-muted">{copy.coverTo}</p>
               <div className="mx-auto mt-3 min-h-[3.5rem] max-w-xs rounded-2xl border border-line/80 bg-surface/70 px-5 py-3 backdrop-blur-sm">
-                <p className="font-heading text-2xl font-semibold leading-tight text-ink [overflow-wrap:anywhere]">{guest || 'Tamu Undangan'}</p>
+                <p className="font-heading text-2xl font-semibold leading-tight text-ink [overflow-wrap:anywhere]">{guest || 'Invitado/a'}</p>
               </div>
               <button onClick={start} className="btn-primary mt-7 px-7 py-3 text-base">
                 <Icon name="mail" />

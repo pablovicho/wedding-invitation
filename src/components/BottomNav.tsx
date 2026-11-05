@@ -7,7 +7,7 @@ import Icon, { type IconName } from './ui/Icon';
 // la nav sigue las secciones que realmente existen en la página, según su orden.
 const ITEMS: { id: string; label: string; icon: IconName }[] = [
   { id: 'home', label: 'Inicio', icon: 'home' },
-  { id: 'couple', label: 'Mempelai', icon: 'heart' },
+  { id: 'couple', label: 'Novios', icon: 'heart' },
   { id: 'event', label: 'Evento', icon: 'calendar' },
   { id: 'gallery', label: 'Galería', icon: 'image' },
   { id: 'rsvp', label: 'RSVP', icon: 'rsvp' },

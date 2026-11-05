@@ -12,7 +12,7 @@ import {
   Plus_Jakarta_Sans,
 } from 'next/font/google';
 import { wedding } from '@/config/wedding.config';
-import { themes } from '@/themes';
+import { themes, themeNames } from '@/themes';
 import { asset } from '@/lib/asset';
 import { coupleNames } from '@/lib/couple';
 import { longDate } from '@/lib/date';
@@ -34,7 +34,7 @@ const fonts = [jakarta, cormorant, pinyon, playfair, allura, instrument, greatVi
 
 // SITE_URL lo rellena automáticamente el workflow de GitHub Pages; si no, se usa wedding.site.url
 const siteUrl = process.env.SITE_URL || wedding.site.url;
-const title = `The Wedding of ${coupleNames}`;
+const title = `La boda de ${coupleNames}`;
 const description = `${longDate(wedding.events[0].date, wedding.timezone)} — ${wedding.site.description}`;
 
 export const metadata: Metadata = {
@@ -64,8 +64,14 @@ export const viewport: Viewport = {
 // El tema solo se puede cambiar mediante la URL en dev o si allowThemePreview: true
 const themePreview = process.env.NODE_ENV === 'development' || wedding.allowThemePreview;
 
+// Serializar de forma segura para incrustar dentro de <script> (evita romper el contexto con </script> o U+2028/U+2029)
+const themeNamesJson = JSON.stringify(themeNames)
+  .replace(/</g, '\\u003c')
+  .replace(/\u2028/g, '\\u2028')
+  .replace(/\u2029/g, '\\u2029');
+
 // Aplicar ?theme= antes de que se muestre la página para evitar parpadeos al previsualizar el tema
-const themeScript = `try{var t=new URLSearchParams(location.search).get('theme');if(${JSON.stringify(Object.keys(themes))}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`;
+const themeScript = `try{var t=new URLSearchParams(location.search).get('theme');if(${themeNamesJson}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

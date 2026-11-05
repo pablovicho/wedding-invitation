@@ -16,7 +16,7 @@ export default function Hero() {
       </Parallax>
 
       <Reveal>
-        <p className="eyebrow">The Wedding of</p>
+        <p className="eyebrow">La boda de</p>
       </Reveal>
 
       <Reveal delay={0.15} className="hero-photo relative mx-auto mt-16 [@media(max-height:720px)]:mt-14">
@@ -32,7 +32,7 @@ export default function Hero() {
 
       <Reveal delay={0.3} className="mt-8">
         <h2 className="font-heading text-[clamp(2rem,10.5vw,3rem)] font-medium leading-tight [text-wrap:balance]">
-          <span className="title-accent">{couple[0].nickname}</span> <span className="font-heading text-[0.8em] italic text-accent">&amp;</span>{' '}
+          <span className="title-accent">{couple[0].nickname}</span> <span className="font-script text-[1.2em] text-accent">&amp;</span>{' '}
           <span className="title-accent">{couple[1].nickname}</span>
         </h2>
         <p className="mt-3 text-sm uppercase tracking-[0.25em] text-muted">{longDate(wedding.events[0].date, wedding.timezone)}</p>

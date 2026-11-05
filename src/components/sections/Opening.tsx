@@ -9,8 +9,8 @@ export default function Opening() {
     <Section id="opening" className="text-center">
       <Reveal>
         <Flourish />
-        <p lang="ar" dir="rtl" className="font-arabic text-3xl leading-loose text-primary">
-          بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+        <p lang="es" dir="rtl" className="font-arabic text-3xl leading-loose text-primary">
+          &ldquo;Mira vecina, yo sé que estás divina&rdquo;
         </p>
       </Reveal>
 

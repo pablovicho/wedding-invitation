@@ -91,7 +91,7 @@ export default function Envelope({ opening, onOpen, to, guest }: { opening: bool
           type="button"
           onClick={onOpen}
           disabled={opening}
-          aria-label="Buka undangan"
+          aria-label="Invitación abierta"
           className="absolute left-1/2 top-[44%] z-[5] h-14 w-14 rounded-full"
           // transform lo gestiona motion; el translate de Tailwind será sobrescrito, así que posiciona mediante x/y
           style={{ x: '-50%', y: '-50%' }}

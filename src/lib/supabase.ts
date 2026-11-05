@@ -10,7 +10,7 @@ let client: Promise<SupabaseClient> | null = null;
 
 /** Se carga dinámicamente para que la librería de Supabase no sobrecargue la página inicial. */
 export function getSupabase(): Promise<SupabaseClient> {
-  if (!supabaseConfigured) return Promise.reject(new Error('Supabase belum dikonfigurasi'));
+  if (!supabaseConfigured) return Promise.reject(new Error('Supabase no ha sido configurado'));
   client ??= import('@supabase/supabase-js').then(({ createClient }) =>
     createClient(url!, key!, { auth: { persistSession: false } }),
   );

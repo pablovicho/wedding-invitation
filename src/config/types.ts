@@ -181,7 +181,5 @@ export interface WeddingConfig {
     closing: string;
     /** Agradecimiento en lengua regional, ej. 'Hatur nuhun' (opcional) */
     localThanks?: string;
-    familiesTitle: string;
-    families: string[];
   };
 }

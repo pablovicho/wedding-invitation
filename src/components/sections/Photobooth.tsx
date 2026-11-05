@@ -114,7 +114,7 @@ export default function Photobooth() {
   const input = useRef<HTMLInputElement>(null);
   const ornaments = useRef<HTMLDivElement>(null);
   const [photo, setPhoto] = useState<HTMLImageElement | null>(null);
-  const [layout, setLayout] = useState<Layout>('story');
+  const layout: Layout = 'story';
   const [result, setResult] = useState<{ url: string; blob: Blob } | null>(null);
   const [busy, setBusy] = useState(false);
 

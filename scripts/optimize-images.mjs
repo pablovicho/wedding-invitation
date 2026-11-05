@@ -59,4 +59,4 @@ async function makeOg(src) {
 const ogIndex = process.argv.indexOf('--og');
 for (const root of ROOTS) for await (const file of walk(root)) await optimize(file);
 if (ogIndex > -1 && process.argv[ogIndex + 1]) await makeOg(process.argv[ogIndex + 1]);
-console.log('Selesai.');
+console.log('Finalizado.');

@@ -23,6 +23,6 @@ export async function sheetsPost<T = { ok: boolean }>(action: string, data: Reco
   });
   if (!res.ok) throw new Error(`Sheets ${res.status}`);
   const body = await res.json();
-  if (!body.ok) throw new Error(body.error ?? 'Gagal menyimpan');
+  if (!body.ok) throw new Error(body.error ?? 'No se pudo guardar en Google Sheets');
   return body;
 }

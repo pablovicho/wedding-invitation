@@ -12,7 +12,7 @@ export default function Events() {
   const { events, timezone: tz, dressCode } = wedding;
   return (
     <Section id="event">
-      <SectionTitle eyebrow="Save the Date" title="Waktu & Tempat" />
+      <SectionTitle eyebrow="Aparta la fecha" title="Marce y Pablo" />
 
       <Reveal>
         <Countdown />
@@ -55,7 +55,7 @@ export default function Events() {
             {e.mapsUrl && (
               <a href={e.mapsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary mt-6">
                 <Icon name="pin" className="h-4 w-4" />
-                Buka Google Maps
+                Google Maps
               </a>
             )}
           </Reveal>

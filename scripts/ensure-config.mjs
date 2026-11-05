@@ -20,5 +20,5 @@ const HEADER = `/**
 if (!existsSync(target)) {
   const src = readFileSync(example, 'utf8');
   writeFileSync(target, src.replace(/\/\*\*[\s\S]*?\*\//, HEADER));
-  console.log(`ℹ  ${target} dibuat dari contoh. Isi data asli di file itu — file ini tidak ikut ter-commit.`);
+  console.log(`ℹ  ${target} Creado a partir de una plantilla. Introduce los datos reales en ese archivo; este archivo no se incluye en el repositorio..`);
 }

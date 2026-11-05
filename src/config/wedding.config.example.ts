@@ -18,7 +18,7 @@ export const wedding: WeddingConfig = {
   site: {
     url: '',
     description: '¡Te invito a asistir a nuestra boda!',
-    ogImage: '/images/og.jpg',
+    ogImage: '/images/og.webp',
     indexable: false,
   },
 
@@ -29,7 +29,7 @@ export const wedding: WeddingConfig = {
     groom: {
       nickname: 'Pablo',
       fullName: 'Pablo Valdés',
-      photo: '/images/couple/groom.webp',
+      photo: '/images/couple/groom.jpg',
       instagram: 'username',
     },
     bride: {
@@ -42,7 +42,7 @@ export const wedding: WeddingConfig = {
   },
 
   coverImage: '/images/gallery/prewedding-5.webp',
-  heroImage: '/images/gallery/prewedding-4.webp',
+  heroImage: '/images/novios.webp',
 
   events: [
     {
@@ -76,9 +76,9 @@ export const wedding: WeddingConfig = {
 
   quote: {
     arabic:
-      'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ',
+      '',
     translation:
-      'Y entre sus signos de poder, es que ha creado para ustedes esposas de su propio sexo, para que puedan vivir con ellas y ha puesto amor y bondad entre ustedes. Verdad, en eso está el testimonio para los que reflexionan.',
+      '',
     source: 'QS. Ar-Rum : 21',
   },
 
@@ -88,7 +88,7 @@ export const wedding: WeddingConfig = {
       {
         date: 'Enero de 2024',
         title: 'Primera Reunión',
-        description: 'Por la gracia de Dios, nos encontramos en una sesión de estudio en Bandung. Simple, pero eso fue el comienzo todo.',
+        description: 'nos encontramos en una sesión de estudio en Bandung. Simple, pero eso fue el comienzo todo.',
         image: '/images/story/first-meet.webp',
       },
       {
@@ -185,11 +185,9 @@ export const wedding: WeddingConfig = {
     coverButton: 'Abrir Invitación',
     coverNote: 'Por favor disculpe si hay algún error en la escritura del nombre o el título',
     opening:
-      'Muy Sagrado Dios, que ha creado a sus criaturas en pares. Con la gracia y voluntad de Dios, queremos organizar la boda de nuestros hijos:',
+      'Estamos muy felices de invitarte a nuestra boda:',
     closing:
-      'Es un honor y felicidad para nosotros si Estimado/a se presentan y brindan su bendición.',
+      'Es un honor y felicidad para nosotros si Estimado/a puedes acompañarnos.',
     localThanks: 'Gracias',
-    familiesTitle: 'Nuestra familia que está feliz',
-    families: ['Familia Bapak Asep Sunandar & Madre Euis Rohaeti', 'Familia Bapak Ahmad Fauzi & Madre Siti Aminah'],
   },
 };
