@@ -88,7 +88,7 @@ Also try:
 | `npm start` | Serve `out/` locally for a final check |
 | `npm run deploy` | Check the config, build, and upload to Cloudflare Pages with wrangler ([details](#deploying-to-cloudflare-pages--a-subdomain)) |
 | `npm run build:upload` | Check the config and build into `out/` for a manual upload through the Cloudflare dashboard |
-| `npm run images` | Compress photos in `public/images` and `public/private` |
+| `npm run images` | Compress photos in `public/private` (and any assets left in `public/images`) |
 | `npm run lint` / `npm run typecheck` | Code checks |
 
 ---
@@ -102,7 +102,8 @@ The repo is **public**, so real data is kept separate from the code:
 | Code & themes | `src/`, `scripts/`, … | Yes |
 | Example config (fake data) | `src/config/wedding.config.example.ts` | Yes |
 | **Your real config** | `src/config/wedding.config.ts` | **No** (`.gitignore`) |
-| **Personal photos** (prewedding, couple, og.jpg) | `public/private/…` | **No** (`.gitignore`) |
+| **Personal photos & music** (couple, gallery, story, hero, og, mp3) | `public/private/…` | **No** (`.gitignore`) |
+| Payment logos | `public/images/logos/…` | Yes |
 | Supabase key (optional) | `.env.local` | **No** (`.gitignore`) |
 
 Because the repo does not contain your real data, the site is deployed **from your laptop** (`npm run deploy`), not from GitHub.
@@ -116,7 +117,7 @@ Keep in mind:
   - **Do not publish your full home address.** Leave `gift.address` empty and ask guests to contact you on WhatsApp instead.
   - Do not share the Google Sheet publicly. The Apps Script can still write to a private sheet.
   - After the wedding, disable the gift section (`gift.enabled: false`) and redeploy, or delete the Cloudflare project.
-- **Old git history:** before this separation, older commits contained a phone number and an old Supabase URL and key (on the `gh-pages` branch). See [Cleaning old data out of git history](#cleaning-old-data-out-of-git-history).
+- **Old git history:** before this separation, older commits contained a phone number, an old Supabase URL/key, personal photos, and music. See [Cleaning old data out of git history](#cleaning-old-data-out-of-git-history).
 
 ---
 
@@ -189,13 +190,13 @@ You can also set a dress code **per event**: add `dressCode` inside an `events` 
 
 ## Photos, music & WhatsApp preview
 
-1. Put personal photos in **`public/private/`** (this folder is not committed) and reference them in the config. For example, `public/private/gallery/photo-1.webp` is written as `'/private/gallery/photo-1.webp'`. The `public/images/` folder holds the committed example photos, so do not put real photos there.
+1. Put personal photos in **`public/private/`** (this folder is not committed) and reference them in the config. For example, `public/private/gallery/photo-1.webp` is written as `'/private/gallery/photo-1.webp'`. The only committed images are non-personal assets such as payment logos under `public/images/logos/`; do not put real photos there.
 2. Compress the photos so the invitation loads quickly on mobile data:
    ```bash
    npm run images -- --og public/private/gallery/favorite-photo.webp
    ```
-   This resizes photos to at most 1600px, converts them to `.webp`, and creates **`public/private/og.jpg`** (1200×630), the image shown when the link is shared on WhatsApp. Then set `site.ogImage: '/private/og.jpg'` in the config. Original `.jpg`/`.png` files are not deleted; remove them yourself once the config points to the `.webp` files.
-3. Music: replace `public/music/song1.mp3`, ideally under 4 MB. Music starts when the guest taps the wax seal (browsers do not allow audio before a user tap).
+   This resizes photos to at most 1600px, converts them to `.webp`, and creates **`public/private/og.jpg`** (1200×630), the image shown when the link is shared on WhatsApp. Then set `site.ogImage: '/private/og.jpg'` in the config. The optimizer leaves the originals in place; this project keeps them in **`private-originals/`** (gitignored and not deployed) so only the `.webp` files are uploaded.
+3. Music: put your track in **`public/private/music/`** (not `public/music/`) and set `music.src` to `/private/music/song.mp3`, ideally under 4 MB. Music starts when the guest taps the wax seal (browsers do not allow audio before a user tap).
 4. Set **`site.url`** to the final URL (e.g. `'https://undangan.febryan.web.id'`) so the WhatsApp preview shows the image.
 
 ---
@@ -235,30 +236,48 @@ RSVPs are **always** sent via WhatsApp to the number in `rsvp.whatsapp`. The bac
    ```ts
    googleSheets: { url: 'https://script.google.com/macros/s/XXXX/exec' },
    ```
+6. In Apps Script, open **Project Settings → Script Properties** and add:
+   - `TURNSTILE_SECRET` — Cloudflare Turnstile secret (protects wishes/RSVP from bots).
+   - `GOOGLE_CLIENT_ID` — OAuth Web Client ID (enables admin login for `/checkin/`).
+   - `ADMIN_EMAILS` — comma-separated Google accounts allowed to check guests in.
 
 The **Ucapan** (wishes), **RSVP**, and **CheckIn** tabs are created automatically when the first entry arrives. To remove an inappropriate wish, delete its row in the sheet. After editing the script, use **Deploy → Manage deployments → Edit → Version: New version**.
 
-> The Web App URL is public (it is in the site's code). The script limits input length and blocks formula injection, but do not keep sensitive data in the same sheet.
+> The Web App URL is public (it is in the site's code). The script now enforces length limits, formula-injection protection, server-side rate limits, Turnstile, and Google login for check-in. Do not keep sensitive data in the same sheet.
 
 ### Option B: Supabase
 
 Used when `googleSheets.url` is empty and the Supabase environment variables are set.
 
-1. Create a project at [supabase.com](https://supabase.com) and run this in the *SQL Editor*:
-   ```sql
-   create table if not exists public.guest_book (
-     id bigint generated always as identity primary key,
-     name text not null check (char_length(name) between 1 and 60),
-     message text not null check (char_length(message) between 1 and 500),
-     created_at timestamptz not null default now()
-   );
-   alter table public.guest_book enable row level security;
-   create policy "guests can read" on public.guest_book for select to anon using (true);
-   create policy "guests can write" on public.guest_book for insert to anon with check (true);
-   ```
-2. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. This file is picked up by `npm run deploy`.
+1. Create a project at [supabase.com](https://supabase.com) and apply the hardened schema:
+   - Open the *SQL Editor* and paste `supabase/migrations/20261105000000_guest_book_security.sql`
+     (or run `supabase db push` if you use the Supabase CLI).
+   - This removes anonymous `INSERT`, keeps public `SELECT`, adds length constraints and
+     server-side rate limits.
+2. Add the server-only variables to your **Cloudflare Pages** project
+   (*Settings → Environment variables*, for Production and Preview):
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `TURNSTILE_SECRET`
+   - `ALLOWED_ORIGIN` (optional; your invitation origin)
+
+   The write endpoint lives in `functions/api/wish.ts` and is deployed automatically by
+   `wrangler pages deploy out`. Do **not** put the service-role key in `.env.local` or any
+   `NEXT_PUBLIC_*` variable.
+3. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL`,
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. This file is picked up by `npm run deploy`.
+
+Wishes are now written only by the Pages Function after verifying Turnstile; direct anonymous inserts are rejected by RLS. The endpoint is not available under plain `next dev`; use `wrangler pages dev` or test on a Pages deployment.
 
 Supabase only handles wishes. RSVP logging and synced check-ins are only available with Google Sheets.
+
+### Public forms & admin access
+
+- **Turnstile (wishes/RSVP):** create a widget at [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/), add your invitation domain as an allowed hostname, put the *Site Key* in `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, and the *Secret Key* in Apps Script (`TURNSTILE_SECRET`) or in Cloudflare Pages (`TURNSTILE_SECRET`). Without the secret, the Apps Script backend stays in compatibility mode; the Supabase endpoint rejects writes.
+- **Admin login (`/checkin/`, `/generator/`):** create an OAuth Web Client ID at [Google Cloud Console](https://console.cloud.google.com/apis/credentials), add your site origin to *Authorized JavaScript origins*, set `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, and store the same client ID plus `ADMIN_EMAILS` in Apps Script Script Properties. The check-in endpoint then rejects any request without a valid Google ID token from an allowed account.
+- **2FA:** a static site cannot implement real 2FA by itself. Put `/checkin/*` and `/generator/*` behind **Cloudflare Zero Trust Access** and use a Google/GitHub identity provider whose accounts enforce 2FA — not just email one-time codes. See [Step 6](#step-6-optional-lock-checkin--generator).
+
+> Residual risk: a determined person can still submit a fake wish or RSVP (public forms are public by design). To eliminate that, issue per-guest signed links; the current QR payload is only a name, but check-ins now require an authenticated staff session, so third parties cannot post check-ins directly.
 
 ---
 
@@ -388,8 +407,9 @@ These pages should only be reachable by you and the reception staff. Use **Cloud
 
 1. Go to **Zero Trust → Access → Applications → Add an application → Self-hosted**.
 2. Application domain: `undangan.febryan.web.id` with path `checkin`. Add another entry for path `generator`.
-3. Policy: **Allow**, Include → **Emails**, and list your email plus the reception staff's emails.
-4. When they open these pages, they will be asked for a code sent to their email. The invitation itself stays open to guests without logging in.
+3. Add an identity provider (**Google** or **GitHub**, not *One-time PIN* by itself) whose accounts have 2FA enabled.
+4. Policy: **Allow**, Include → **Emails**, and list your email plus the reception staff's emails.
+5. When they open these pages, Cloudflare asks them to sign in with that provider before serving the page. The invitation itself stays open to guests without logging in.
 
 ### Other hosting
 
@@ -409,12 +429,14 @@ GitHub Pages is not used: the repo only contains example data, so there is nothi
 - [ ] `wedding.config.ts` and `public/private/` are backed up.
 - [ ] All names, dates, times, addresses, and **Google Maps links** are correct.
 - [ ] The RSVP WhatsApp number and bank account numbers have been double-checked.
-- [ ] Example photos (silhouettes & stock) are replaced with photos in `public/private/`, and `npm run images -- --og …` has been run.
+- [ ] All personal photos and music live in `public/private/` (not `public/images/` or `public/music/`), and `npm run images -- --og …` has been run.
 - [ ] `site.url` is set; send the link to yourself on WhatsApp to check the preview image.
 - [ ] `allowThemePreview: false`.
 - [ ] Tested on **both iPhone and Android**: open the envelope, music plays, add to calendar, copy an account number, send an RSVP.
 - [ ] If using Google Sheets: send a test wish, check that it appears in the sheet, then delete the row.
-- [ ] If using check-in: scan a QR code from another phone at `/checkin/`.
+- [ ] Turnstile is configured (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` + backend secret), and a wish is rejected without a token.
+- [ ] If using check-in: `/checkin/` and `/generator/` are behind Cloudflare Access with an SSO provider whose accounts enforce 2FA.
+- [ ] If using check-in: scan a QR code from another phone at `/checkin/` and confirm the check-in endpoint rejects requests without a valid admin Google token.
 
 ---
 
@@ -490,11 +512,22 @@ scripts/
 
 ### Cleaning old data out of git history
 
-Old commits contained a phone number and a Supabase key. To keep them from being visible in the repo:
+Old commits contained a phone number, a Supabase key, personal photos, and music. To keep them from being visible in the repo:
 
 1. **Delete the `gh-pages` branch** (old build output): `git push origin --delete gh-pages`. Then in GitHub **Settings → Pages**, disable Pages or switch the source to *GitHub Actions*.
 2. **Old Supabase project:** delete it if you no longer use it. If you still use it, make sure RLS is enabled.
-3. **Scrub the number from `main`'s history** with [git-filter-repo](https://github.com/newren/git-filter-repo):
+3. **Remove personal media from every commit** with [git-filter-repo](https://github.com/newren/git-filter-repo). Run this after the files are safely in `public/private/` (gitignored):
+   ```bash
+   git filter-repo \
+     --path public/images/couple \
+     --path public/images/gallery \
+     --path public/images/story \
+     --path public/images/novios.webp \
+     --path public/images/og.webp \
+     --path public/music \
+     --invert-paths
+   ```
+4. **Scrub the number from `main`'s history** with [git-filter-repo](https://github.com/newren/git-filter-repo):
    ```bash
    echo 'REDACTED==>08xxxxxxxxx' > /tmp/replace.txt
    git filter-repo --replace-text /tmp/replace.txt

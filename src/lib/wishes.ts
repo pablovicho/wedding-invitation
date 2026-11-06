@@ -1,3 +1,4 @@
+import { asset } from './asset';
 import { getSupabase, supabaseConfigured } from './supabase';
 import { sheetsConfigured, sheetsGet, sheetsPost } from './sheets';
 
@@ -28,13 +29,20 @@ export async function listWishes(from: number, size: number): Promise<{ items: W
   return { items: data ?? [], total: count ?? from + (data?.length ?? 0) };
 }
 
-export async function addWish(name: string, message: string): Promise<Wish> {
+export async function addWish(name: string, message: string, turnstileToken?: string): Promise<Wish> {
   if (wishesBackend === 'sheets') {
-    const r = await sheetsPost<{ ok: boolean; item: Wish }>('wish', { name, message });
+    const r = await sheetsPost<{ ok: boolean; item: Wish }>('wish', { name, message, turnstileToken });
     return r.item;
   }
-  const sb = await getSupabase();
-  const { data, error } = await sb.from(TABLE).insert({ name, message }).select('id,name,message,created_at').single();
-  if (error) throw error;
-  return data as Wish;
+  // La escritura directa está bloqueada por RLS: solo el endpoint con Turnstile puede insertar.
+  const res = await fetch(asset('/api/wish'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, message, token: turnstileToken }),
+  });
+  const body = (await res.json().catch(() => ({}))) as { ok?: boolean; item?: Wish; error?: string };
+  if (!res.ok || !body.ok || !body.item) {
+    throw new Error(body.error ?? 'No se pudo guardar el mensaje');
+  }
+  return body.item;
 }

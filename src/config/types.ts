@@ -6,7 +6,7 @@ export interface Person {
   nickname: string;
   /** Nombre completo + títulos */
   fullName: string;
-  /** Ruta de la foto en la carpeta public, ej. '/images/couple/groom.webp' */
+  /** Ruta en public/private o URL absoluta, ej. '/private/couple/groom.webp' */
   photo: string;
   /** Ej. 'Primer hijo de' / 'Segunda hija de' */
   /** Usuario de Instagram sin @ (opcional) */

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import AdminGate from '@/components/AdminGate';
 import Generator from './Generator';
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <Generator />;
+  return (
+    <AdminGate>
+      <Generator />
+    </AdminGate>
+  );
 }

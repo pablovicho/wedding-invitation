@@ -2,7 +2,7 @@
   "name": "wedding-invitation",
   "version": "2.0.0",
   "private": true,
-  "description": "Undangan pernikahan digital (static) — Next.js, mobile-first, 3 tema.",
+  "description": "Invitación de boda (static) — Next.js, mobile-first, 3 temas. Este es un fork de https://github.com/Pepryan/wedding-invitation",
   "engines": {
     "node": ">=22"
   },

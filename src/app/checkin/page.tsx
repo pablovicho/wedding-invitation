@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import AdminGate from '@/components/AdminGate';
 import Checkin from './Checkin';
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <Checkin />;
+  return (
+    <AdminGate>
+      <Checkin />
+    </AdminGate>
+  );
 }

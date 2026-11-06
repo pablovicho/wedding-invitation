@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAdminToken } from '@/components/AdminGate';
 import Icon from '@/components/ui/Icon';
 import { coupleNames } from '@/lib/couple';
 import { parseCheckin } from '@/lib/qr';
@@ -48,6 +49,7 @@ function beep() {
 }
 
 export default function Checkin() {
+  const idToken = useAdminToken();
   const video = useRef<HTMLVideoElement>(null);
   const stream = useRef<MediaStream | null>(null);
   const lastScan = useRef({ text: '', at: 0 });
@@ -63,7 +65,7 @@ export default function Checkin() {
     if (!sheetsConfigured || !navigator.onLine) return;
     for (const e of load().filter((x) => !x.synced)) {
       try {
-        await sheetsPost('checkin', { name: e.name, staff: e.staff ?? '' });
+        await sheetsPost('checkin', { name: e.name, staff: e.staff ?? '', adminToken: idToken ?? undefined });
         const updated = load().map((x) => (x.at === e.at ? { ...x, synced: true } : x));
         localStorage.setItem(STORE, JSON.stringify(updated));
         setLog(updated);
@@ -71,7 +73,7 @@ export default function Checkin() {
         return; // todavía sin conexión, reintentar más tarde
       }
     }
-  }, []);
+  }, [idToken]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- setState ocurre después de que finaliza la solicitud asíncrona
@@ -106,7 +108,7 @@ export default function Checkin() {
       localStorage.setItem(STORE, JSON.stringify(next));
       setLog(next);
       if (sheetsConfigured) {
-        sheetsPost('checkin', { name, staff })
+        sheetsPost('checkin', { name, staff, adminToken: idToken ?? undefined })
           .then(() => {
             const updated = load().map((e) => (e.at === entry.at ? { ...e, synced: true } : e));
             localStorage.setItem(STORE, JSON.stringify(updated));
@@ -115,7 +117,7 @@ export default function Checkin() {
           .catch(console.error); // reenviado por syncPending
       }
     },
-    [staff],
+    [staff, idToken],
   );
 
   const stop = useCallback(() => {

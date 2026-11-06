@@ -18,7 +18,7 @@ export const wedding: WeddingConfig = {
   site: {
     url: '',
     description: '¡Te invito a asistir a nuestra boda!',
-    ogImage: '/images/og.webp',
+    ogImage: '/private/og.jpg',
     indexable: false,
   },
 
@@ -29,20 +29,20 @@ export const wedding: WeddingConfig = {
     groom: {
       nickname: 'Pablo',
       fullName: 'Pablo Valdés',
-      photo: '/images/couple/groom.jpg',
+      photo: '/private/couple/groom.webp',
       instagram: 'username',
     },
     bride: {
       nickname: 'Marce',
       fullName: 'Marcela Martínez',
-      photo: '/images/couple/bride.webp',
+      photo: '/private/couple/bride.webp',
       instagram: 'username',
     },
     hashtag: '#MarceyPabloQuique',
   },
 
-  coverImage: '/images/gallery/prewedding-5.webp',
-  heroImage: '/images/novios.webp',
+  coverImage: '/private/gallery/cover.webp',
+  heroImage: '/private/hero.webp',
 
   events: [
     {
@@ -89,7 +89,7 @@ export const wedding: WeddingConfig = {
         date: 'Enero de 2024',
         title: 'Primera Reunión',
         description: 'nos encontramos en una sesión de estudio en Bandung. Simple, pero eso fue el comienzo todo.',
-        image: '/images/story/first-meet.webp',
+        image: '/private/story/first-meet.webp',
       },
       {
         date: 'Agosto de 2025',
@@ -100,7 +100,7 @@ export const wedding: WeddingConfig = {
         date: 'Diciembre de 2026',
         title: 'Propuesta',
         description: 'Las dos familias se encontraron y acordaron. Bismillah, avanzamos al siguiente nivel.',
-        image: '/images/gallery/moment-3.webp',
+        image: '/private/story/proposal.webp',
       },
     ],
   },
@@ -108,14 +108,14 @@ export const wedding: WeddingConfig = {
   gallery: {
     enabled: true,
     photos: [
-      { src: '/images/gallery/prewedding-1.webp', alt: 'Fotografía preboda 1' },
-      { src: '/images/gallery/moment-1.webp', alt: 'Fotografía preboda 2' },
-      { src: '/images/gallery/prewedding-2.webp', alt: 'Fotografía preboda 3' },
-      { src: '/images/gallery/prewedding-3.webp', alt: 'Fotografía preboda 4' },
-      { src: '/images/gallery/prewedding-5.webp', alt: 'Fotografía preboda 5' },
-      { src: '/images/gallery/moment-2.webp', alt: 'Fotografía preboda 6' },
-      { src: '/images/gallery/prewedding-4.webp', alt: 'Fotografía preboda 7' },
-      { src: '/images/gallery/moment-3.webp', alt: 'Fotografía preboda 8' },
+      { src: '/private/gallery/photo-1.webp', alt: 'Fotografía preboda 1' },
+      { src: '/private/gallery/photo-2.webp', alt: 'Fotografía preboda 2' },
+      { src: '/private/gallery/photo-3.webp', alt: 'Fotografía preboda 3' },
+      { src: '/private/gallery/photo-4.webp', alt: 'Fotografía preboda 4' },
+      { src: '/private/gallery/photo-5.webp', alt: 'Fotografía preboda 5' },
+      { src: '/private/gallery/photo-6.webp', alt: 'Fotografía preboda 6' },
+      { src: '/private/gallery/photo-7.webp', alt: 'Fotografía preboda 7' },
+      { src: '/private/gallery/photo-8.webp', alt: 'Fotografía preboda 8' },
     ],
     youtube: '',
   },
@@ -155,7 +155,7 @@ export const wedding: WeddingConfig = {
 
   music: {
     enabled: true,
-    src: '/music/song1.mp3',
+    src: '/private/music/song.mp3',
     title: 'Fondo Sonoro',
   },
 

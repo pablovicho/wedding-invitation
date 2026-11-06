@@ -7,6 +7,7 @@ import Icon from '@/components/ui/Icon';
 import Reveal from '@/components/ui/Reveal';
 import Section from '@/components/ui/Section';
 import SectionTitle from '@/components/ui/SectionTitle';
+import Turnstile, { turnstileEnabled } from '@/components/ui/Turnstile';
 import { coupleNames } from '@/lib/couple';
 import { longDate } from '@/lib/date';
 import { sheetsConfigured, sheetsPost } from '@/lib/sheets';
@@ -21,6 +22,8 @@ export default function Rsvp() {
   const [asistencia, setAsistencia] = useState<(typeof OPCIONES)[number]>('Asistir');
   const [cantidad, setCantidad] = useState(1);
   const [notas, setNotas] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   // Llenar automáticamente desde el enlace ?to=, pero no sobrescribir lo que ya se ha escrito por el invitado
   useEffect(() => {
@@ -41,8 +44,16 @@ export default function Rsvp() {
     ].filter((l, i) => l !== '' || i === 1);
     // Registrar también en Google Sheets (si está configurado) sin esperar, para que WhatsApp se abra de inmediato
     if (sheetsConfigured) {
-      sheetsPost('rsvp', { nombre: nombre.trim(), asistencia, cantidad: asistencia === 'No Asistir' ? 0 : cantidad, notas: notas.trim() }).catch(console.error);
+      sheetsPost('rsvp', {
+        nombre: nombre.trim(),
+        asistencia,
+        cantidad: asistencia === 'No Asistir' ? 0 : cantidad,
+        notas: notas.trim(),
+        turnstileToken,
+      }).catch(console.error);
     }
+    setTurnstileToken('');
+    setTurnstileKey((k) => k + 1);
     window.open(waLink(lineas.join('\n'), rsvp.whatsapp), '_blank', 'noopener');
   };
 
@@ -104,7 +115,12 @@ export default function Rsvp() {
             <textarea className="field resize-none" rows={3} maxLength={300} value={notas} onChange={(e) => setNotas(e.target.value)} />
           </label>
 
-          <button type="submit" className="btn-primary w-full">
+          {sheetsConfigured && <Turnstile key={turnstileKey} onToken={setTurnstileToken} />}
+          <button
+            type="submit"
+            disabled={sheetsConfigured && turnstileEnabled && !turnstileToken}
+            className="btn-primary w-full"
+          >
             <Icon name="whatsapp" />
             Enviar por WhatsApp
           </button>

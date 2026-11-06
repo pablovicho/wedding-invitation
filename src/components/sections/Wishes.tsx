@@ -8,6 +8,7 @@ import Reveal from '@/components/ui/Reveal';
 import Section from '@/components/ui/Section';
 import SectionTitle from '@/components/ui/SectionTitle';
 import { toast } from '@/components/ui/Toast';
+import Turnstile, { turnstileEnabled } from '@/components/ui/Turnstile';
 import { addWish, listWishes, wishesBackend, type Wish } from '@/lib/wishes';
 
 const SENT_KEY = 'wish-sent-at';
@@ -31,6 +32,8 @@ export default function Wishes() {
   const [error, setError] = useState('');
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileKey, setTurnstileKey] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const started = useRef(false);
 
@@ -94,11 +97,13 @@ export default function Wishes() {
     }
     setSending(true);
     try {
-      const wish = await addWish(n.slice(0, 60), msg.slice(0, 500));
+      const wish = await addWish(n.slice(0, 60), msg.slice(0, 500), turnstileToken);
       setWishes((prev) => [wish, ...prev]);
       setTotal((t) => t + 1);
       setMessage('');
       toast('Gracias por tu aporte 🤍');
+      setTurnstileToken('');
+      setTurnstileKey((k) => k + 1);
       try {
         localStorage.setItem(SENT_KEY, String(Date.now()));
       } catch {}
@@ -132,7 +137,8 @@ export default function Wishes() {
               />
               <span className="absolute bottom-2 right-3 text-[11px] text-muted">{message.length}/500</span>
             </div>
-            <button type="submit" disabled={sending} className="btn-primary w-full">
+            <Turnstile key={turnstileKey} onToken={setTurnstileToken} />
+            <button type="submit" disabled={sending || (turnstileEnabled && !turnstileToken)} className="btn-primary w-full">
               <Icon name="send" className="h-4 w-4" />
               {sending ? 'Enviando…' : 'Enviar Mensaje'}
             </button>

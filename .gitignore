@@ -57,5 +57,14 @@ public/worker-*.js.map
 # ===== Datos personales de la invitación: NO hacer commit (repositorio público) =====
 /src/config/wedding.config.ts
 /public/private/
+/private-originals/
+# Fotos y música reales: usa public/private/ (solo los logos viven en public/images)
+/public/images/couple/
+/public/images/gallery/
+/public/images/story/
+/public/images/novios.webp
+/public/images/og.jpg
+/public/images/og.webp
+/public/music/
 .wrangler/
 .aider*

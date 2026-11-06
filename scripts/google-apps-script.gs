@@ -10,15 +10,26 @@
  *    -> Deploy -> autoriza el acceso -> copia "Web app URL" (termina en /exec).
  * 4. Pega esa URL en src/config/wedding.config.ts -> googleSheets.url
  *
+ * PROTECCIÓN RECOMENDADA (Project Settings -> Script Properties):
+ *   TURNSTILE_SECRET  -> secreto de Cloudflare Turnstile (protege wish/rsvp contra bots)
+ *   GOOGLE_CLIENT_ID  -> OAuth Client ID de Google (activa login para /checkin/)
+ *   ADMIN_EMAILS      -> correos autorizados separados por coma, ej. "tu@correo.com,staff@correo.com"
+ * Si GOOGLE_CLIENT_ID está definido, el check-in exige un ID token de Google válido de un correo
+ * de ADMIN_EMAILS. Si TURNSTILE_SECRET está definido, wish/rsvp exigen token de Turnstile.
+ *
  * Las pestañas "Ucapan", "RSVP" y "CheckIn" se crean automáticamente cuando llegan los primeros datos.
  * Si se modifica este script, haz Deploy -> Manage deployments -> Edit -> Version: New version.
  */
 
 var SHEETS = {
   wish: { name: 'Ucapan', header: ['Waktu', 'Nama', 'Ucapan'] },
-  rsvp: { name: 'RSVP', header: ['Waktu', 'Nama', 'Kehadiran', 'Jumlah', 'Pesan'] },
-  checkin: { name: 'CheckIn', header: ['Waktu', 'Nama', 'Sesi/Meja', 'Petugas'] },
+  rsvp: { name: 'RSVP', header: ['Waktu', 'Nombre', 'Asistencia', 'Cantidad', 'Notas'] },
+  checkin: { name: 'CheckIn', header: ['Waktu', 'Nombre', 'Sesión/Mesa', 'Personal'] },
 };
+
+function props_() {
+  return PropertiesService.getScriptProperties();
+}
 
 function sheet_(kind) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -39,8 +50,76 @@ function json_(obj) {
 
 function clean_(v, max) {
   // Evitar la inyección de fórmulas (=, +, -, @) y limitar la longitud
-  var s = String(v == null ? '' : v).trim().slice(0, max);
+  var s = String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
   return /^[=+\-@]/.test(s) ? "'" + s : s;
+}
+
+function hash_(s) {
+  return Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, String(s))).slice(0, 40);
+}
+
+/** Límite de frecuencia del lado del servidor (CacheService es compartido entre ejecuciones). */
+function rate_(key, limit, seconds) {
+  var cache = CacheService.getScriptCache();
+  var n = Number(cache.get(key) || 0);
+  if (n >= limit) return false;
+  cache.put(key, String(n + 1), seconds);
+  return true;
+}
+
+/** Verifica Turnstile solo si TURNSTILE_SECRET está configurado. */
+function verifyTurnstile_(token) {
+  var secret = props_().getProperty('TURNSTILE_SECRET');
+  if (!secret) return true;
+  if (!token) return false;
+  try {
+    var res = UrlFetchApp.fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'post',
+      payload: { secret: secret, response: String(token) },
+      muteHttpExceptions: true,
+    });
+    if (res.getResponseCode() !== 200) return false;
+    return JSON.parse(res.getContentText()).success === true;
+  } catch (err) {
+    return false;
+  }
+}
+
+/** Verifica el ID token de Google solo si GOOGLE_CLIENT_ID está configurado. */
+function verifyAdmin_(token) {
+  var p = props_();
+  var clientId = p.getProperty('GOOGLE_CLIENT_ID');
+  if (!clientId) return true; // compatibilidad: sin configurar, no se exige login
+  var admins = p.getProperty('ADMIN_EMAILS');
+  if (!admins || !token) return false;
+
+  var cache = CacheService.getScriptCache();
+  var cacheKey = 'a:' + hash_(token);
+  if (cache.get(cacheKey) === '1') return true;
+
+  try {
+    var res = UrlFetchApp.fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(String(token)), {
+      muteHttpExceptions: true,
+    });
+    if (res.getResponseCode() !== 200) return false;
+    var j = JSON.parse(res.getContentText());
+    var email = String(j.email || '').toLowerCase();
+    var allowed = admins
+      .split(',')
+      .map(function (e) {
+        return e.trim().toLowerCase();
+      })
+      .filter(Boolean);
+    var ok =
+      j.aud === clientId &&
+      String(j.email_verified) === 'true' &&
+      allowed.indexOf(email) > -1 &&
+      Number(j.exp) * 1000 > Date.now();
+    if (ok) cache.put(cacheKey, '1', 300);
+    return ok;
+  } catch (err) {
+    return false;
+  }
 }
 
 /** GET ?action=wishes&offset=0&limit=8  -> los mensajes más recientes primero */
@@ -58,7 +137,12 @@ function doGet(e) {
     if (end >= 1) {
       var rows = sh.getRange(start + 1, 1, end - start + 1, 3).getValues();
       for (var i = rows.length - 1; i >= 0; i--) {
-        items.push({ id: start + i, created_at: new Date(rows[i][0]).toISOString(), name: String(rows[i][1]).replace(/^'/, ''), message: String(rows[i][2]).replace(/^'/, '') });
+        items.push({
+          id: start + i,
+          created_at: new Date(rows[i][0]).toISOString(),
+          name: String(rows[i][1]).replace(/^'/, ''),
+          message: String(rows[i][2]).replace(/^'/, ''),
+        });
       }
     }
     return json_({ ok: true, total: total, items: items });
@@ -73,26 +157,67 @@ function doGet(e) {
 /** POST body (text/plain JSON): { action: 'wish' | 'rsvp' | 'checkin', ... } */
 function doPost(e) {
   var lock = LockService.getScriptLock();
-  lock.waitLock(10000);
   try {
-    var d = JSON.parse(e.postData.contents);
+    lock.waitLock(10000);
+  } catch (err) {
+    return json_({ ok: false, error: 'Servidor ocupado, intenta de nuevo' });
+  }
+
+  try {
+    var d = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     var now = new Date();
+
     if (d.action === 'wish') {
-      var name = clean_(d.name, 60), message = clean_(d.message, 500);
-      if (!name || !message) return json_({ ok: false, error: 'Nama dan ucapan wajib diisi' });
+      if (!verifyTurnstile_(d.turnstileToken)) {
+        return json_({ ok: false, error: 'Verificación anti-spam fallida' });
+      }
+      var name = clean_(d.name, 60);
+      var message = clean_(d.message, 500);
+      if (!name || !message) return json_({ ok: false, error: 'Nombre y mensaje son obligatorios' });
+      if (!rate_('w:' + hash_(name.toLowerCase()), 2, 60) || !rate_('w:global', 120, 60)) {
+        return json_({ ok: false, error: 'Demasiados envíos, espera un momento' });
+      }
       var sh = sheet_('wish');
       sh.appendRow([now, name, message]);
-      return json_({ ok: true, item: { id: sh.getLastRow() - 1, created_at: now.toISOString(), name: d.name, message: d.message } });
+      return json_({ ok: true, item: { id: sh.getLastRow() - 1, created_at: now.toISOString(), name: name, message: message } });
     }
+
     if (d.action === 'rsvp') {
-      sheet_('rsvp').appendRow([now, clean_(d.name, 60), clean_(d.attendance, 20), Number(d.count) || 0, clean_(d.note, 300)]);
+      if (!verifyTurnstile_(d.turnstileToken)) {
+        return json_({ ok: false, error: 'Verificación anti-spam fallida' });
+      }
+      // Acepta tanto los nombres nuevos (español) como los antiguos (inglés).
+      var nombre = clean_(d.nombre != null ? d.nombre : d.name, 60);
+      var asistencia = clean_(d.asistencia != null ? d.asistencia : d.attendance, 20);
+      if (!nombre) return json_({ ok: false, error: 'El nombre es obligatorio' });
+      if (['Asistir', 'No Asistir', 'Aún Duda'].indexOf(asistencia) === -1) asistencia = 'Aún Duda';
+      var cantidad = Number(d.cantidad != null ? d.cantidad : d.count) || 0;
+      cantidad = Math.max(0, Math.min(10, Math.round(cantidad)));
+      if (asistencia === 'No Asistir') cantidad = 0;
+      var notas = clean_(d.notas != null ? d.notas : d.note, 300);
+      if (!rate_('r:' + hash_(nombre.toLowerCase()), 1, 600) || !rate_('r:global', 30, 60)) {
+        return json_({ ok: false, error: 'Demasiados envíos, espera un momento' });
+      }
+      sheet_('rsvp').appendRow([now, nombre, asistencia, cantidad, notas]);
       return json_({ ok: true });
     }
+
     if (d.action === 'checkin') {
-      sheet_('checkin').appendRow([now, clean_(d.name, 80), clean_(d.session, 40), clean_(d.staff, 40)]);
+      if (!verifyAdmin_(d.adminToken)) {
+        return json_({ ok: false, error: 'No autorizado' });
+      }
+      var guest = clean_(d.name, 80);
+      var session = clean_(d.session, 40);
+      var staff = clean_(d.staff, 40);
+      if (!guest) return json_({ ok: false, error: 'El nombre es obligatorio' });
+      if (!rate_('c:' + hash_(guest.toLowerCase()), 1, 5)) {
+        return json_({ ok: false, error: 'Check-in demasiado rápido' });
+      }
+      sheet_('checkin').appendRow([now, guest, session, staff]);
       return json_({ ok: true });
     }
-    return json_({ ok: false, error: 'Aksi tidak dikenal' });
+
+    return json_({ ok: false, error: 'Acción desconocida' });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {
