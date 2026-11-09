@@ -151,7 +151,7 @@ function doGet(e) {
     var c = sheet_('checkin');
     return json_({ ok: true, total: Math.max(0, c.getLastRow() - 1) });
   }
-  return json_({ ok: true, message: 'Backend undangan aktif' });
+  return json_({ ok: true, message: 'Backend de invitación activo' });
 }
 
 /** POST body (text/plain JSON): { action: 'wish' | 'rsvp' | 'checkin', ... } */

@@ -50,7 +50,7 @@ export default function Cover() {
       exit={EXIT[theme]}
       role="dialog"
       aria-modal
-      aria-label="Sampul undangan"
+      aria-label="sobre de invitación"
     >
       <img src={asset(wedding.coverImage)} alt="" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
       <div className="absolute inset-0 bg-gradient-to-b from-bg/40 via-bg/75 to-bg" />

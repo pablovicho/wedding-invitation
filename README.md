@@ -10,22 +10,40 @@ This repo can stay public: your real data (names, phone numbers, bank accounts, 
 
 ## Table of contents
 
-1. [Features](#features)
-2. [Quick start](#quick-start)
-3. [Personal data & privacy](#personal-data--privacy)
-4. [Filling in the config](#filling-in-the-config)
-5. [Themes & dress code](#themes--dress-code)
-6. [Photos, music & WhatsApp preview](#photos-music--whatsapp-preview)
-7. [Personal links for each guest](#personal-links-for-each-guest)
-8. [RSVP & wishes: Google Sheets or Supabase](#rsvp--wishes-google-sheets-or-supabase)
-9. [QR check-in on the wedding day](#qr-check-in-on-the-wedding-day)
-10. [Photobooth](#photobooth)
-11. [Effects & animations](#effects--animations)
-12. [Deploying to Cloudflare Pages + a subdomain](#deploying-to-cloudflare-pages--a-subdomain)
-13. [Pre-launch checklist](#pre-launch-checklist)
-14. [Device compatibility](#device-compatibility)
-15. [Project structure & advanced customization](#project-structure--advanced-customization)
-16. [Troubleshooting](#troubleshooting)
+- [Digital Wedding Invitation](#digital-wedding-invitation)
+  - [Table of contents](#table-of-contents)
+  - [Features](#features)
+  - [Quick start](#quick-start)
+  - [Personal data \& privacy](#personal-data--privacy)
+  - [Filling in the config](#filling-in-the-config)
+  - [Themes \& dress code](#themes--dress-code)
+    - [Choosing a theme](#choosing-a-theme)
+    - [Dress code](#dress-code)
+  - [Photos, music \& WhatsApp preview](#photos-music--whatsapp-preview)
+    - [Serving media from Cloudflare R2 (optional)](#serving-media-from-cloudflare-r2-optional)
+  - [Personal links for each guest](#personal-links-for-each-guest)
+  - [RSVP \& wishes: Google Sheets or Supabase](#rsvp--wishes-google-sheets-or-supabase)
+    - [Option A: Google Sheets (recommended: free and easy for family to read)](#option-a-google-sheets-recommended-free-and-easy-for-family-to-read)
+    - [Option B: Supabase](#option-b-supabase)
+    - [Public forms \& admin access](#public-forms--admin-access)
+  - [QR check-in on the wedding day](#qr-check-in-on-the-wedding-day)
+    - [Where is check-in data stored?](#where-is-check-in-data-stored)
+  - [Photobooth](#photobooth)
+  - [Effects \& animations](#effects--animations)
+  - [Deploying to Cloudflare Pages + a subdomain](#deploying-to-cloudflare-pages--a-subdomain)
+    - [Step 1: Prepare your data](#step-1-prepare-your-data)
+    - [Step 2: Log in to Cloudflare from your laptop (once)](#step-2-log-in-to-cloudflare-from-your-laptop-once)
+    - [Step 3: Create the Pages project (once)](#step-3-create-the-pages-project-once)
+    - [Step 4: Deploy](#step-4-deploy)
+    - [Step 5: Connect the `invitacion.boda.web.id` subdomain (once)](#step-5-connect-the-invitacionbodawebid-subdomain-once)
+    - [Step 6 (optional): Lock `/checkin/` \& `/generator/`](#step-6-optional-lock-checkin--generator)
+    - [Other hosting](#other-hosting)
+  - [Pre-launch checklist](#pre-launch-checklist)
+  - [Device compatibility](#device-compatibility)
+  - [Project structure \& advanced customization](#project-structure--advanced-customization)
+  - [Troubleshooting](#troubleshooting)
+    - [Cleaning old data out of git history](#cleaning-old-data-out-of-git-history)
+  - [License](#license)
 
 ---
 
@@ -197,7 +215,7 @@ You can also set a dress code **per event**: add `dressCode` inside an `events` 
    ```
    This resizes photos to at most 1600px, converts them to `.webp`, and creates **`public/private/og.jpg`** (1200×630), the image shown when the link is shared on WhatsApp. Then set `site.ogImage: '/private/og.jpg'` in the config. The optimizer leaves the originals in place; this project keeps them in **`private-originals/`** (gitignored and not deployed) so only the `.webp` files are uploaded.
 3. Music: put your track in **`public/private/music/`** (not `public/music/`) and set `music.src` to `/private/music/song.mp3`, ideally under 4 MB. Music starts when the guest taps the wax seal (browsers do not allow audio before a user tap).
-4. Set **`site.url`** to the final URL (e.g. `'https://undangan.febryan.web.id'`) so the WhatsApp preview shows the image.
+4. Set **`site.url`** to the final URL (e.g. `'https://invitacion-boda.web.id'`) so the WhatsApp preview shows the image.
 
 ### Serving media from Cloudflare R2 (optional)
 
@@ -361,12 +379,12 @@ effects: {
 
 The invitation is uploaded **from your laptop** to Cloudflare Pages with `wrangler`, or alternatively through the Cloudflare dashboard. Cloudflare never needs to read the repo, so your real data never reaches GitHub. Everything is free: hosting, SSL, and unlimited bandwidth. Cloudflare also has servers in Jakarta, so the site is fast for guests in Indonesia.
 
-This guide uses **`undangan.febryan.web.id`** as the example, for a domain whose **nameservers already point to Cloudflare** (`*.ns.cloudflare.com`). The root domain (`febryan.web.id`) can keep serving another project or repo: the invitation subdomain is a separate project and the two do not interfere.
+This guide uses **`invitacion.boda.web.id`** as the example, for a domain whose **nameservers already point to Cloudflare** (`*.ns.cloudflare.com`). The root domain (`boda.web.id`) can keep serving another project or repo: the invitation subdomain is a separate project and the two do not interfere.
 
 ### Step 1: Prepare your data
 
 1. Fill in `src/config/wedding.config.ts` with real data.
-2. Set `site.url: 'https://undangan.febryan.web.id'`.
+2. Set `site.url: 'https://invitacion.boda.web.id'`.
 3. Make sure `allowThemePreview: false`.
 4. Put photos in `public/private/` and run `npm run images -- --og …` (see [Photos](#photos-music--whatsapp-preview)).
 5. Check how it looks with `npm run dev`.
@@ -382,10 +400,10 @@ A browser window opens. Log in with the same Cloudflare account that manages you
 ### Step 3: Create the Pages project (once)
 
 ```bash
-npx wrangler@4 pages project create undangan --production-branch=main
+npx wrangler@4 pages project create invitacion --production-branch=main
 ```
 
-The name `undangan` becomes the temporary address `undangan.pages.dev`. If it is taken, pick another name such as `undangan-febryan` and deploy with `CF_PAGES_PROJECT=undangan-febryan npm run deploy`.
+The name `invitacion` becomes the temporary address `invitacion.pages.dev`. If it is taken, pick another name such as `invitacion-boda` and deploy with `CF_PAGES_PROJECT=invitacion-boda npm run deploy`.
 
 ### Step 4: Deploy
 
@@ -398,7 +416,7 @@ The script:
 2. warns if `site.url` is empty or `allowThemePreview` is still `true`,
 3. builds the site and uploads the `out/` folder to Cloudflare.
 
-When it finishes, it prints a URL like `https://xxxx.undangan.pages.dev`. Open it to check the result.
+When it finishes, it prints a URL like `https://xxxx.invitacion.pages.dev`. Open it to check the result.
 
 **Whenever something changes** (data, photos, etc.), just run `npm run deploy` again.
 
@@ -406,29 +424,29 @@ When it finishes, it prints a URL like `https://xxxx.undangan.pages.dev`. Open i
 <summary><b>Alternative: upload through the Cloudflare dashboard (no CLI)</b></summary>
 
 1. Run `npm run build:upload`. It performs the same checks as `deploy` and builds into the `out/` folder, without uploading.
-2. **First time (create the project):** go to [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → choose **Pages** → **Upload assets** (*Direct Upload*). If you land on a Workers page, look for the *"Looking to deploy Pages? Get started"* link. Enter the project name `undangan` → **Create project** → **drag & drop the `out` folder** → **Deploy site**. Make sure `index.html` is at the top level of the uploaded file list, not inside another folder.
-3. **Later updates:** run `npm run build:upload` again, then go to project **undangan** → **Create deployment**, make sure *Production* is selected, drag & drop the `out` folder, and click **Save and Deploy**.
+2. **First time (create the project):** go to [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → choose **Pages** → **Upload assets** (*Direct Upload*). If you land on a Workers page, look for the *"Looking to deploy Pages? Get started"* link. Enter the project name `invitacion` → **Create project** → **drag & drop the `out` folder** → **Deploy site**. Make sure `index.html` is at the top level of the uploaded file list, not inside another folder.
+3. **Later updates:** run `npm run build:upload` again, then go to project **invitacion** → **Create deployment**, make sure *Production* is selected, drag & drop the `out` folder, and click **Save and Deploy**.
 
 Dashboard upload limits: 1,000 files and 25 MB per file. This invitation is about 100 files and 10 MB. Projects created in the dashboard can also be updated with `npm run deploy`, and vice versa.
 
 </details>
 
-### Step 5: Connect the `undangan.febryan.web.id` subdomain (once)
+### Step 5: Connect the `invitacion.boda.web.id` subdomain (once)
 
-1. Open [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → select project **undangan**.
+1. Open [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → select project **invitacion**.
 2. Open the **Custom domains** tab → **Set up a custom domain**.
-3. Enter `undangan.febryan.web.id` → **Continue** → **Activate domain**.
-4. Cloudflare automatically creates the DNS record `CNAME undangan → undangan.pages.dev` in the `febryan.web.id` zone, along with an SSL certificate. Nothing needs to change at your registrar (e.g. DomaiNesia), and you should **not** use its domain forwarding feature.
-5. Wait until the status is **Active** (usually 1–10 minutes), then open `https://undangan.febryan.web.id`.
+3. Enter `invitacion.boda.web.id` → **Continue** → **Activate domain**.
+4. Cloudflare automatically creates the DNS record `CNAME invitacion → invitacion.pages.dev` in the `febryan.web.id` zone, along with an SSL certificate. Nothing needs to change at your registrar (e.g. DomaiNesia), and you should **not** use its domain forwarding feature.
+5. Wait until the status is **Active** (usually 1–10 minutes), then open `https://invitacion.boda.web.id`.
 
-> If Cloudflare says a record already exists, check **febryan.web.id → DNS → Records** and make sure there is no other record named `undangan` (for example, a leftover from earlier experiments).
+> If Cloudflare says a record already exists, check **febryan.web.id → DNS → Records** and make sure there is no other record named `invitacion` (for example, a leftover from earlier experiments).
 
 ### Step 6 (optional): Lock `/checkin/` & `/generator/`
 
 These pages should only be reachable by you and the reception staff. Use **Cloudflare Zero Trust → Access** (free for up to 50 users):
 
 1. Go to **Zero Trust → Access → Applications → Add an application → Self-hosted**.
-2. Application domain: `undangan.febryan.web.id` with path `checkin`. Add another entry for path `generator`.
+2. Application domain: `invitacion.boda.web.id` with path `checkin`. Add another entry for path `generator`.
 3. Add an identity provider (**Google** or **GitHub**, not *One-time PIN* by itself) whose accounts have 2FA enabled.
 4. Policy: **Allow**, Include → **Emails**, and list your email plus the reception staff's emails.
 5. When they open these pages, Cloudflare asks them to sign in with that provider before serving the page. The invitation itself stays open to guests without logging in.
@@ -438,7 +456,7 @@ These pages should only be reachable by you and the reception staff. Use **Cloud
 The `out/` folder can be hosted anywhere (Netlify, Vercel, your own server). For a sub-folder:
 
 ```bash
-BASE_PATH=/undangan SITE_URL=https://example.com/undangan npm run build
+BASE_PATH=/invitacion SITE_URL=https://example.com/invitacion npm run build
 ```
 
 GitHub Pages is not used: the repo only contains example data, so there is nothing useful to publish from it.
@@ -524,7 +542,7 @@ scripts/
 | `npm run deploy` fails: *not authenticated* | Run `npx wrangler@4 login` |
 | `npm run deploy` fails: *project not found* | Create the project first (Step 3), or set `CF_PAGES_PROJECT` to your project name |
 | 404 or broken layout after a dashboard upload | The parent folder was probably uploaded instead of the contents of `out/`. Upload again and make sure `index.html` is at the top level |
-| Subdomain does not load | Check *Custom domains* (status must be **Active**) and the `CNAME undangan` record in Cloudflare DNS. The nameservers at your registrar must remain `*.ns.cloudflare.com` |
+| Subdomain does not load | Check *Custom domains* (status must be **Active**) and the `CNAME invitacion` record in Cloudflare DNS. The nameservers at your registrar must remain `*.ns.cloudflare.com` |
 | Photos missing after deploy | Paths in the config must start with `/private/…` or `/images/…` (without `public`), and file names must match exactly, including upper/lower case |
 | Check-in test data from localhost is missing on the live site | They are intentionally separate (see [Where is check-in data stored?](#where-is-check-in-data-stored)) |
 | Music does not play on iPhone | Make sure the silent switch is off. Music only starts after the wax seal is tapped |

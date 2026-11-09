@@ -3,7 +3,7 @@
  * Compila y sube la carpeta out/ a Cloudflare Pages (Direct Upload).
  * Los datos reales (config y public/private) también se suben desde el portátil, pero nunca llegan a GitHub.
  *
- *   npm run deploy                         -> proyecto "undangan" (usando wrangler)
+ *   npm run deploy                         -> proyecto "marceypablo" (usando wrangler)
  *   CF_PAGES_PROJECT=nombre npm run deploy -> otro proyecto
  *   npm run build:upload                   -> solo comprobar + compilar, luego subir manualmente la carpeta out/
  *                                             mediante el panel de Cloudflare (sin wrangler)
@@ -14,7 +14,7 @@ import path from 'node:path';
 
 if (existsSync('.env.local')) process.loadEnvFile('.env.local');
 
-const project = process.env.CF_PAGES_PROJECT || 'undangan';
+const project = process.env.CF_PAGES_PROJECT || 'marceypablo';
 // Comparar sin el comentario de cabecera (la cabecera del archivo real difiere del ejemplo)
 const body = (f) => readFileSync(f, 'utf8').replace(/\/\*\*[\s\S]*?\*\//, '');
 const config = readFileSync('src/config/wedding.config.ts', 'utf8');
@@ -44,7 +44,7 @@ if (process.argv.includes('--build-only')) {
   console.log(`
 ✓ Compilación completada. Sube la carpeta "out" manualmente a través del panel de Cloudflare:
     ${path.resolve('out')}
-  Workers & Pages -> proyecto undangan -> Crear despliegue -> arrastra y suelta la carpeta "out" -> Guardar y Desplegar`);
+  Workers & Pages -> proyecto marceypablo -> Crear despliegue -> arrastra y suelta la carpeta "out" -> Guardar y Desplegar`);
   process.exit(0);
 }
 

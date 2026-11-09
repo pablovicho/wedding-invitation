@@ -152,7 +152,7 @@ export default function Photobooth() {
 
   const share = async () => {
     if (!result) return;
-    const file = new File([result.blob], 'undangan-photobooth.jpg', { type: 'image/jpeg' });
+    const file = new File([result.blob], 'photobooth-invitacion.jpg', { type: 'image/jpeg' });
     if (navigator.canShare?.({ files: [file] })) {
       await navigator.share({ files: [file], title: coupleNames }).catch(() => {});
     } else {
@@ -163,7 +163,7 @@ export default function Photobooth() {
     if (!result) return;
     const a = document.createElement('a');
     a.href = result.url;
-    a.download = 'undangan-photobooth.jpg';
+    a.download = 'photobooth-invitacion.jpg';
     a.click();
   };
 

@@ -3,7 +3,7 @@ import AdminGate from '@/components/AdminGate';
 import Generator from './Generator';
 
 export const metadata: Metadata = {
-  title: 'Generator Link Undangan',
+  title: 'Generator Link marceypablo',
   robots: { index: false, follow: false },
 };
 
