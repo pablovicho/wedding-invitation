@@ -1,5 +1,5 @@
-export type ThemeName = 'samudra' | 'jati' | 'gading' | 'priangan' | 'taman' | 'langit';
-export type TimeZone = 'WIB' | 'WITA' | 'WIT';
+export type ThemeName = 'samudra' | 'jati' | 'gading' | 'priangan' | 'taman' | 'langit' | 'mareaTropical';
+export type TimeZone = 'CST';
 
 export interface Person {
   /** Apodo, se muestra en grande en la portada */

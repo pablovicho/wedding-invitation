@@ -25,7 +25,7 @@ export default function Gallery() {
 
   return (
     <Section id="gallery">
-      <SectionTitle eyebrow="Moments" title="Galeri" />
+      <SectionTitle eyebrow="" title="Nosotros" />
 
       {yt && (
         <Reveal className="card mb-4 aspect-video overflow-hidden">

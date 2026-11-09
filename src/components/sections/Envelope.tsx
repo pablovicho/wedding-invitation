@@ -56,7 +56,7 @@ export default function Envelope({ opening, onOpen, to, guest }: { opening: bool
           transition={{ duration: 0.7, delay: 0.55, ease: EASE }}
         >
           <Crest className="w-16" />
-          <p className="mt-1 font-script text-2xl leading-none text-primary">
+          <p className="mt-1 font-script text-2xl leading-none text-surface">
             {couple[0].nickname} &amp; {couple[1].nickname}
           </p>
         </m.div>

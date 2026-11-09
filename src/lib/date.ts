@@ -1,7 +1,7 @@
 import type { TimeZone, WeddingEvent } from '@/config/types';
 
-const OFFSET: Record<TimeZone, string> = { WIB: '+07:00', WITA: '+08:00', WIT: '+09:00' };
-const IANA: Record<TimeZone, string> = { WIB: 'America/Mexico_City', WITA: 'America/Mexico_City', WIT: 'America/Mexico_City' };
+const OFFSET: Record<TimeZone, string> = { CST: '-06:00' };
+const IANA: Record<TimeZone, string> = { CST: 'America/Mexico_City' };
 
 /**
  * Incluye siempre el desfase de zona horaria. `new Date('2027-05-15')` se interpreta como UTC,

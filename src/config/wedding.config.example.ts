@@ -22,7 +22,7 @@ export const wedding: WeddingConfig = {
     indexable: false,
   },
 
-  timezone: 'WIB',
+  timezone: 'CST',
 
   couple: {
     order: 'groom-first',

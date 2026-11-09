@@ -22,7 +22,7 @@ export default function Home() {
         <DesktopAside />
         <main className="relative z-10 mx-auto max-w-phone lg:mr-0 lg:w-[30rem] lg:max-w-none lg:shadow-[-20px_0_60px_-30px_rgb(0_0_0/0.4)]">
           <Hero />
-          <Opening />
+          {/* <Opening /> */}
           <Couple />
           <Events />
           <GuestQR />

@@ -20,6 +20,7 @@ const EXIT: Record<ThemeName, TargetAndTransition> = {
   priangan: { y: '-100%', transition: { duration: 1, ease: [0.76, 0, 0.24, 1] } },
   taman: { opacity: 0, scale: 1.08, filter: 'blur(10px)', transition: { duration: 0.9 } },
   langit: { clipPath: 'circle(0% at 50% 82%)', transition: { duration: 0.9, ease: [0.65, 0, 0.35, 1] } },
+  mareaTropical: { opacity: 0, scale: 1.06, filter: 'blur(8px)', transition: { duration: 0.9 } },
 };
 
 // El valor inicial de clip-path debe ser del mismo tipo que el final para poder animarse
@@ -81,7 +82,7 @@ export default function Cover() {
           {wedding.effects.envelope ? (
             <>
               <Envelope opening={opening} onOpen={start} to={copy.coverTo} guest={guest || 'Invitado/a'} />
-              <button onClick={start} disabled={opening} className="mt-5 text-sm font-semibold text-primary underline-offset-4 hover:underline">
+              <button onClick={start} disabled={opening} className={`mt-5 text-sm font-semibold ${wedding.theme === 'mareaTropical'? 'text-primary' : 'text-primary'} underline-offset-4 hover:underline`}>
                 {opening ? 'Abrir...' : `Haz click en el sello para ${copy.coverButton.toLowerCase()}`}
               </button>
             </>

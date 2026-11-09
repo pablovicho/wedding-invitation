@@ -169,8 +169,8 @@ export default function Photobooth() {
 
   return (
     <Section id="photobooth">
-      <SectionTitle eyebrow="Fotografía" title="Fotografía Juntos">
-        Elige o toma una foto, luego se ajustará automáticamente al diseño de la invitación. Listo para compartir en Story!
+      <SectionTitle eyebrow="Fotografía" title="Nuestra foto contigo">
+        Elige o toma una foto, luego se ajustará automáticamente al diseño de la invitación. ¡Listo para compartir!
       </SectionTitle>
 
       {/* Ornamento fuente para el canvas — no visible */}

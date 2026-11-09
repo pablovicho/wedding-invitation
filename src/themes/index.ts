@@ -78,6 +78,22 @@ export const themes: Record<ThemeName, ThemeMeta> = {
       colors: [{ hex: '#E9D5AA', name: 'Champagne' }, { hex: '#C9CDD6', name: 'Silver' }, { hex: '#1E2C4A', name: 'Navy' }, { hex: '#0D1628', name: 'Midnight' }],
     },
   },
+  mareaTropical: {
+    label: 'Marea Tropical (Tropical)',
+    vibe: 'Naturaleza, bosque — colores verdes y azules',
+    themeColor: '#1f4746',
+    particle: 'petal',
+    particleCount: 16,
+    dressCode: {
+      note: 'Telas naturales',
+      colors: [
+        { hex: '#9fc6c6', name: 'Hielo' },
+        { hex: '#ed6e76', name: 'Coral' },
+        { hex: '#448887', name: 'Verde oscuro' },
+        { hex: '#1f4746', name: 'Verde olivo' },
+      ],
+    },
+  },
 };
 
 export const themeNames = Object.keys(themes) as ThemeName[];

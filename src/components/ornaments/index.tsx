@@ -10,6 +10,7 @@ import { GadingCorner, GadingCrest, GadingDivider } from './gading';
 import { Gunungan, MegaMendungBand } from './jabar';
 import { JatiCorner, JatiCrest, JatiDivider } from './jati';
 import { SamudraCorner, SamudraCrest, SamudraDivider, WavePattern } from './samudra';
+import { MareaCorner, MareaCrest, MareaDivider } from './mareaTropical';
 import { LEAF_PATH, MelatiFlower, PETAL_PATH, SPARKLE_PATH } from './shapes';
 import type { ThemeName } from '@/config/types';
 
@@ -38,6 +39,7 @@ const SETS: Record<ThemeName, { corner: Ornament; divider: Ornament; crest: Orna
   langit: { corner: LangitHanging, divider: LangitDivider, crest: LangitCrest, pattern: StarPattern },
   jati: { corner: JatiCorner, divider: JatiDivider, crest: JatiCrest, pattern: DotPattern },
   gading: { corner: GadingCorner, divider: GadingDivider, crest: GadingCrest, pattern: DotPattern },
+  mareaTropical: { corner: MareaCorner, divider: MareaDivider, crest: MareaCrest, pattern: WavePattern },
 };
 
 /** Ornamento de esquina; colócalo dentro de un elemento `relative` */
@@ -109,7 +111,10 @@ export function Backdrop() {
       {(theme === 'taman' || theme === 'samudra' || theme === 'jati') && (
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgb(var(--c-primary)/0.10),transparent_45%),radial-gradient(circle_at_90%_80%,rgb(var(--c-accent)/0.14),transparent_45%)]" />
       )}
-      <svg className={`absolute inset-0 h-full w-full ${theme === 'langit' ? 'text-primary/[.05]' : theme === 'gading' ? 'text-accent/[.07]' : 'text-accent/[.09]'}`}>
+      {(theme === 'mareaTropical') && (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgb(var(--color-shades-700)),transparent_45%),radial-gradient(circle_at_90%_80%,rgb(var(--c-accent)/0.14),transparent_45%)]" />
+      )}
+      <svg className={`absolute inset-0 h-full w-full ${theme === 'langit' ? 'text-primary/[.05]' : theme === 'gading' ? 'text-accent/[.07]' : theme === 'mareaTropical' ? 'text-surface/[.35]' : 'text-accent/[.09]'}`}>
         <defs>
           <Pattern id={id} />
         </defs>

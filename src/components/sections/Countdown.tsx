@@ -8,10 +8,10 @@ import { coupleNames, mainEvent } from '@/lib/couple';
 import { eventStart } from '@/lib/date';
 
 const UNITS = [
-  ['Día', 86_400_000],
-  ['Hora', 3_600_000],
-  ['Minuto', 60_000],
-  ['Segundo', 1000],
+  ['Días', 86_400_000],
+  ['Horas', 3_600_000],
+  ['Minutos', 60_000],
+  ['Segundos', 1000],
 ] as const;
 
 function split(ms: number): number[] {

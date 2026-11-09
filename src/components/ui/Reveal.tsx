@@ -32,6 +32,10 @@ const VARIANTS: Record<ThemeName, Variants> = {
     hidden: { opacity: 0, scale: 0.94, filter: 'blur(6px)' },
     show: { opacity: 1, scale: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: EASE } },
   },
+  mareaTropical: {
+    hidden: { opacity: 0, y: 18, filter: 'blur(6px)' },
+    show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.9, ease: EASE } },
+  },
 };
 
 // Asegurarse de que cada variante defina todas las mismas propiedades; si el tema cambia después de

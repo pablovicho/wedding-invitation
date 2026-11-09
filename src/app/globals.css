@@ -104,6 +104,32 @@
   --title-gradient: linear-gradient(100deg, #c9a96e 0%, #f3e4c0 35%, #fff8e8 50%, #f3e4c0 65%, #c9a96e 100%);
   color-scheme: dark;
 }
+
+[data-theme='mareaTropical'] {
+  --color-shades-900: #e0ebeb;
+  --color-shades-800: #c0d8d8;
+  --color-shades-700: #9fc6c6;
+  --color-shades-600: #7cb6b5;
+  --color-shades-500: #58a7a6;
+  --color-shades-400: #448887;
+  --color-shades-300: #316867;
+  --color-shades-200: #1f4746;
+  --color-shades-100: #0f2424;
+  --c-bg: 224 235 235;
+  --c-surface: 192 216 216;
+  --c-ink: 15 36 36;
+  --c-muted: 49 104 103;
+  --c-primary: 31 71 70;
+  --c-on-primary: 224 235 235;
+  --c-accent: 237 110 118;
+  --c-line: 159 198 198;
+  --font-heading: var(--font-fraunces);
+  --font-script: var(--font-greatvibes);
+  --radius: 1.5rem;
+  --shadow: 0 12px 32px -16px rgb(15 36 36 / 0.3);
+  --title-gradient: linear-gradient(100deg, var(--color-shades-700) 0%, var(--color-shades-600) 30%, var(--color-shades-500) 50%, var(--color-shades-400) 70%, var(--color-shades-200) 100%);
+}
+
 /* Instrument Serif solo tiene 1 grosor: no dejes que el navegador cree negrita falsa */
 [data-theme='langit'] .font-heading,
 [data-theme='langit'] .font-script,

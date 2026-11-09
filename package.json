@@ -17,7 +17,9 @@
     "lint": "eslint .",
     "pretypecheck": "node scripts/ensure-config.mjs",
     "typecheck": "tsc --noEmit",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "media:upload": "node scripts/upload-r2.mjs",
+    "media:upload:dry": "node scripts/upload-r2.mjs --dry-run"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",

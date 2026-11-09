@@ -26,6 +26,10 @@ const SHAPES: Record<ThemeName, string[]> = {
     `<svg viewBox="-10 -10 20 20"><path d="${SPARKLE_PATH}" style="fill:rgb(var(--c-primary))"/></svg>`,
     `<svg viewBox="-10 -10 20 20"><polygon points="${octagramPoints(9)}" style="fill:rgb(var(--c-primary))"/></svg>`,
   ],
+  mareaTropical: [
+    `<svg viewBox="-6 -9 12 18"><path d="${PETAL_PATH}" style="fill:rgb(var(--c-surface)/.6)"/></svg>`,
+    `<svg viewBox="-6 -9 12 18"><path d="${PETAL_PATH}" style="fill:rgb(var(--c-accent)/.8)"/></svg>`,
+  ],
 };
 
 /** Pequeña explosión de adornos en el punto del toque. Se omite en los campos de entrada y en el modo de movimiento reducido. */

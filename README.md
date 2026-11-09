@@ -199,6 +199,28 @@ You can also set a dress code **per event**: add `dressCode` inside an `events` 
 3. Music: put your track in **`public/private/music/`** (not `public/music/`) and set `music.src` to `/private/music/song.mp3`, ideally under 4 MB. Music starts when the guest taps the wax seal (browsers do not allow audio before a user tap).
 4. Set **`site.url`** to the final URL (e.g. `'https://undangan.febryan.web.id'`) so the WhatsApp preview shows the image.
 
+### Serving media from Cloudflare R2 (optional)
+
+The config keeps using `/private/...` paths; when `NEXT_PUBLIC_MEDIA_BASE_URL` is set, `asset()` rewrites them to that base. For example, `/private/gallery/1.webp` becomes `https://media.tudominio.com/gallery/1.webp`.
+
+1. In **Cloudflare dashboard → R2 → bucket `wedding` → Settings**, enable public access:
+   - Recommended: connect a **custom domain** such as `media.tudominio.com`.
+   - Or enable the **`r2.dev` URL** for testing (rate-limited; not recommended for production).
+2. Authenticate Wrangler once: `npx wrangler login`.
+3. Upload the optimized media, preserving folder names:
+   ```bash
+   npm run media:upload:dry   # list the object keys
+   npm run media:upload       # upload to R2_BUCKET (default: wedding)
+   ```
+4. Set the public base URL in `.env.local` (and in the Pages project if you build there):
+   ```bash
+   NEXT_PUBLIC_MEDIA_BASE_URL=https://media.tudominio.com
+   ```
+5. Rebuild and redeploy: `npm run deploy`.
+6. Once uploaded, you can remove `public/private/` to avoid uploading duplicate media to Pages. Keep a local backup; `npm run media:upload` uses it as the source.
+
+No CORS configuration is needed for normal `<img>` or audio playback. Add a CORS rule only if you later fetch these files with JavaScript or draw them to a canvas.
+
 ---
 
 ## Personal links for each guest

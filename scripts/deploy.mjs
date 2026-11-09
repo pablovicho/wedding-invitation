@@ -9,8 +9,10 @@
  *                                             mediante el panel de Cloudflare (sin wrangler)
  */
 import { execSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
+
+if (existsSync('.env.local')) process.loadEnvFile('.env.local');
 
 const project = process.env.CF_PAGES_PROJECT || 'undangan';
 // Comparar sin el comentario de cabecera (la cabecera del archivo real difiere del ejemplo)
@@ -32,6 +34,11 @@ const run = (cmd, env = {}) => execSync(cmd, { stdio: 'inherit', env: { ...proce
 
 // Dominio personalizado en la raíz: sin base path
 run('npm run build', { BASE_PATH: '' });
+
+if (process.env.NEXT_PUBLIC_MEDIA_BASE_URL) {
+  rmSync(path.resolve('out/private'), { recursive: true, force: true });
+  console.log('✓ out/private omitido: las imágenes se sirven desde NEXT_PUBLIC_MEDIA_BASE_URL');
+}
 
 if (process.argv.includes('--build-only')) {
   console.log(`
