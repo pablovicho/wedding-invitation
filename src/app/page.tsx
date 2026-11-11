@@ -11,6 +11,7 @@ import Hero from '@/components/sections/Hero';
 import LiveStream from '@/components/sections/LiveStream';
 import Opening from '@/components/sections/Opening';
 import Photobooth from '@/components/sections/Photobooth';
+import Playlist from '@/components/sections/Playlist';
 import Rsvp from '@/components/sections/Rsvp';
 import Story from '@/components/sections/Story';
 import Wishes from '@/components/sections/Wishes';
@@ -33,6 +34,7 @@ export default function Home() {
           <Rsvp />
           <Wishes />
           <Gift />
+          <Playlist />
           <Closing />
         </main>
       </Invitation>

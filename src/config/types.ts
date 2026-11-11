@@ -182,4 +182,10 @@ export interface WeddingConfig {
     /** Agradecimiento en lengua regional, ej. 'Hatur nuhun' (opcional) */
     localThanks?: string;
   };
+
+  playlist: {
+    enabled: boolean;
+    platform: string;
+    url: string;
+  };
 }

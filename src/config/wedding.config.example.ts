@@ -190,4 +190,10 @@ export const wedding: WeddingConfig = {
       'Es un honor y felicidad para nosotros si Estimado/a puedes acompañarnos.',
     localThanks: 'Gracias',
   },
+
+    playlist: {
+      enabled: true,
+      platform: 'Youtube',
+      url: 'https://www.youtube.com/playlist?list=XXX-XXXXXX',
+  }
 };
