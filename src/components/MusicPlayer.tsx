@@ -13,14 +13,21 @@ export default function MusicPlayer() {
   // Se reproduce automáticamente al abrir la portada (clic en el botón = permiso de autoplay del navegador)
   const wanted = useRef(true);
 
+  // baja el volumen por defecto a 0.5 (50%) para no molestar al invitado
+
   // Iniciar justo cuando el invitado toca "abrir" (permiso de autoplay del navegador)
   useEffect(() => {
     const onGesture = () => {
-      if (wanted.current) audio.current?.play().catch(() => setPlaying(false));
+
+      if (wanted.current) {
+        audio.current?.play().catch(() => setPlaying(false));
+        audio.current?.volume && (audio.current.volume = 0.1); // Lower the volume to 0.5 when the music starts
+      }
     };
     window.addEventListener(GESTURE_EVENT, onGesture);
     return () => window.removeEventListener(GESTURE_EVENT, onGesture);
   }, []);
+  
 
   // Pausar cuando el invitado cambia de aplicación / se bloquea la pantalla, continuar al volver
   useEffect(() => {
@@ -58,7 +65,7 @@ export default function MusicPlayer() {
       {opened && (
         <button
           onClick={toggle}
-          aria-label={playing ? 'Jeda musik' : 'Putar musik'}
+          aria-label={playing ? 'Pausar música' : 'Reproducir música'}
           className="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface/90 text-primary shadow-lg backdrop-blur"
         >
           <span className={`grid h-8 w-8 place-items-center rounded-full bg-[repeating-radial-gradient(circle,rgb(var(--c-ink)/.85)_0_1px,rgb(var(--c-ink))_1px_3px)] ${playing ? 'animate-spin-slow' : ''}`}>
@@ -66,7 +73,7 @@ export default function MusicPlayer() {
               <span className="h-1 w-1 rounded-full bg-surface" />
             </span>
           </span>
-          <span className="sr-only">{playing ? 'Jeda' : 'Putar'}</span>
+          <span className="sr-only">{playing ? 'Pausa' : 'Reproducir'}</span>
           {!playing && <Icon name="play" className="absolute h-3 w-3 translate-x-3 translate-y-3 fill-current" />}
         </button>
       )}
