@@ -262,7 +262,7 @@ The easiest way is **`/generator/`**:
 
 ## RSVP & wishes: Google Sheets or Supabase
 
-RSVPs are **always** sent via WhatsApp to the number in `rsvp.whatsapp`. The backends below are optional; they log RSVPs, store wishes, and record check-ins. If neither is configured, the *Ucapan & Doa* (wishes) section is hidden automatically.
+RSVPs are **always** sent via WhatsApp to the number in `rsvp.whatsapp`. The backends below are optional; they log RSVPs, store wishes, and record check-ins. If neither is configured, the *Libro de visitas* (wishes) section is hidden automatically.
 
 ### Option A: Google Sheets (recommended: free and easy for family to read)
 
@@ -281,7 +281,7 @@ RSVPs are **always** sent via WhatsApp to the number in `rsvp.whatsapp`. The bac
    - `GOOGLE_CLIENT_ID` — OAuth Web Client ID (enables admin login for `/checkin/`).
    - `ADMIN_EMAILS` — comma-separated Google accounts allowed to check guests in.
 
-The **Ucapan** (wishes), **RSVP**, and **CheckIn** tabs are created automatically when the first entry arrives. To remove an inappropriate wish, delete its row in the sheet. After editing the script, use **Deploy → Manage deployments → Edit → Version: New version**.
+The **Libro de visitas** (wishes), **RSVP**, and **CheckIn** tabs are created automatically when the first entry arrives. To remove an inappropriate wish, delete its row in the sheet. After editing the script, use **Deploy → Manage deployments → Edit → Version: New version**.
 
 > The Web App URL is public (it is in the site's code). The script now enforces length limits, formula-injection protection, server-side rate limits, Turnstile, and Google login for check-in. Do not keep sensitive data in the same sheet.
 

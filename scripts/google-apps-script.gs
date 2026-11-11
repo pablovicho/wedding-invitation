@@ -1,5 +1,5 @@
 /**
- * Backend de Google Sheets para la invitación (RSVP, Ucapan & Doa, Check-in de invitados).
+ * Backend de Google Sheets para la invitación (RSVP, Libro de visitas, Check-in de invitados).
  *
  * CÓMO INSTALAR (una sola vez, gratis):
  * 1. Crea una Google Sheets nueva -> menú Extensions -> Apps Script.
@@ -17,12 +17,12 @@
  * Si GOOGLE_CLIENT_ID está definido, el check-in exige un ID token de Google válido de un correo
  * de ADMIN_EMAILS. Si TURNSTILE_SECRET está definido, wish/rsvp exigen token de Turnstile.
  *
- * Las pestañas "Ucapan", "RSVP" y "CheckIn" se crean automáticamente cuando llegan los primeros datos.
+ * Las pestañas "Libro de visitas", "RSVP" y "CheckIn" se crean automáticamente cuando llegan los primeros datos.
  * Si se modifica este script, haz Deploy -> Manage deployments -> Edit -> Version: New version.
  */
 
 var SHEETS = {
-  wish: { name: 'Ucapan', header: ['Waktu', 'Nama', 'Ucapan'] },
+  wish: { name: 'Libro de visitas', header: ['Hora', 'Nombre', 'Libro de visitas'] },
   rsvp: { name: 'RSVP', header: ['Waktu', 'Nombre', 'Asistencia', 'Cantidad', 'Notas'] },
   checkin: { name: 'CheckIn', header: ['Waktu', 'Nombre', 'Sesión/Mesa', 'Personal'] },
 };

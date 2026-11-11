@@ -17,7 +17,7 @@ export const wedding: WeddingConfig = {
 
   site: {
     url: '',
-    description: '¡Te invito a asistir a nuestra boda!',
+    description: '¡Te invito a nuestra boda!',
     ogImage: '/private/og.jpg',
     indexable: false,
   },
