@@ -50,7 +50,7 @@ async function compose(photo: HTMLImageElement, layout: Layout, ornaments: HTMLE
   ctx.fillRect(0, 0, L.w, L.h);
   const g = ctx.createRadialGradient(L.w / 2, L.h * 0.4, 100, L.w / 2, L.h * 0.4, L.h * 0.8);
   g.addColorStop(0, color('--c-surface', 0.9));
-  g.addColorStop(1, color('--c-accent', 0.12));
+  g.addColorStop(1, color('--c-muted', 0.12));
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, L.w, L.h);
 

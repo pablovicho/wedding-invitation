@@ -13,6 +13,7 @@ const ITEMS: { id: string; label: string; icon: IconName }[] = [
   { id: 'rsvp', label: 'RSVP', icon: 'rsvp' },
   { id: 'wishes', label: 'Mensajes', icon: 'chat' },
   { id: 'gift', label: 'Regalo', icon: 'gift' },
+  { id: 'playlist', label: 'Playlist', icon: 'play' },
 ];
 
 type Item = (typeof ITEMS)[number];
