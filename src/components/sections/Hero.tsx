@@ -20,8 +20,8 @@ export default function Hero() {
       </Reveal>
 
       <Reveal delay={0.15} className="hero-photo relative mx-auto mt-16 [@media(max-height:720px)]:mt-14">
-        <div className="arch absolute -inset-3 border border-accent/60" />
-        <div className="arch absolute -inset-1.5 border border-accent/30" />
+        <div className="arch absolute -inset-3 border-4 border-muted/60" />
+        <div className="arch absolute -inset-1.5 border border-muted/30" />
         <Tilt>
           <div className="arch relative aspect-[3/4] overflow-hidden bg-line/40 shadow-xl">
             <img src={asset(wedding.heroImage)} alt="" className="h-full w-full object-cover" />

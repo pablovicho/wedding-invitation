@@ -11,8 +11,8 @@ function Profile({ person }: { person: Person }) {
   return (
     <Reveal className="text-center">
       <div className="relative mx-auto w-48">
-        <div className="arch absolute -inset-2.5 rotate-[-4deg] border border-accent/50" />
-        <div className="arch absolute -inset-2.5 rotate-[4deg] border border-primary/25" />
+        <div className="arch absolute -inset-2.5 rotate-[-4deg] border-2 border-accent/50" />
+        <div className="arch absolute -inset-2.5 rotate-[4deg] border-2 border-primary/25" />
         <div className="arch relative aspect-[4/5] overflow-hidden bg-line/40 shadow-lg">
           <img src={asset(person.photo)} alt={person.fullName} loading="lazy" className="h-full w-full object-cover" />
         </div>
