@@ -13,15 +13,13 @@ export default function MusicPlayer() {
   // Se reproduce automáticamente al abrir la portada (clic en el botón = permiso de autoplay del navegador)
   const wanted = useRef(true);
 
-  // baja el volumen por defecto a 0.5 (50%) para no molestar al invitado
-
   // Iniciar justo cuando el invitado toca "abrir" (permiso de autoplay del navegador)
   useEffect(() => {
     const onGesture = () => {
-
+      
       if (wanted.current) {
         audio.current?.play().catch(() => setPlaying(false));
-        audio.current?.volume && (audio.current.volume = 0.2); // Lower the volume to 0.2 when the music starts
+        audio.current?.volume && (audio.current.volume = 0.2); // Baja el volumen a 0.2
       }
     };
     window.addEventListener(GESTURE_EVENT, onGesture);
