@@ -119,7 +119,8 @@ export default function Wishes() {
     <Section id="wishes">
       <div ref={sectionRef}>
         <SectionTitle eyebrow="Deseos" title="Deseos y Mensajes">
-          Envía tus mejores deseos y mensajes para nosotros.
+          Envía tus mejores deseos y mensajes para nosotros. 
+          ¡También aceptamos recomendaciones de actividades para la boda!
         </SectionTitle>
 
         <Reveal>
@@ -129,7 +130,7 @@ export default function Wishes() {
               <textarea
                 className="field resize-none pb-6"
                 rows={4}
-                placeholder="Escribe tus deseos y mensajes…"
+                placeholder="Escribe tu mensaje…"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 maxLength={500}
@@ -137,7 +138,11 @@ export default function Wishes() {
               />
               <span className="absolute bottom-2 right-3 text-[11px] text-muted">{message.length}/500</span>
             </div>
-            <Turnstile key={turnstileKey} onToken={setTurnstileToken} />
+              <div className="flex justify-center m-0 p-0">
+                <div className="m-0 p-0 -mt-3 mb-4 h-10" style={{ transform: 'scale(0.75)', transformOrigin: 'bottom center' }}>
+                  <Turnstile key={turnstileKey} onToken={setTurnstileToken} size="normal" />
+                </div>
+              </div>
             <button type="submit" disabled={sending || (turnstileEnabled && !turnstileToken)} className="btn-primary w-full">
               <Icon name="send" className="h-4 w-4" />
               {sending ? 'Enviando…' : 'Enviar Mensaje'}

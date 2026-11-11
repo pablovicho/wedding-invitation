@@ -13,6 +13,7 @@ interface TurnstileApi {
     opts: {
       sitekey: string;
       theme?: 'auto' | 'light' | 'dark';
+      size?: 'normal' | 'compact' | 'flexible';
       callback: (token: string) => void;
       'expired-callback'?: () => void;
       'error-callback'?: () => void;
@@ -31,7 +32,13 @@ declare global {
  * Widget de Cloudflare Turnstile. Si NEXT_PUBLIC_TURNSTILE_SITE_KEY no está definido,
  * no renderiza nada y los formularios no exigen token.
  */
-export default function Turnstile({ onToken }: { onToken: (token: string) => void }) {
+export default function Turnstile({
+  onToken,
+  size = 'flexible',
+}: {
+  onToken: (token: string) => void;
+  size?: 'normal' | 'compact' | 'flexible';
+}) {
   const container = useRef<HTMLDivElement>(null);
   const widget = useRef<string | null>(null);
 
@@ -45,6 +52,7 @@ export default function Turnstile({ onToken }: { onToken: (token: string) => voi
       widget.current = window.turnstile.render(container.current, {
         sitekey: SITE_KEY,
         theme: 'auto',
+        size,
         callback: onToken,
         'expired-callback': () => onToken(''),
         'error-callback': () => onToken(''),
@@ -73,7 +81,7 @@ export default function Turnstile({ onToken }: { onToken: (token: string) => voi
         widget.current = null;
       }
     };
-  }, [onToken]);
+  }, [onToken, size]);
 
   if (!SITE_KEY) return null;
 
