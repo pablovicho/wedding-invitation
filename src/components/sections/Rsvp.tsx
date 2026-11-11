@@ -112,7 +112,13 @@ export default function Rsvp() {
 
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium">Notas (opcional)</span>
-            <textarea className="field resize-none" rows={3} maxLength={300} value={notas} onChange={(e) => setNotas(e.target.value)} />
+            <textarea 
+              className="field resize-none placeholder:text-sm placeholder:text-gray-500"
+              rows={3} 
+              maxLength={300} 
+              value={notas} 
+              placeholder="¿Cuántos adultos y cuántos niños? ¿Alguna alergia, restricción alimentaria, o necesidad especial?" 
+              onChange={(e) => setNotas(e.target.value)} />
           </label>
 
           {sheetsConfigured && 

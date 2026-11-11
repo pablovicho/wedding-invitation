@@ -23,7 +23,7 @@ export default function Closing() {
       </Reveal>
 
       <Reveal className="mt-8">
-        <p className="mx-auto max-w-sm text-sm leading-relaxed text-muted">{copy.closing}</p>
+        <p className="mx-auto max-w-sm text-md leading-relaxed text-muted mb-16">{copy.closing}</p>
         {copy.localThanks && <p className="mt-1 font-script text-3xl text-accent">{copy.localThanks}</p>}
       </Reveal>
 

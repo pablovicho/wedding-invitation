@@ -38,7 +38,7 @@ export default function Couple() {
   return (
     <Section id="couple" className="text-center">
       <Reveal>
-        <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-muted">{copy.opening}</p>
+        <p className="mx-auto mt-4 max-w-sm text-md leading-relaxed text-muted">{copy.opening}</p>
       </Reveal>
 
       <div className="mt-14 space-y-6">
