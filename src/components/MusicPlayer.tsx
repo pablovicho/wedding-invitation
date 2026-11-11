@@ -21,7 +21,7 @@ export default function MusicPlayer() {
 
       if (wanted.current) {
         audio.current?.play().catch(() => setPlaying(false));
-        audio.current?.volume && (audio.current.volume = 0.1); // Lower the volume to 0.5 when the music starts
+        audio.current?.volume && (audio.current.volume = 0.2); // Lower the volume to 0.2 when the music starts
       }
     };
     window.addEventListener(GESTURE_EVENT, onGesture);
