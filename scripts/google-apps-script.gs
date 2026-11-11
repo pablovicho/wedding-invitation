@@ -85,13 +85,12 @@ function verifyTurnstile_(token) {
   }
 }
 
-/** Verifica el ID token de Google solo si GOOGLE_CLIENT_ID está configurado. */
+/** Verifica el ID token de Google. Sin GOOGLE_CLIENT_ID y ADMIN_EMAILS no se autoriza nada. */
 function verifyAdmin_(token) {
   var p = props_();
   var clientId = p.getProperty('GOOGLE_CLIENT_ID');
-  if (!clientId) return true; // compatibilidad: sin configurar, no se exige login
   var admins = p.getProperty('ADMIN_EMAILS');
-  if (!admins || !token) return false;
+  if (!clientId || !admins || !token) return false;
 
   var cache = CacheService.getScriptCache();
   var cacheKey = 'a:' + hash_(token);

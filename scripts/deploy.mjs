@@ -8,13 +8,17 @@
  *   npm run build:upload                   -> solo comprobar + compilar, luego subir manualmente la carpeta out/
  *                                             mediante el panel de Cloudflare (sin wrangler)
  */
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
 
 if (existsSync('.env.local')) process.loadEnvFile('.env.local');
 
 const project = process.env.CF_PAGES_PROJECT || 'marceypablo';
+if (!/^[a-z0-9][a-z0-9-]{0,62}$/.test(project)) {
+  console.error('✖ CF_PAGES_PROJECT contiene caracteres no válidos. Usa solo minúsculas, números y guiones.');
+  process.exit(1);
+}
 // Comparar sin el comentario de cabecera (la cabecera del archivo real difiere del ejemplo)
 const body = (f) => readFileSync(f, 'utf8').replace(/\/\*\*[\s\S]*?\*\//, '');
 const config = readFileSync('src/config/wedding.config.ts', 'utf8');
@@ -30,10 +34,13 @@ if (/allowThemePreview:\s*true/.test(config)) {
   console.warn('⚠  allowThemePreview aún es true — los invitados pueden cambiar el tema a través de ?theme=&preview');
 }
 
-const run = (cmd, env = {}) => execSync(cmd, { stdio: 'inherit', env: { ...process.env, ...env } });
+const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const npx = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+const run = (file, args, env = {}) =>
+  execFileSync(file, args, { stdio: 'inherit', env: { ...process.env, ...env } });
 
 // Dominio personalizado en la raíz: sin base path
-run('npm run build', { BASE_PATH: '' });
+run(npm, ['run', 'build'], { BASE_PATH: '' });
 
 if (process.env.NEXT_PUBLIC_MEDIA_BASE_URL) {
   rmSync(path.resolve('out/private'), { recursive: true, force: true });
@@ -48,4 +55,13 @@ if (process.argv.includes('--build-only')) {
   process.exit(0);
 }
 
-run(`npx --yes wrangler@4 pages deploy out --project-name=${project} --branch=main --commit-dirty=true`);
+run(npx, [
+  '--yes',
+  'wrangler@4',
+  'pages',
+  'deploy',
+  'out',
+  `--project-name=${project}`,
+  '--branch=main',
+  '--commit-dirty=true',
+]);
