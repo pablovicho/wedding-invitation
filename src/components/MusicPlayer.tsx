@@ -16,10 +16,9 @@ export default function MusicPlayer() {
   // Iniciar justo cuando el invitado toca "abrir" (permiso de autoplay del navegador)
   useEffect(() => {
     const onGesture = () => {
-      
       if (wanted.current) {
+        if (audio.current) audio.current.volume = 0.2; // Baja el volumen a 0.2
         audio.current?.play().catch(() => setPlaying(false));
-        audio.current?.volume && (audio.current.volume = 0.2); // Baja el volumen a 0.2
       }
     };
     window.addEventListener(GESTURE_EVENT, onGesture);

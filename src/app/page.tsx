@@ -9,7 +9,6 @@ import Gift from '@/components/sections/Gift';
 import GuestQR from '@/components/sections/GuestQR';
 import Hero from '@/components/sections/Hero';
 import LiveStream from '@/components/sections/LiveStream';
-import Opening from '@/components/sections/Opening';
 import Photobooth from '@/components/sections/Photobooth';
 import Playlist from '@/components/sections/Playlist';
 import Rsvp from '@/components/sections/Rsvp';
