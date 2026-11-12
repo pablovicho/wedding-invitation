@@ -16,10 +16,17 @@ export default function MusicPlayer() {
   // Iniciar justo cuando el invitado toca "abrir" (permiso de autoplay del navegador)
   useEffect(() => {
     const onGesture = () => {
+<<<<<<< HEAD
       
+=======
+>>>>>>> ebb3287 (fix: harden Apps Script and resolve lint issues)
       if (wanted.current) {
+        if (audio.current) audio.current.volume = 0.2; // Lower the volume to 0.2 when the music starts
         audio.current?.play().catch(() => setPlaying(false));
+<<<<<<< HEAD
         audio.current?.volume && (audio.current.volume = 0.2); // Baja el volumen a 0.2
+=======
+>>>>>>> ebb3287 (fix: harden Apps Script and resolve lint issues)
       }
     };
     window.addEventListener(GESTURE_EVENT, onGesture);
