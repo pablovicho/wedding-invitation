@@ -1,3 +1,4 @@
+/** @OnlyCurrentDoc */
 /**
  * Backend de Google Sheets para la invitación (RSVP, Libro de visitas, Check-in de invitados).
  *
@@ -9,6 +10,11 @@
  *      Who has access: Anyone
  *    -> Deploy -> autoriza el acceso -> copia "Web app URL" (termina en /exec).
  * 4. Pega esa URL en src/config/wedding.config.ts -> googleSheets.url
+ * 5. Recomendado: Project Settings -> Show "appsscript.json" manifest file in editor,
+ *    y limita oauthScopes a:
+ *      "https://www.googleapis.com/auth/spreadsheets.currentonly"
+ *      "https://www.googleapis.com/auth/script.external_request"
+ *    El script ya lleva @OnlyCurrentDoc, así que solo accede a esta hoja, no a todo Drive.
  *
  * PROTECCIÓN RECOMENDADA (Project Settings -> Script Properties):
  *   TURNSTILE_SECRET  -> secreto de Cloudflare Turnstile (protege wish/rsvp contra bots)
