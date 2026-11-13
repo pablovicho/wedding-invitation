@@ -53,7 +53,7 @@ async function optimize(file) {
 async function makeOg(src) {
   const out = path.join(OG_DIR, 'og.jpg');
   await sharp(src).rotate().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 78, mozjpeg: true }).toFile(out);
-  console.log(`✓ ${path.relative(process.cwd(), out)} dibuat dari ${src}`);
+  console.log(`✓ ${path.relative(process.cwd(), out)} created from ${src}`);
 }
 
 const ogIndex = process.argv.indexOf('--og');
