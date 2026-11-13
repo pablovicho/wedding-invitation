@@ -81,9 +81,10 @@ export default function Cover() {
         >
           {wedding.effects.envelope ? (
             <>
-              <Envelope opening={opening} onOpen={start} to={copy.coverTo} guest={guest || 'Invitado/a'} />
+              <Envelope opening={opening} onOpen={start} to={copy.coverTo} guest={guest || 'cómplice(s)'} />
               <button onClick={start} disabled={opening} className={`mt-5 text-sm font-semibold ${wedding.theme === 'mareaTropical'? 'text-primary' : 'text-primary'} underline-offset-4 hover:underline`}>
-                {opening ? 'Abrir...' : `Haz click en el sello para ${copy.coverButton.toLowerCase()}`}
+                <p>{opening ? 'Abrir...' : `Haz click en el sello para ${copy.coverButton.toLowerCase()}`}.</p>
+                <p>¡Y sube el volumen!</p>
               </button>
             </>
           ) : (

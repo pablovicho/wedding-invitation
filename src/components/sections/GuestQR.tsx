@@ -70,7 +70,7 @@ export default function GuestQR() {
   return (
     <Section id="qr">
       <SectionTitle eyebrow="Check-in" title="Tarjeta de Visitante">
-        Muestra este QR al encargado de check-in cuando llegues para hacer el check-in más rápido.
+        Al llegar, muestra este QR a la persona encargada de la recepción. Esto agilizará tu bienvenida. 🤗
       </SectionTitle>
       <Reveal className="card mx-auto max-w-xs overflow-hidden px-6 py-8 text-center">
         <Corner pos="tl" className="w-14 opacity-80" />

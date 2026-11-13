@@ -15,7 +15,7 @@ export default function DressCode({ value, compact = false }: { value: DressCode
     <div className="text-center">
       <p className={`font-semibold uppercase tracking-[0.25em] text-primary ${compact ? 'text-[10px]' : 'text-xs'}`}>Dress Code</p>
       {note && <p className={`mt-1 text-muted ${compact ? 'text-xs' : 'text-sm'}`}>{note}</p>}
-      <ul className="mt-3 flex flex-wrap justify-center gap-3">
+      {/* <ul className="mt-3 flex flex-wrap justify-center gap-3">
         {colors.map((c) => (
           <li key={c.hex + c.name} className="flex w-14 flex-col items-center gap-1">
             <span
@@ -26,7 +26,7 @@ export default function DressCode({ value, compact = false }: { value: DressCode
             {c.name && <span className="text-[10px] leading-tight text-muted">{c.name}</span>}
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
