@@ -16,7 +16,7 @@ function waxPath(r: number, bumps = 14): string {
 const WAX = waxPath(28);
 
 function Seal() {
-  const initials = `${couple[0].nickname.charAt(0)}${couple[1].nickname.charAt(0)}`.toUpperCase();
+  const initials = `${couple[1].nickname.charAt(0)}${couple[0].nickname.charAt(0)}`.toUpperCase();
   return (
     <svg viewBox="0 0 64 64" className="h-full w-full drop-shadow-[0_4px_6px_rgb(0_0_0/0.35)]" aria-hidden>
       <defs>
@@ -57,7 +57,7 @@ export default function Envelope({ opening, onOpen, to, guest }: { opening: bool
         >
           <Crest className="w-16" />
           <p className="mt-1 font-script text-2xl leading-none text-surface">
-            {couple[0].nickname} &amp; {couple[1].nickname}
+            {couple[1].nickname} &amp; {couple[0].nickname}
           </p>
         </m.div>
 

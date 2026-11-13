@@ -58,7 +58,7 @@ function GiftPeek({ onOpen }: { onOpen: () => void }) {
           <Icon name="gift" className="h-4 w-4" />
           Envía un regalo
         </span>
-        <span className="text-xs text-muted">Haz clic para ver los detalles{wedding.gift.address ? ' y la dirección' : ''}</span>
+        <span className="text-xs text-muted">Haz clic para ver los detalles</span>
         <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 animate-bounce text-accent" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -136,7 +136,7 @@ export default function Gift() {
             {gift.address && (
               <m.div variants={item} className="card p-5 text-center">
                 <Icon name="gift" className="mx-auto h-7 w-7 text-accent" />
-                <p className="mt-2 font-heading text-lg font-semibold">Envía un regalo</p>
+                <p className="mt-2 font-heading text-lg font-semibold">Mesa de regalos</p>
                 <p className="mt-1 text-sm font-medium">{gift.address.recipient}</p>
                 {gift.address.phone && <p className="text-sm text-muted">{gift.address.phone}</p>}
                 <p className="mt-1 text-sm leading-relaxed text-muted">{gift.address.address}</p>
