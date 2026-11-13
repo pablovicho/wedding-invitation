@@ -29,8 +29,8 @@
 
 var SHEETS = {
   wish: { name: 'Libro de visitas', header: ['Hora', 'Nombre', 'Libro de visitas'] },
-  rsvp: { name: 'RSVP', header: ['Waktu', 'Nombre', 'Asistencia', 'Cantidad', 'Notas'] },
-  checkin: { name: 'CheckIn', header: ['Waktu', 'Nombre', 'Sesión/Mesa', 'Personal'] },
+  rsvp: { name: 'RSVP', header: ['Fecha', 'Nombre', 'Asistencia', 'Cantidad', 'Notas'] },
+  checkin: { name: 'CheckIn', header: ['Fecha', 'Nombre', 'Sesión/Mesa', 'Personal'] },
 };
 
 function props_() {
