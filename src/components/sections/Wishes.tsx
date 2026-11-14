@@ -47,7 +47,7 @@ export default function Wishes() {
         setTotal(total);
       } catch (err) {
         console.error(err);
-        setError('No se pueden cargar los deseos. Intenta recargar la página.');
+        setError('No se pueden cargar los mensajes. Intenta recargar la página.');
       } finally {
         setLoading(false);
       }
@@ -118,8 +118,8 @@ export default function Wishes() {
   return (
     <Section id="wishes">
       <div ref={sectionRef}>
-        <SectionTitle eyebrow="Deseos" title="Deseos y Mensajes">
-          Envía tus mejores deseos y mensajes para nosotros. 
+        <SectionTitle eyebrow="Deseos" title="Mensajes">
+          Envía tu mensaje para nosotros. 
           ¡También aceptamos recomendaciones de actividades para la boda!
         </SectionTitle>
 
@@ -151,7 +151,7 @@ export default function Wishes() {
         </Reveal>
 
         <div className="mt-6">
-          {total > 0 && <p className="mb-3 text-center text-xs uppercase tracking-widest text-muted">{total} deseos</p>}
+          {total > 0 && <p className="mb-3 text-center text-xs uppercase tracking-widest text-muted">{total} mensajes</p>}
           {error && <p className="text-center text-sm text-red-500">{error}</p>}
           <ul className="max-h-[32rem] space-y-3 overflow-y-auto overscroll-contain pr-1">
             {wishes.map((w) => (
@@ -173,7 +173,7 @@ export default function Wishes() {
           {!loading && wishes.length < total && (
             <div className="mt-4 text-center">
               <button onClick={() => load(wishes.length)} className="btn-ghost">
-                Ver más deseos
+                Ver más mensajes
               </button>
             </div>
           )}

@@ -133,7 +133,7 @@ export default function Gift() {
   return (
     <Section id="gift">
       <SectionTitle eyebrow="Regalo" title="Gracias por tu regalo">
-        Tu agradecimiento es muy importante para nosotros. Pero si deseas hacer un regalo, puedes hacerlo a través de:
+        Tu compañía es lo más importante para nosotros, pero si deseas darnos un obsequio, puedes hacerlo en persona o a través de:
       </SectionTitle>
 
       <AnimatePresence initial={false} mode="wait">

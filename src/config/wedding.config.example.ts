@@ -180,7 +180,7 @@ export const wedding: WeddingConfig = {
 
   copy: {
     coverLabel: 'La Boda de',
-    localGreeting: 'Bienvenido/a',
+    localGreeting: 'Bienvenido/a a',
     coverTo: 'Estimado/a',
     coverButton: 'Abrir Invitación',
     coverNote: 'Por favor disculpe si hay algún error en la escritura del nombre o el título',

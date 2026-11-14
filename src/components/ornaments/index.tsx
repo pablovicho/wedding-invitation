@@ -112,7 +112,7 @@ export function Backdrop() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgb(var(--c-primary)/0.10),transparent_45%),radial-gradient(circle_at_90%_80%,rgb(var(--c-accent)/0.14),transparent_45%)]" />
       )}
       {(theme === 'mareaTropical') && (
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgb(var(--color-shades-700)),transparent_45%),radial-gradient(circle_at_90%_80%,rgb(var(--c-accent)/0.14),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgb(var(--color-shades-800)),transparent_45%),radial-gradient(circle_at_90%_80%,rgb(var(--c-accent)/0.14),transparent_45%)]" />
       )}
       <svg className={`absolute inset-0 h-full w-full ${theme === 'langit' ? 'text-primary/[.05]' : theme === 'gading' ? 'text-accent/[.07]' : theme === 'mareaTropical' ? 'text-surface/[.35]' : 'text-accent/[.09]'}`}>
         <defs>
