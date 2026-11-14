@@ -60,7 +60,7 @@ export default function Envelope({ opening, onOpen, to, guest }: { opening: bool
             {couple[1].nickname} &amp; {couple[0].nickname}
           </p>
           <p className="mt-5 font-script text-2xl leading-none text-shades-400">
-            {guest || 'Cómplice(s)'}
+            {guest || 'Cómplice'}
           </p>
         </m.div>
 

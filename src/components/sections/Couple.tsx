@@ -36,9 +36,9 @@ function Profile({ person }: { person: Person }) {
 export default function Couple() {
   const { copy } = wedding;
   return (
-    <Section id="couple" className="text-center">
+    <Section id="couple" className="text-center -mt-10">
       <Reveal>
-        <p className="mx-auto mt-4 max-w-sm text-md leading-relaxed text-muted">{copy.opening}</p>
+        <p className="mx-auto mt-4 max-w-sm text-xl leading-relaxed text-muted">{copy.opening}</p>
       </Reveal>
 
       <div className="mt-14 space-y-6">

@@ -40,7 +40,7 @@ export default function Cover() {
     if (!wedding.effects.envelope) return open();
     setOpening(true);
     const quick = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setTimeout(open, quick ? 100 : 1450);
+    setTimeout(open, quick ? 100 : 1750);
   };
 
   return (
@@ -81,7 +81,7 @@ export default function Cover() {
         >
           {wedding.effects.envelope ? (
             <>
-              <Envelope opening={opening} onOpen={start} to={copy.coverTo} guest={guest || 'cómplice(s)'} />
+              <Envelope opening={opening} onOpen={start} to={copy.coverTo} guest={guest || 'cómplice'} />
               <button onClick={start} disabled={opening} className={`mt-5 text-sm font-semibold ${wedding.theme === 'mareaTropical'? 'text-primary' : 'text-primary'} underline-offset-4 hover:underline`}>
                 <p>{opening ? 'Abrir...' : `Haz click en el sello para ${copy.coverButton.toLowerCase()}`}.</p>
                 <p>¡Y sube el volumen!</p>
