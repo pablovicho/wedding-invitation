@@ -17,7 +17,7 @@ async function copy(text: string, label: string) {
   toast(ok ? `${label} copiado ✓` : 'Fallo al copiar, copia manualmente');
 }
 
-const CARD_BG = 'bg-gradient-to-br from-primary via-primary/90 to-accent text-on-primary';
+const CARD_BG = "bg-gradient-to-br from-primary via-primary/90 to-shades-700 text-on-primary";
 const FAN = [
   { rotate: -7, x: -18 },
   { rotate: 5, x: 16 },
@@ -83,25 +83,43 @@ function AccountCard({ acc }: { acc: GiftAccount }) {
       <div className="relative flex items-start justify-between">
         {acc.type === 'bank' ? (
           <span className="h-7 w-10 rounded-md bg-gradient-to-br from-yellow-100 to-yellow-500/80 shadow-inner" aria-hidden />
+        ) : acc.type === 'gift registry' ? (
+          <>
+            <span className="h-7 w-10 rounded-md bg-gradient-to-br from-orange-100 to-accent shadow-inner" aria-hidden />
+            <div className="flex flex-col items-left">
+              <span className="text-[11px] uppercase tracking-widest opacity-80">Mesa de Regalos </span>
+              <span className="text-[11px] uppercase tracking-widest opacity-80">{acc.provider}</span>
+            </div>
+          </>
         ) : (
           <span className="text-[11px] uppercase tracking-widest opacity-80">E-Wallet</span>
         )}
         {acc.logo ? (
-          <img src={asset(acc.logo)} alt={acc.provider} className="h-8 max-w-[6rem] rounded bg-white/90 object-contain px-1.5 py-0.5" />
+          <div className="flex h-8 w-16 shrink-0 items-center justify-center overflow-hidden rounded bg-none">
+            <img src={asset(acc.logo)} alt={acc.provider} className="h-auto w-full" />
+          </div>
         ) : (
           <span className="font-heading text-xl font-bold italic">{acc.provider}</span>
         )}
       </div>
-      <p className="relative mt-6 font-mono text-xl tracking-[0.12em] [overflow-wrap:anywhere]">{number.replace(/(.{4})(?=.)/g, '$1 ')}</p>
-      <div className="relative mt-3 flex items-end justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-[10px] uppercase tracking-widest opacity-70">a.n.</p>
-          <p className="truncate text-sm font-semibold">{acc.holder}</p>
-        </div>
-        <button onClick={() => copy(number, 'Número')} className="btn min-h-[40px] shrink-0 bg-white/20 px-4 py-2 text-xs text-on-primary backdrop-blur">
-          <Icon name="copy" className="h-4 w-4" />
-          Copiar
-        </button>
+        <p className="relative mt-6 font-mono text-xl tracking-[0.12em] [overflow-wrap:anywhere]">{number.replace(/(.{4})(?=.)/g, '$1 ')}</p>
+          <div className="relative mt-3 flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[10px] uppercase tracking-widest opacity-70">nombre</p>
+            <p className="truncate text-sm font-semibold">{acc.holder}</p>
+          </div>
+      {acc.type !== 'gift registry' && (
+          <button onClick={() => copy(number, 'Número')} className="btn min-h-[40px] shrink-0 bg-white/20 px-4 py-2 text-xs text-on-primary backdrop-blur">
+            <Icon name="copy" className="h-4 w-4" />
+            Copiar
+          </button>
+          )}
+        {acc.url && (
+          <a href={acc.url} target="_blank" rel="noopener noreferrer" className="btn min-h-[40px] shrink-0 bg-white/20 px-4 py-2 text-xs text-on-primary backdrop-blur">
+            <Icon name="gift" className="h-4 w-4" />
+            Visitar
+          </a>
+        )}
       </div>
     </div>
   );

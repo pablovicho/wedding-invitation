@@ -13,7 +13,7 @@ import { longDate } from '@/lib/date';
 import { sheetsConfigured, sheetsPost } from '@/lib/sheets';
 import { waLink } from '@/lib/whatsapp';
 
-const OPCIONES = ['Asistiré', 'No Asistiré', 'Aún No Decido'] as const;
+const OPCIONES = ['Asistiré', 'No asistiré', 'Aún no decido'] as const;
 
 export default function Rsvp() {
   const { guest } = useInvitation();
@@ -39,7 +39,7 @@ export default function Rsvp() {
       `Hola, yo *${nombre.trim()}* quiero confirmar mi asistencia a la boda de ${coupleNames}.`,
       '',
       `Asistencia: *${asistencia}*`,
-      asistencia !== 'No Asistiré' ? `Cantidad de invitados: ${cantidad} personas` : '',
+      asistencia !== 'No asistiré' ? `Cantidad de invitados: ${cantidad} personas` : '',
       notas.trim() ? `Notas: ${notas.trim()}` : '',
     ].filter((l, i) => l !== '' || i === 1);
     // Registrar también en Google Sheets (si está configurado) sin esperar, para que WhatsApp se abra de inmediato
@@ -47,7 +47,7 @@ export default function Rsvp() {
       sheetsPost('rsvp', {
         nombre: nombre.trim(),
         asistencia,
-        cantidad: asistencia === 'No Asistiré' ? 0 : cantidad,
+        cantidad: asistencia === 'No asistiré' ? 0 : cantidad,
         notas: notas.trim(),
         turnstileToken,
       }).catch(console.error);
@@ -90,7 +90,7 @@ export default function Rsvp() {
             </div>
           </fieldset>
 
-          {asistencia !== 'No Asistiré' && (
+          {asistencia !== 'No asistiré' && (
             <div>
               <span className="mb-1.5 block text-sm font-medium">Cantidad de invitados</span>
               <div className="flex items-center justify-between rounded-2xl border border-line bg-surface p-1.5">

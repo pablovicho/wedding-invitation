@@ -41,12 +41,13 @@ export interface WeddingEvent {
 }
 
 export interface GiftAccount {
-  type: 'bank' | 'ewallet';
+  type: 'bank' | 'ewallet' | 'gift registry';
   provider: string;
   number: string;
   holder: string;
   /** Ruta del logo (opcional) */
   logo?: string;
+  url?: string;
 }
 
 export interface WeddingConfig {

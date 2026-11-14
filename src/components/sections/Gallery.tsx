@@ -42,7 +42,7 @@ export default function Gallery() {
 
       <div className="columns-2 gap-2.5 [column-fill:_balance]">
         {photos.map((p, i) => (
-          <Reveal key={p.src} delay={(i % 4) * 0.05} className="mb-2.5 break-inside-avoid">
+          <Reveal key={p.src} delay={(i % 4) * 0.05} className="mb-2.5 break-inside-avoid hover:scale-110 transition-transform duration-900">
             <button
               onClick={() => setIndex(i)}
               className="group block w-full overflow-hidden rounded-2xl bg-line/40 shadow-sm"

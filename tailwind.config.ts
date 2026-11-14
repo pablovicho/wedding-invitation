@@ -3,6 +3,7 @@ import type { Config } from 'tailwindcss';
 // Todos los colores se toman de variables CSS del tema (ver src/themes/*.css),
 // así que cambiar de tema = cambiar un solo atributo data-theme en <html>.
 const token = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;
+const shade = (name: string) => `rgb(var(--color-shades-${name}) / <alpha-value>)`;
 
 export default {
   content: ['./src/**/*.{ts,tsx}'],
@@ -17,6 +18,17 @@ export default {
         'on-primary': token('on-primary'),
         accent: token('accent'),
         line: token('line'),
+        shades: {
+          100: shade('100'),
+          200: shade('200'),
+          300: shade('300'),
+          400: shade('400'),
+          500: shade('500'),
+          600: shade('600'),
+          700: shade('700'),
+          800: shade('800'),
+          900: shade('900'),
+        },
       },
       fontFamily: {
         body: ['var(--font-body)', 'system-ui', 'sans-serif'],
