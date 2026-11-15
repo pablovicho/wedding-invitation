@@ -191,14 +191,21 @@ function doPost(e) {
       if (!verifyTurnstile_(d.turnstileToken)) {
         return json_({ ok: false, error: 'Verificación anti-spam fallida' });
       }
-      // Acepta tanto los nombres nuevos (español) como los antiguos (inglés).
       var nombre = clean_(d.nombre != null ? d.nombre : d.name, 60);
-      var asistencia = clean_(d.asistencia != null ? d.asistencia : d.attendance, 20);
+      var asistenciaRaw = clean_(d.asistencia != null ? d.asistencia : d.attendance, 20);
       if (!nombre) return json_({ ok: false, error: 'El nombre es obligatorio' });
-      if (['Asistir', 'No Asistir', 'Aún Duda'].indexOf(asistencia) === -1) asistencia = 'Aún Duda';
+      // Acepta las opciones actuales de la invitación y las anteriores.
+      var asistencia = {
+        'asistiré': 'Asistiré',
+        'asistir': 'Asistiré',
+        'no asistiré': 'No asistiré',
+        'no asistir': 'No asistiré',
+        'aún no decido': 'Aún no decido',
+        'aún duda': 'Aún no decido',
+      }[asistenciaRaw.toLowerCase()] || 'Aún no decido';
       var cantidad = Number(d.cantidad != null ? d.cantidad : d.count) || 0;
       cantidad = Math.max(0, Math.min(10, Math.round(cantidad)));
-      if (asistencia === 'No Asistir') cantidad = 0;
+      if (asistencia === 'No asistiré') cantidad = 0;
       var notas = clean_(d.notas != null ? d.notas : d.note, 300);
       if (!rate_('r:' + hash_(nombre.toLowerCase()), 1, 600) || !rate_('r:global', 30, 60)) {
         return json_({ ok: false, error: 'Demasiados envíos, espera un momento' });
